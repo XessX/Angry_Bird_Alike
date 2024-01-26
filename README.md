@@ -1,10 +1,10 @@
 # Project Name
 
-Developer Names:
+Developer Names: Al Jubair Hossain
 
-Date of project start:
+Date of project start: Jan 24, 2024
 
-This project is ...
+This project is Physics_game_based_on_Angry_Bird_Alike
 
 The folders and files for this project are as follows:
 
