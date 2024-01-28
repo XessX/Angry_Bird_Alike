@@ -1,55 +1,62 @@
 \documentclass{article}
+
 \usepackage{tabularx}
 \usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{svg}
 
-\title{Physics Game - Collisions and Gravity: Problem Statement}
-\author{} % Add author name here
-\date{} % Add date here
+\title{Problem Statement and Goals\\\textbf{Physics Game - Collisions and Gravity}}
+\author{Al Jubair Hossain} % Add author name here
+\date{2024 - 01 - 26}
 
 \begin{document}
 
 \maketitle
 
+\begin{table}[hp]
+\caption{Revision History} \label{TblRevisionHistory}
+\begin{tabularx}{\textwidth}{llX}
+\toprule
+\textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
+\midrule
+2024-01-26 & [Al Jubair Hossain] & Initial Draft\\
+% Additional entries as needed
+\bottomrule
+\end{tabularx}
+\end{table}
+
 \section{Problem Statement}
-Develop a physics-based game focusing on realistic collision dynamics and gravitational interactions using C++/C\# or JavaScript. The aim is to engage players in manipulating objects, analyzing trajectories, and applying physics principles in a challenging environment.
 
-\section{Game Elements}
-\begin{itemize}
-  \item Projectile: Object with initial position, velocity, and mass.
-  \item Targets/Obstacles: Various shapes and sizes.
-\end{itemize}
+\subsection{Problem}
 
-\section{Physics Simulation}
-\begin{itemize}
-  \item Realistic collision interactions.
-  \item Gravity affecting projectile motion.
-  \item Additional forces like wind.
-  \item Visual feedback for collisions.
-\end{itemize}
+This project aims to develop a physics-based gaming application focusing on realistic collision dynamics and gravitational interactions. The game will be developed in C++/C\# or JavaScript, providing an engaging and interactive environment for players to explore physics concepts.
 
-\section{Controls}
-\begin{itemize}
-  \item Intuitive controls (mouse clicks, touch inputs).
-  \item Adjustable launch angle, force, etc.
-\end{itemize}
+\subsection{Inputs and Outputs}
 
-\section{Graphics and Sound}
-\begin{itemize}
-  \item Enhanced graphics.
-  \item Complementary sound effects.
-\end{itemize}
+\subsubsection{Gameplay Dynamics}
+\textbf{Input}: Player interactions through controls.
+\textbf{Output}: Real-time response in game physics and mechanics.
+
+\subsubsection{Physics Simulation}
+\textbf{Input}: Environmental parameters, object properties.
+\textbf{Output}: Realistic object movements and interactions.
+
+\subsection{Stakeholders}
+The primary stakeholders are the game developers, players, and the educational community that may use the game as a teaching tool.
 
 \section{Goals}
 \begin{itemize}
-  \item Engage players in a physics-based interactive environment.
-  \item Demonstrate realistic physics phenomena.
+    \item Develop an interactive game with realistic physics.
+    \item Create engaging content that educates players about physics.
 \end{itemize}
 
 \section{Stretch Goals}
 \begin{itemize}
-  \item Enhance physics simulations for more complexity.
-  \item Expand control options for diverse gameplay.
-  \item Upgrade graphics and sound for a more immersive experience.
+    \item Include advanced physics concepts like fluid dynamics.
+    \item Implement a level editor for custom gameplay experiences.
 \end{itemize}
+
+% You can include additional sections such as 'Appendix' as per your project requirement.
 
 \end{document}
