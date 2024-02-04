@@ -1,0 +1,197 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\author{}
+\date{}
+
+\begin{document}
+
+\textbf{Problem Statement: Physics Game - Collisions and Gravity}
+
+Develop a physics-based gaming application using C++/C\# or JavaScript
+that focuses on realistic collision dynamics and gravitational
+interactions. The goal is to create an engaging gameplay experience
+where players can manipulate objects, analyze trajectories, and master
+the application of physics principles in a challenging gaming
+environment.
+
+\textbf{Showcasing:}
+
+realistic collision dynamics, gravitational forces, and the innovative
+incorporation of momentum.
+
+\textbf{Requirements:}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Game Elements:}
+
+  \begin{itemize}
+  \item
+    \textbf{Projectile:} Represented as an object (e.g., bird,
+    character) with an initial position, velocity, and mass.
+  \item
+    \textbf{Targets/Obstacles:} Include multiple targets or obstacles
+    with different shapes and sizes.
+  \end{itemize}
+\item
+  \textbf{Physics Simulation:}
+
+  \begin{itemize}
+  \item
+    Implement realistic collision interactions between rigid bodies
+    (Projectile and Targets/Obstacles) based on initial conditions.
+  \item
+    Integrate gravitational forces that influence the trajectory and
+    motion of the rigid bodies.
+  \item
+    Consider additional forces (e.g., wind) to introduce complexity and
+    challenge.
+  \item
+    Provide a physics engine that takes specified inputs and calculates
+    the new configuration of the scene for rigid bodies.
+  \end{itemize}
+\item
+  \textbf{Physics inputs:}
+\end{enumerate}
+
+\begin{itemize}
+\item
+  Define initial conditions for the scene, assuming rigid bodies. This
+  includes specifying the locations of bodies (Projectile,
+  Targets/Obstacles), their initial velocity, and forces acting upon
+  them.
+\item
+  Allow the specification of additional parameters such as launch angle,
+  force, and time step size for simulation accuracy.
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\item
+  \textbf{Physics Outputs:}
+
+  \begin{itemize}
+  \item
+    Output the updated positions and velocities of the rigid bodies
+    after each simulation step.
+  \item
+    Visualize the scene's new configuration, considering any changes
+    resulting from rigid body collisions, gravitational effects, or
+    other forces.
+  \end{itemize}
+\item
+  \textbf{Controls:}
+\end{enumerate}
+
+\begin{itemize}
+\item
+  Enable user input controls for setting initial conditions and
+  parameters.
+\item
+  Allow users to specify launch angle, force, and other relevant physics
+  parameters for rigid bodies.
+\item
+  Implement controls for adjusting the time step size to control
+  simulation accuracy.
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{5}
+\item
+  \textbf{Graphics and Sound:}
+
+  \begin{itemize}
+  \item
+    Utilize graphics to visually represent the physics-based
+    interactions in the game, emphasizing rigid body collisions and
+    movements.
+  \item
+    Implement sound effects corresponding to key physics events such as
+    rigid body collisions and launches.
+  \end{itemize}
+\end{enumerate}
+
+\textbf{Project Goal}
+
+The primary ambition of this project is to achieve a breakthrough in
+physics-based computation within the gaming realm. By focusing on the
+intricacies of realistic collision dynamics, gravitational interactions,
+and pioneering the implementation of dynamic momentum disruptions, the
+project aims to elevate the gaming experience to a level where players
+actively engage with and manipulate fundamental physics principles. When
+a bird collides, the goal is to authentically break the gravity
+momentum, simulating a quantum leap in computational realism. This
+project aspires to contribute to the advancement of physics
+understanding in the gaming community, pushing the boundaries of what is
+achievable in virtual worlds through cutting-edge computational physics.
+
+\textbf{Key Implementation Guidelines:}
+
+\begin{itemize}
+\item
+  Develop classes and functions to manage physics inputs and outputs for
+  rigid bodies.
+\item
+  Implement a physics engine that accurately models collision dynamics
+  and gravitational interactions for rigid bodies.
+\item
+  Provide a user-friendly interface for adjusting physics parameters.
+\item
+  Utilize graphics libraries or frameworks to visualize the
+  physics-based interactions of rigid bodies.
+\item
+  Implement sound effects corresponding to key physics events involving
+  rigid bodies.
+\end{itemize}
+
+\end{document}
