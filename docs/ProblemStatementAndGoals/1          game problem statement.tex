@@ -1,0 +1,228 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\author{}
+\date{}
+
+\begin{document}
+
+\textbf{Problem Statement and Goals}
+
+\textbf{Physics Game - Collisions and Gravity}
+
+Al Jubair Hossain
+
+Feb 4, 2024
+
+Table 1: Goal statement
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.4999}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5001}}@{}}
+\toprule
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Date}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Developer(s)}
+\end{minipage} \\
+\midrule
+\endhead
+Feb 4, 2024 & Al Jubair Hossain \\
+\bottomrule
+\end{longtable}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Problem Statement}
+\end{enumerate}
+
+Develop a physics-based gaming application using C++/C\# or JavaScript
+that focuses on realistic collision dynamics and gravitational
+interactions. The goal is to create an engaging gameplay experience
+where players can manipulate objects, analyze trajectories, and master
+the application of physics principles in a challenging gaming
+environment.
+
+\textbf{Showcasing:}
+
+realistic collision dynamics, gravitational forces, and the innovative
+incorporation of momentum.
+
+\textbf{1.1 Problem}
+
+Develop a physics-based gaming application focusing on realistic
+collision dynamics, gravitational interactions, and innovative momentum
+disruptions. The goal is to create an engaging gameplay experience
+allowing players to manipulate objects, analyze trajectories, and master
+physics principles in a challenging gaming environment.
+
+\textbf{1.2 Inputs and Outputs}
+
+\textbf{Inputs:}
+
+\begin{itemize}
+\item
+  Initial Conditions: User-specified parameters for rigid bodies
+  (Projectile, Targets/Obstacles).
+\item
+  Launch Parameters: User-defined launch angle, force, and time step
+  size for simulation accuracy.
+\end{itemize}
+
+\textbf{Outputs:}
+
+\begin{itemize}
+\item
+  Updated Positions and Velocities: Information on the new configuration
+  of rigid bodies post each simulation step.
+\item
+  Visual Representation: Graphics illustrating the scene's new
+  configuration, considering collisions, gravitational effects, and
+  other forces.
+\end{itemize}
+
+\textbf{Project Goal}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Realistic Interaction Mastery:}
+\end{enumerate}
+
+\begin{quote}
+Enable players to master realistic collision dynamics, gravitational
+forces, and momentum disruptions, providing an immersive experience in
+manipulating fundamental physics principles within the gaming
+environment.
+\end{quote}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\item
+  \textbf{Engaging Gameplay Experience:}
+\end{enumerate}
+
+\begin{quote}
+Create an engaging and challenging gaming experience where players can
+analyze trajectories, strategically manipulate objects, and actively
+apply physics knowledge to overcome obstacles.
+\end{quote}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\item
+  \textbf{Quantum Leap in Computational Realism:}
+\end{enumerate}
+
+\begin{quote}
+Simulate a breakthrough in computational realism by authentically
+representing the impact of collisions, gravitational effects, and
+dynamic momentum disruptions, especially when a bird collides,
+delivering a quantum leap in gaming physics.
+\end{quote}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\item
+  \textbf{Advancement in Gaming Physics Understanding:}
+\end{enumerate}
+
+\begin{quote}
+Contribute to the advancement of gaming physics understanding within the
+community, pushing the boundaries of what is achievable in virtual
+worlds through the application of cutting-edge computational physics.
+\end{quote}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{4}
+\item
+  \textbf{Elevated User Engagement:}
+\end{enumerate}
+
+\begin{quote}
+Elevate user engagement by providing a gaming experience that not only
+entertains but also educates, encouraging players to actively engage
+with and deepen their understanding of physics principles through
+interactive gameplay.
+\end{quote}
+
+\textbf{3. Stretch Goals}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Advanced Physics Interactions:} Explore implementing more
+  complex physics phenomena, such as fluid dynamics or advanced particle
+  interactions.
+\item
+  \textbf{Multiplayer Functionality:} Extend the application to support
+  multiplayer interactions, enabling collaborative or competitive
+  gameplay.
+\item
+  \textbf{Integration of AI Elements:} Investigate the incorporation of
+  AI-driven entities to enhance the gaming environment's realism and
+  challenge level.
+\end{enumerate}
+
+\end{document}
