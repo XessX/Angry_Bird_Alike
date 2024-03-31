@@ -25,7 +25,7 @@
 \title{
     {\Huge Module Guide for Angry Birds Alike} \\
     {\Large Author: Al Jubair Hossain} \\
-    {\large Date: March 30, 2024}
+    {\large Date: March 31, 2024}
 }
 \date{}
 
@@ -40,8 +40,9 @@
     \hline
     \textbf{Date} & \textbf{Version} & \textbf{Notes} \\
     \hline
-    March 5, 2023 & 1.0 & Initial creation of the Module Guide. \\\hline
-    March 10, 2023 & 1.1 & Updates to the Module Guide based on initial implementation feedback. \\
+    March 4, 2023 & 1.0 & Fixed hyperlink. \\\hline
+    March 12, 2023 & 1.0 & Changed section 7. \\\hline
+    March 31, 2023 & 1.5 & Updates to the Module Guide sections of 3, 4, 5, 6, 7 added hierarchy betweem modules, hierarchy diagrams and relation of TC between SRS, VnV Plan, added a UI section with diagrams based on initial implementation feedback. \\
     \hline
 \end{longtable}
 
@@ -410,7 +411,35 @@ The use hierarchy outlines the relationships and dependencies between various mo
 
 \subsection{Diagram}
 
-A graphical representation of the use hierarchy (not included here due to format limitations) would visually represent the dependencies between modules, showing arrows from higher-level modules to the lower-level modules they use. This diagram helps in visualizing the overall system architecture and understanding how changes in one module could potentially affect others.
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[auto]
+    % Define styles for boxes
+    \tikzstyle{box} = [rectangle, draw, fill=blue!20, text width=6em, text centered, minimum height=2.5em]
+    
+    % Place nodes
+    \node (m1) [box] {M1: Hardware-Hiding Module};
+    \node (m2) [box, below left=3cm and -0.5cm of m1] {M2: Behavior-Hiding Modules};
+    \node (m21) [box, below=of m2] {M2.1: Game Logic Module};
+    \node (m22) [box, below=of m21] {M2.2: User Interface Module};
+    \node (m3) [box, below right=3cm and -0.5cm of m1] {M3: Software Decision Module};
+    \node (m31) [box, below=of m3] {M3.1: Physics Engine Module};
+    \node (m32) [box, below=of m31] {M3.2: Graphics Rendering Module};
+    \node (m33) [box, below=of m32] {M3.3: Input Handling Module};
+    
+    % Draw edges
+    \draw[-{Latex[length=3mm]}] (m2.north) |- (m1.west);
+    \draw[-{Latex[length=3mm]}] (m3.north) |- (m1.east);
+    \draw[-{Latex[length=3mm]}] (m21) -- (m2);
+    \draw[-{Latex[length=3mm]}] (m22) -- (m21);
+    \draw[-{Latex[length=3mm]}] (m31) -- (m3);
+    \draw[-{Latex[length=3mm]}] (m32) -- (m31);
+    \draw[-{Latex[length=3mm]}] (m33) -- (m32);
+\end{tikzpicture}
+\caption{Use hierarchy diagram illustrating the relationships between modules.}
+\label{fig:module-hierarchy}
+\end{figure}
+
 
 \subsection{Implications for Development}
 
