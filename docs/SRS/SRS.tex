@@ -1,2073 +1,574 @@
-% Options for packages loaded elsewhere
-\PassOptionsToPackage{unicode}{hyperref}
-\PassOptionsToPackage{hyphens}{url}
-%
-\documentclass[
-]{article}
-\usepackage{amsmath,amssymb}
-\usepackage{lmodern}
-\usepackage{iftex}
-\ifPDFTeX
-  \usepackage[T1]{fontenc}
-  \usepackage[utf8]{inputenc}
-  \usepackage{textcomp} % provide euro and other symbols
-\else % if luatex or xetex
-  \usepackage{unicode-math}
-  \defaultfontfeatures{Scale=MatchLowercase}
-  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
-\fi
-% Use upquote if available, for straight quotes in verbatim environments
-\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-\IfFileExists{microtype.sty}{% use microtype if available
-  \usepackage[]{microtype}
-  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
-}{}
-\makeatletter
-\@ifundefined{KOMAClassName}{% if non-KOMA class
-  \IfFileExists{parskip.sty}{%
-    \usepackage{parskip}
-  }{% else
-    \setlength{\parindent}{0pt}
-    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
-}{% if KOMA class
-  \KOMAoptions{parskip=half}}
-\makeatother
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{listings}
 \usepackage{xcolor}
-\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
-\hypersetup{
-  hidelinks,
-  pdfcreator={LaTeX via pandoc}}
-\urlstyle{same} % disable monospaced font for URLs
-\usepackage{longtable,booktabs,array}
-\usepackage{calc} % for calculating minipage widths
-% Correct order of tables after \paragraph or \subparagraph
-\usepackage{etoolbox}
-\makeatletter
-\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
-\makeatother
-% Allow footnotes in longtable head/foot
-\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
-\makesavenoteenv{longtable}
-\setlength{\emergencystretch}{3em} % prevent overfull lines
-\providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
-\ifLuaTeX
-  \usepackage{selnolig}  % disable illegal ligatures
-\fi
+\usepackage{float}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{url}
+\usepackage{tikz}
+\usetikzlibrary{matrix, shapes, arrows, positioning}
+\usepackage[document]{ragged2e}
 
-\author{}
+% Document geometry
+\geometry{a4paper, margin=1in}
+
+\title{
+    {\Huge Software Requirements Specification} \\
+    {\Large for} \\
+    {\Large Angry Birds Alike} \\
+    \vspace{0.5em}
+    {\Large Author: Al Jubair Hossain} \\
+    \vspace{0.5em}
+    {\large Date: March 30, 2024}
+}
 \date{}
 
 \begin{document}
 
-\title{System Requirements Specification (SRS) for Physics-Based Game \progname{}} 
-\author{\authname}
-\date{\today}
-	
 \maketitle
 
-\pagenumbering{roman}
-
 \newpage
 
-\textbf{Revision History}
-
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3332}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3334}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3334}}@{}}
-\toprule
-\begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Date}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Version}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Notes}
-\end{minipage} \\
-\midrule
-\endhead
-February 3, 2024 & 1 & Changed section (6, 7, 11) \\
-February 26, 2024 & 2 & Changed section (1.4, 4.2.1, 4.4.2, 4.4.8) \\
-\bottomrule
+\section*{Revision History}
+\begin{longtable}{|p{2cm}|p{2cm}|p{10cm}|}
+    \hline
+    \textbf{Date} & \textbf{Version} & \textbf{Notes} \\
+    \hline
+    January 9, 2024 & 1.0 & Initial draft completed. \\\hline
+    January 25, 2024 & 1.5 & A fixed version with sections of 4.1, 4.2, 5 were fixed with some specific information. \\\hline
+    March 30, 2024 & 2.0 & Final draft was completed with the changes in all the sections with specific info that was proposed in the project. Also, added the table of contents correctly and then adding all the formula and methods incorporating with the project . \\
+    \hline
 \end{longtable}
 
 \newpage
 
-\textbf{Table of Contents}
-
-\
-
-\textbf{\protect\hyperlink{qmm}{1. Reference Material}}
-
-\protect\hyperlink{qs}{1.1 Table of Units}
-
-\protect\hyperlink{qd}{1.2 Table of Symbols}
-
-\protect\hyperlink{qf}{1.3 Abbreviations and Acronyms}
-
-\protect\hyperlink{qg}{1.4 Mathematical Notation}
-
-\
-
-\textbf{\protect\hyperlink{qw}{2. Introduction}}
-
-\protect\hyperlink{qww}{2.1 Purpose of Document}
-
-\protect\hyperlink{qwww}{2.2 Scope of Requirements}
-
-\protect\hyperlink{qwwww}{2.3 Characteristics of Intended Reader}
-
-\
-
-\protect\hyperlink{qe}{\textbf{3. General System Description}}
-
-\protect\hyperlink{qee}{3.1 System Context}
-
-\protect\hyperlink{qeee}{3.2 User Characteristics}
-
-\protect\hyperlink{qeeee}{3.3 System Constraints}
-
-\
-
-\textbf{\protect\hyperlink{qr}{4. Specific System Description}}
-
-\textbf{\protect\hyperlink{qrr}{4.1 Problem Description}}
-
-\protect\hyperlink{qrrr}{4.1.1 Terminology and Definitions}
-
-\protect\hyperlink{qrrrr}{4.1.2 Physical System Description}
-
-\textbf{\protect\hyperlink{qrrrrrr}{4.2 Solution Characteristics
-Specification}}
-
-\protect\hyperlink{qrrrrrrr}{4.2.1 Types}
-
-\textbf{\protect\hyperlink{qrrrrrrrr}{4.3 Scope Decisions}}
-
-\textbf{\protect\hyperlink{qrrrrrrrrrrr}{4.4 Modelling Decisions}}
-
-\protect\hyperlink{qrrrrrrrrrrrr}{4.4.1 Assumptions}
-
-\protect\hyperlink{qrrrrrrrrrrrrrr}{4.4.2 Theoretical Models}
-
-\protect\hyperlink{qrrrrrrrrrrrrrrr}{4.4.3 General Definitions}
-
-\protect\hyperlink{qkl}{4.4.5 Data Types}
-
-\protect\hyperlink{qrrrrrrrrrrrrrrrrr}{4.4.6 Instance Models}
-
-\protect\hyperlink{qrrrrrrrrrrrrrrrrrr}{4.4.7 Input Data Constraints}
-
-\protect\hyperlink{qrrrrrrrrrrrrrrrrrrr}{4.4.8 Properties of a Correct
-Solution}
-
-\
-
-\textbf{\protect\hyperlink{qb}{5. Requirements}}
-
-\protect\hyperlink{qbb}{5.1 Functional Requirements}
-
-\protect\hyperlink{qbbb}{5.2 Nonfunctional Requirements}
-
-\
-
-\textbf{\protect\hyperlink{qn}{6. Likely Changes}}
-
-\
-
-\textbf{\protect\hyperlink{qm}{7. Unlikely Changes}}
-
-\
-
-\textbf{\protect\hyperlink{_Hlk157473991}{8. Traceability Matrices and
-Graphs}}
-
-\
-
-\textbf{\protect\hyperlink{qzz}{9. Development Plan}}
-
-\
-
-\textbf{\protect\hyperlink{qzzz}{10. Values of Auxiliary Constants}}
-
-\
-
-\textbf{\protect\hyperlink{qop}{11. Project Goal}}
-
-\
-
-\textbf{\protect\hyperlink{qbn}{12. Goal in Physics}}
+\tableofcontents
 
 \newpage
 
-\protect\hypertarget{qmm}{}{}\textbf{1. Reference Material}
+\section{Reference Material}
+This section records information for easy reference, providing a foundation for the document's contents and ensuring a common understanding of terms and units used throughout.
 
-\protect\hypertarget{qs}{}{}\textbf{1.1 Table of Units}
+\subsection{Table of Units}
+Given the focus on physics simulations in the game, the following units are primarily used:
 
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}@{}}
-\toprule
-\begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Unit}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Description}
-\end{minipage} \\
-\midrule
-\endhead
-m & Meter \\
-sec & Second \\
-kg & Kilogram \\
-N & Newton \\
-\bottomrule
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Symbol} & \textbf{Unit} & \textbf{Description} \\
+\hline
+m & Meter & Unit of length, significant for distance calculations in simulations \\
+kg & Kilogram & Unit of mass, crucial for force and momentum calculations \\
+s & Second & Unit of time, used for time-stepping in physics simulations \\
+m/s & Meter per Second & Unit of velocity, describing the speed of objects \\
+m/s$^2$ & Meter per Second Squared & Unit of acceleration, including gravity \\
+N & Newton & Unit of force, applicable in simulations involving collisions \\
+rad & Radian & Unit for angular measurements, used in trajectory angles \\
+\hline
+\end{tabular}
+\caption{Primary Units used in the document}
+\label{table:units_corrected}
+\end{table}
+
+\subsection{Table of Symbols}
+This document uses various symbols to describe physical quantities:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Symbol} & \textbf{Unit} & \textbf{Description} \\
+\hline
+$v$ & m/s & Velocity \\
+$a$ & m/s$^2$ & Acceleration \\
+$F$ & N & Force \\
+$m$ & kg & Mass \\
+$g$ & m/s$^2$ & Acceleration due to gravity \\
+\hline
+\end{tabular}
+\caption{Symbols and their descriptions}
+\label{table:symbols}
+\end{table}
+
+\subsection{Abbreviations and Acronyms}
+The document utilizes various abbreviations and acronyms to streamline discussion:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Abbreviation/Acronym} & \textbf{Meaning} \\
+\hline
+SRS & Software Requirements Specification \\
+RK4 & Runge-Kutta 4th Order Method \\
+SI & International System of Units \\
+AB\_Sim & Angry Birds Alike Simulation \\
+\hline
+\end{tabular}
+\caption{Abbreviations and acronyms}
+\label{table:abbreviations}
+\end{table}
+
+\subsection{Mathematical Notation}
+The document employs mathematical notation consistent with physics and engineering principles, where:
+- Scalars (e.g., mass, time) are denoted in italic (e.g., \(m\), \(t\)).
+- Vectors (e.g., velocity, force) are represented in bold (e.g., \(\mathbf{v}\), \(\mathbf{F}\)).
+- Differential equations and formulas integral to the game's physics engine are presented in standard mathematical format, facilitating clear communication of algorithms and methods, such as the Runge-Kutta 4 (RK4) method for numerical integration.
+
+\newpage
+
+\section{Introduction}
+
+\subsection{Purpose of Document}
+This Software Requirements Specification (SRS) document delineates the comprehensive specifications for "Angry Birds Alike," a physics-based game simulation designed to offer both an engaging gaming experience and an educational platform for physics students and enthusiasts. The document serves as a foundational blueprint for the development team, outlining the game's intended functionalities, performance expectations, and user interaction paradigms. Additionally, it acts as a reference point for stakeholders to understand the project's scope, objectives, and technical constraints, facilitating a shared vision for the project's successful completion.
+
+\subsection{Scope of Requirements}
+"Angry Birds Alike" aspires to transcend traditional gaming boundaries by integrating rigorous physics simulations that mirror real-world dynamics. The game's scope includes the design and development of a physics engine capable of simulating force, trajectory, momentum transfer, and elastic collisions. Coupled with an intuitive user interface, the game aims to challenge players to apply principles of physics to navigate through levels creatively. This document captures all requisite features, from user interactions, graphical representations, physics calculations, to the system's performance and scalability. It encompasses both functional and non-functional requirements essential for delivering a comprehensive and immersive gaming and learning experience.
+
+\subsection{Characteristics of Intended Reader}
+The intended audience for this document encompasses a broad spectrum of readers, including software developers, game designers, project managers, educational content creators, and stakeholders with vested interests in educational technology. A foundational understanding of software development processes, basic physics concepts, and game design principles is assumed. The document is structured to be accessible to readers with varying levels of technical expertise, providing both high-level overviews and detailed technical specifications.
+
+\subsection{Organization of Document}
+This document is organized into several key sections to facilitate ease of navigation and comprehension:
+
+- **General System Description:** Outlines the high-level overview of the game, including its context, user characteristics, and system constraints.\\
+- **Specific System Description:** Delves into the detailed problem statement, theoretical models, data definitions, and solution characteristics.\\
+- **System Features and Requirements:** Enumerates the game's core functionalities, performance metrics, software attributes, and both functional and non-functional requirements.\\
+- **Development Plan:** Provides a roadmap for the game's development lifecycle, including phases from initial requirements gathering to post-launch support.\\
+- **Appendices:** Offers additional resources, such as a glossary of terms, user stories, compliance requirements, and detailed explanations of complex concepts like the RK4 method.
+
+
+\section{General System Description}
+
+This section provides a broad overview of the "Angry Birds Alike" system, detailing its main components, interfaces, user interactions, and operational constraints. It sets the stage for understanding the game's purpose, its interaction with users, and the environment in which it operates.
+
+\subsection{System Context}
+
+"Angry Birds Alike" is designed as a standalone application that engages users in physics-based puzzles. The system interacts with users through a graphical user interface (GUI), where players input actions via mouse or touchscreen gestures. The application processes these inputs to simulate and display physics-based trajectories and collisions. Data, such as level progress, scores, and user settings, are stored locally on the user's device. The game does not require an internet connection for core gameplay but may connect to online servers for updates, leaderboards, and sharing achievements.
+
+\subsection{User Characteristics}
+
+The primary users of "Angry Birds Alike" include individuals with an interest in physics, puzzle games, and educational software. The game is designed to be accessible to users of varying ages and educational backgrounds, from elementary students learning basic physics to adults seeking challenging puzzles. No specific technical skills are required to play the game, but users with a basic understanding of physics concepts may have an initial advantage.
+
+\subsection{System Constraints and Limitations}
+
+The game is developed to run on multiple platforms, including Windows, macOS, Android, and iOS, with considerations for the varying processing power and screen sizes. It is built with scalability in mind, allowing for the addition of new levels, physics simulations, and user interfaces without significant overhauls. However, the complexity of physics simulations is balanced with the need for the game to run smoothly on lower-end devices, which may limit the simulation's detail or the number of simultaneous interactions.
+
+\subsection{Assumptions and Dependencies}
+
+It is assumed that users have access to a device capable of running the game with a modern operating system. The game's performance and features depend on the device's hardware capabilities, such as CPU speed, graphics processing power, and available memory. Future versions of the game may depend on updates to third-party libraries such as SFML and Boost.odeint for graphical rendering and physics simulations.
+
+\section{Specific System Description}
+
+\subsection{Problem Description}
+"Angry Birds Alike" simulates a vibrant, physics-based environment where players utilize principles of classical mechanics to solve puzzles. The challenge involves using a slingshot to launch birds with specific properties at structures, aiming to achieve maximum impact with strategic force and angle decisions. This scenario serves as an educational platform, promoting an intuitive understanding of physics concepts like projectile motion, elasticity, and conservation of energy.
+
+\subsection{Terminology and Definitions}
+This section introduces key terms that are essential for understanding the game's mechanics and physics simulations:
+
+\begin{description}
+\item[Projectile Motion:] Describes the motion of an object thrown into space upon which external forces, such as gravity, act.
+\item[Elastic Collision:] A type of collision where the total kinetic energy of the colliding bodies after interaction is equal to their kinetic energy before interaction, ideal for understanding energy conservation.
+\item[Momentum:] A measure of the motion of a body, equal to the product of its mass and velocity. Momentum conservation is a fundamental concept in collisions.
+\item[Runge-Kutta 4 Method (RK4):] A numerical method used to approximate solutions to ordinary differential equations, critical for simulating precise projectile trajectories and other physics phenomena in the game.
+\end{description}
+
+\subsection{Physical System Description}
+The game world comprises the following physical elements, each interacting according to the laws of physics:
+
+Projectiles (Birds): Characters with unique masses and sizes, used by players to hit targets.
+Targets (Pigs): Objects to be hit by the projectiles, often protected by various structures.
+Obstacles: Various structures built from materials with different properties (wood, ice, stone) affecting the projectile's trajectory and collision outcomes.
+\subsection{Goal Statements}
+The primary goals of "Angry Birds Alike" include:
+
+GS1: To provide a realistic physics simulation that allows players to apply and observe principles of projectile motion, force, and momentum in a fun and engaging way.
+GS2: To offer a challenging puzzle game where players must use strategic thinking and a basic understanding of physics to progress through levels.
+GS3: To create an educational tool that enhances the player's understanding of physics through interactive gameplay and immediate feedback on the physical consequences of their actions.
+\subsection{Solution Characteristics Specification}
+
+\subsubsection{Assumptions}
+
+The game's physics engine can simulate real-world physics with high accuracy within computational constraints.
+Players possess or will develop a basic understanding of physics principles through gameplay.
+The user's device has sufficient processing power to handle real-time physics calculations and graphics rendering.
+\subsubsection{Theoretical Models}
+The game's physics engine integrates several theoretical models to simulate realistic interactions:
+
+Projectile Motion Model (TM1): Determines the trajectory of birds based on initial force and angle, incorporating air resistance at higher levels.
+Elastic Collision Model (TM2): Calculates energy and momentum transfer during collisions, providing the basis for interactions between birds, pigs, and obstacles.
+Gravity Model (TM3): Applies a constant acceleration downwards, affecting all non-static objects in the game environment.
+\subsubsection{Data Definitions}
+Key data elements used in the game's physics calculations include:
+
+Initial Conditions (DD1): Position, velocity, and mass of projectiles at the start of their trajectory.
+Material Properties (DD2): Density, elasticity, and friction coefficients for different obstacle materials, influencing collision outcomes.
+\subsubsection{Instance Models}
+Specific instances where theoretical models are applied to simulate game scenarios:
+
+Trajectory Calculation (IM1): Utilizes TM1 to predict and animate the flight path of projectiles in real-time.
+Collision Detection and Response (IM2): Employs TM2 and TM3 to detect when and how projectiles interact with targets and obstacles, calculating the outcome based on physics principles like conservation of momentum and energy transfer.
+
+\subsubsection{Environment Interaction (IM3):}
+Factors in external influences such as wind or gravitational variations in special levels, adjusting projectile trajectories and collision impacts accordingly, introducing complex scenarios for players to strategize around.
+
+\section{System Features}
+
+This section outlines the major features of "Angry Birds Alike", detailing how each contributes to the gameplay experience and educational value of the game. These features are designed to engage players in physics concepts through interactive and challenging gameplay.
+
+\subsection{Projectile Simulation}
+\textbf{Description:} This feature allows players to control the angle and velocity of projectiles (birds) launched at targets (pigs). The simulation includes real-world physics considerations such as gravity, drag, and the material properties of obstacles.
+
+\textbf{Functional Requirements:}
+\begin{itemize}
+    \item Players must be able to adjust the launch angle and force applied to the projectile.
+    \item The game will calculate the projectile's trajectory using the Runge-Kutta 4 method for accurate physics simulation.
+    \item Collisions with targets and obstacles must reflect realistic physics interactions.
+\end{itemize}
+
+\subsection{Level Design and Physics Challenges}
+\textbf{Description:} Levels are designed to introduce players to various physics concepts, including projectile motion, elasticity, and momentum conservation. Each level presents unique challenges that require players to apply physics principles to solve.
+
+\textbf{Functional Requirements:}
+\begin{itemize}
+    \item Levels progressively increase in difficulty to match the player's understanding and skills.
+    \item The game provides visual and textual hints related to the physics concepts explored in each level.
+    \item Success criteria for levels are based on physics objectives, such as knocking down structures or reaching specific targets.
+\end{itemize}
+
+\subsection{Interactive Physics Sandbox}
+\textbf{Description:} An open-ended mode where players can experiment with different physics setups. This sandbox feature serves as both a playground and a learning tool, enabling players to explore physics principles without the constraints of structured levels.
+
+\textbf{Functional Requirements:}
+\begin{itemize}
+    \item Provide a variety of objects, materials, and environmental conditions for players to experiment with.
+    \item Allow players to adjust variables such as gravity, air resistance, and object properties.
+    \item Include tools for measuring and displaying velocities, forces, and trajectories to facilitate learning.
+\end{itemize}
+
+\subsection{Educational Content and Tutorials}
+\textbf{Description:} To enhance the game's educational value, this feature includes tutorials and in-game explanations of the physics principles at play. It aims to bridge the gap between gameplay and learning, making complex concepts accessible and engaging.
+
+\textbf{Functional Requirements:}
+\begin{itemize}
+    \item Tutorials must clearly explain how to play the game and how physics is integrated into the gameplay.
+    \item In-game content should include explanations of physics concepts, examples, and real-world applications.
+    \item The game should offer feedback on the player's actions, highlighting the physics principles involved in their successes and failures.
+\end{itemize}
+
+\section{Performance Requirements}
+\begin{itemize}
+    \item The game shall maintain a high frame rate for smooth animations during simulations.
+    \item Physics calculations for projectile motion and collisions shall be computed in real-time to provide immediate feedback to player actions.
+\end{itemize}
+
+\section{Software System Attributes}
+\subsection{Reliability}
+The game shall have error handling for user inputs and unexpected behaviors to prevent crashes and ensure
+\section{Software System Attributes}
+\subsection{Reliability}
+The game shall have error handling for user inputs and unexpected behaviors to prevent crashes and ensure consistent performance across various platforms.
+
+\subsection{Maintainability}
+Code shall be well-documented and modular to facilitate easy updates and incorporation of new physics models or game features.
+
+\subsection{Portability}
+The game will be developed to run on various operating systems including Windows, macOS, and Linux without requiring significant changes to the codebase.
+
+\section{Technological Overview}
+\subsection{SFML}
+SFML provides a simple interface to the various components of a PC, simplifying the game development process and allowing for a focus on the game mechanics and physics.
+
+\subsection{Boost.odeint}
+Utilized for its advanced ODE solving capabilities, allowing for accurate and efficient simulation of the game's physics.
+
+\subsection{C++ Standard Library}
+Used for its robust performance and reliability, particularly the data structures, mathematical functions, and threading capabilities for managing the game's physics simulations.
+
+\section{Physics Simulation Detail}
+\subsection{Projectile Simulation}
+\subsubsection{Runge-Kutta Method}
+We use RK4 for trajectory prediction by numerically integrating the equations of motion. The game updates the state of the projectile based on the forces applied, such as the initial throw and gravity.
+
+\subsection{Collision Detection and Response}
+\subsubsection{Elastic Collision}
+When a collision is detected between two entities, the game calculates the resulting velocities and direction changes according to the principles of elastic collision.
+
+\subsubsection{Momentum Transfer}
+Momentum conservation is applied to all collisions within the game to simulate realistic interactions between objects.
+
+\section{Challenges and Improvements}
+\subsection{Challenges}
+\begin{itemize}
+    \item Implementation of the RK4 method for accurate physics simulation.
+    \item Creation of a robust stepper function for physics updates.
+    \item Accurate momentum transfer in multi-object collisions.
+    \item Efficient collision detection among multiple targets.
+\end{itemize}
+
+\subsection{Improvements}
+\begin{itemize}
+    \item Introduction of advanced computational logic such as piecewise functions for enhanced gameplay mechanics.
+    \item Inclusion of additional physics elements such as wind forces and air resistance.
+    \item Enhanced visual effects for a more immersive gaming experience.
+    \item Addition of new levels and features, including time-limited challenges to increase game complexity.
+\end{itemize}
+
+\section{Functional Requirements}
+The game must satisfy the following functional requirements:
+\begin{enumerate}
+    \item Provide accurate simulations of projectile motion using the RK4 method.
+    \item Allow players to interactively control the angle and force of projectile launch.
+    \item Simulate physics in real-time to provide immediate feedback.
+    \item Include multiple levels with varying physics challenges.
+    \item Implement a scoring system based on the efficiency and accuracy of hitting targets.
+\end{enumerate}
+
+\section{Non-functional Requirements}
+The non-functional requirements of the game include:
+\begin{enumerate}
+    \item \textbf{Usability:} The game should be easy to learn but challenging to master.
+    \item \textbf{Performance:} The game should run smoothly on all supported platforms with minimal loading times.
+    \item \textbf{Accessibility:} The game should be accessible, following the WCAG guidelines where applicable.
+\end{enumerate}
+
+\section{Traceability Matrices and Graphs}
+
+This section contains the traceability matrices that map system features to their corresponding requirements, design components, and instance models, ensuring comprehensive coverage and verification.
+
+\subsection{Requirement to Instance Model Traceability Matrix}
+This matrix correlates each requirement with the instance models and design elements that implement them.
+
+\begin{longtable}{|p{0.15\linewidth}|p{0.4\linewidth}|p{0.15\linewidth}|p{0.2\linewidth}|}
+\hline
+\textbf{Req ID} & \textbf{Requirement Description} & \textbf{Instance Model(s)} & \textbf{Design Element(s)} \\
+\hline
+FR1 & Accurate projectile motion simulation & IM1 & Physics Engine \\
+FR2 & Interactive control for projectile launch & IM1 & User Interface Module \\
+FR3 & Real-time physics feedback during gameplay & IM1, IM2, IM3 & Simulation Module \\
+FR4 & Multiple levels with varied physics challenges & IM1, IM2 & Level Design System \\
+FR5 & Scoring system reflecting physics accuracy & IM2 & Scoring Algorithm \\
+NFR1 & Ease of learning and gameplay challenge & -- & Tutorial System \\
+NFR2 & Smooth operation on supported platforms & -- & Performance Optimization \\
+NFR3 & Accessibility following WCAG guidelines & -- & Accessibility Features \\
+\hline
 \end{longtable}
 
-\protect\hypertarget{qd}{}{}\textbf{1.2 Table of Symbols}
+\subsection{Design to Test Case Traceability Matrix}
+This matrix ensures that all design elements are covered by the test cases.
 
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}@{}}
-\toprule
-\begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Symbol}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Description}
-\end{minipage} \\
-\midrule
-\endhead
-R & Position Vector \\
-V & Velocity Vector \\
-F & Force Vector \\
-M & Mass \\
-G & Gravitational acceleration vector \\
-Θ & Launch angle \\
-Fwind & Wind force \\
-\bottomrule
+\begin{longtable}{|p{0.2\linewidth}|p{0.5\linewidth}|p{0.2\linewidth}|}
+\hline
+\textbf{Design ID} & \textbf{Design Element Description} & \textbf{Test Case(s)} \\
+\hline
+DE1 & Physics Engine for simulating motion & TC01, TC02 \\
+DE2 & User Interface or inputs for interaction & TC03 \\
+DE3 & Simulation Module for gameplay feedback & TC04, TC05 \\
+DE4 & Level Design System for various challenges & TC06 \\
+DE5 & Scoring Algorithm for accuracy & TC07 \\
+DE6 & Tutorial System for ease of learning & TC08 \\
+DE7 & Performance Optimization for smooth operation & TC09 \\
+DE8 & Accessibility Features for compliance & TC10 \\
+\hline
 \end{longtable}
 
-\protect\hypertarget{qf}{}{}\textbf{1.3 Abbreviations and Acronyms}
+Note: Test cases (TC) are not explicitly mentioned in the provided document. They should be detailed in the test plan or quality assurance documentation and then linked to this matrix.
 
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}@{}}
-\toprule
-\begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Abbreviation}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Description}
-\end{minipage} \\
-\midrule
-\endhead
-SRS & Software requirement Specification \\
-UI & User interface \\
-API & Application Programming interface \\
-FPS & Frames per second \\
-\bottomrule
-\end{longtable}
+\subsection{Design to Test Case Traceability Matrix Graph}
+This graph ensures that all design element correlates with all the Traceability models.
+\centering
+\begin{tikzpicture}
+  \matrix (matrix) [matrix of nodes, nodes={draw, thick, fill=gray!20}, row sep=3mm, column sep=3mm, minimum height=2em] {
+    |[fill=green!30]| Requirement & |[fill=blue!30]| Instance Model & |[fill=red!30]| Design Element \\
+    FR1 & IM1 & DE1 \\
+    FR2 & IM1 & DE2 \\
+    FR3 & IM2 & DE3 \\
+    FR4 & IM3 & DE4 \\
+    NFR1 &  & DE5 \\
+    NFR2 &  & DE6 \\
+  };
+  \draw[->] (matrix-2-1) -- (matrix-2-2);
+  \draw[->] (matrix-2-2) -- (matrix-2-3);
+  \draw[->] (matrix-3-1) -- (matrix-3-2);
+  \draw[->] (matrix-3-2) -- (matrix-3-3);
+  \draw[->] (matrix-4-1) -- (matrix-4-2);
+  \draw[->] (matrix-4-2) -- (matrix-4-3);
+  \draw[->] (matrix-5-1) -- (matrix-5-3);
+  \draw[->] (matrix-6-1) -- (matrix-6-3);
+\end{tikzpicture}
 
-\protect\hypertarget{qg}{}{}\textbf{1.4 Mathematical Notation}
+\RaggedRight
+\section{Enhanced System Description}
+Angry Birds Alike, inspired by the dynamics of "Angry Birds Game", is a sophisticated physics engine designed for educational simulations. It focuses on demonstrating intermediate to advanced physics mechanisms such as force, velocity, elastic collision, and momentum transfer. The engine utilizes mathematical formulas, specifically the Runge-Kutta 4 (RK4) method, to solve projectile trajectories accurately.
 
+\subsection{Overview of Technologies}
 \begin{itemize}
-\item
-  v0: Initial velocity vector
-\item
-  r0: Initial position vector
-\item
-  Fnet : Net force vector
-\item
-  Δt : Time step size
-\item
-  a : Acceleration vector
+    \item \textbf{SFML (Simple and Fast Multimedia Library):} Utilized for window management, graphics rendering, and event handling.
+    \item \textbf{Boost.odeint:} A comprehensive C++ library employed for solving ordinary differential equations (ODEs), crucial for simulating the physics interactions within the game.
+    \item \textbf{C++ Standard Library Features:} Including Arrays for data management, cmath for mathematical calculations, chrono for managing time, and thread for optimizing performance through multi-threading.
 \end{itemize}
 
-\protect\hypertarget{qw}{}{}\textbf{2. Introduction}
+\section{Physics Simulation Walkthrough}
+The core of ProgName's simulation is built on accurately determining the trajectory of projectiles under various forces. This is achieved through the RK4 method, allowing for precise calculation of distances covered by the projectiles.
 
-\protect\hypertarget{qww}{}{}\textbf{2.1 Purpose of the Document}
+\subsection{RK4 Method Implementation}
+Given the differential equations:
 
-The purpose of this Software Requirements Specification (SRS) document
-is to provide a comprehensive and detailed outline of the requirements
-for the development of a physics-based gaming application. It serves as
-a guide for the development team, stakeholders, and any parties involved
-in the project, ensuring a clear understanding of the features,
-functionalities, and constraints of the proposed gaming application.
+\[
+\frac{dx}{dt} = vx, \quad \frac{dy}{dt} = vy, \quad \frac{dvx}{dt} = 0, \quad \frac{dvy}{dt} = g
+\]
 
-\protect\hypertarget{qwww}{}{}\textbf{2.2 Scope of Requirements}
+where \(g\) is the acceleration due to gravity. With initial conditions at \(t_0\) set as \(x_0 = 0\), \(y_0 = 0\), \(vx_0 = 10m/s\), and \(vy_0 = 10m/s\), we find the state after a timestep \(\Delta t = 1s\), applying the RK4 method.
 
-The scope of this document encompasses the specifications and
-requirements for the physics-based gaming application, emphasizing
-realistic collision dynamics and gravitational interactions. It includes
-the essential features such as projectile motion, collision handling,
-gravitational forces, additional forces (e.g., wind), user controls,
-graphics, and sound effects. The document also outlines the external
-interfaces, non-functional requirements, and other aspects relevant to
-the successful development of the gaming application.
+\subsubsection{Projectile System Walkthrough}
+This section details the calculation steps using RK4, from initial velocity setup to updating the state with a weighted average of the slopes (k values), and finally providing a summary of one timestep's calculation.
 
-\protect\hypertarget{qwwww}{}{}\textbf{2.3 Characteristics of Intended
-Reader}
+\section{Physics Mechanics Demonstrations}
+\subsection{Force Application to Velocity}
+Demonstrates the conversion of applied force into initial speed and direction, affecting the projectile's trajectory.\\
+--Set the initial conditions for projectile motion by adjusting the launch angle (\(\theta\)) and the force (\(F\)), determining the initial velocity (\(v_0 = \frac{F}{m}\)), where \(m\) is the projectile's mass.
 
+\subsection{Elastic Collision and Momentum Transfer}
+Details the simulation of elastic collisions between entities, showcasing momentum conservation and transfer according to physics laws.\\
+--Elastic collisions conserve both momentum and kinetic energy. For two colliding objects, momentum conservation is expressed as \(m_1v_{1,initial} + m_2v_{2,initial} = m_1v_{1,final} + m_2v_{2,final}\), and kinetic energy conservation as \(\frac{1}{2}m_1v_{1,initial}^2 + \frac{1}{2}m_2v_{2,initial}^2 = \frac{1}{2}m_1v_{1,final}^2 + \frac{1}{2}m_2v_{2,final}^2\).
+    
+
+\section{Challenges and Improvements}
+\subsection{Challenges Faced}
 \begin{itemize}
-\item
-  \textbf{Development Team:} Software engineers, programmers, and
-  designers involved in the implementation of the physics-based gaming
-  application.
-\item
-  \textbf{Project Stakeholders:} Individuals or groups with a vested
-  interest in the success of the project, such as project managers,
-  quality assurance teams, and sponsors.
-\item
-  \textbf{Testing Team:} Professionals responsible for testing the
-  application against specified requirements.
-\item
-  \textbf{End Users:} Gamers and individuals interested in understanding
-  the technical aspects and functionalities of the gaming application.
+    \item Implementing the RK4 method for trajectory calculation.
+    \item Developing a functional stepper function for physics updates.
+    \item Accurate momentum transfer and collision detection among entities.
 \end{itemize}
 
-\protect\hypertarget{qe}{}{}\textbf{3. General System Description:}
-
-\protect\hypertarget{qee}{}{}\textbf{3.1 System Context}
-
-The physics-based gaming application, as represented in the code,
-operates within a console-based environment, interacting with the user
-and simulating a simplified gaming experience.
-
+\subsection{Proposed Improvements}
 \begin{itemize}
-\item
-  \textbf{External Systems:}
-
-  \begin{itemize}
-  \item
-    \textbf{Console Environment:} The application relies on
-    console-based input/output for user interaction and rendering game
-    elements.
-  \item
-    \textbf{Graphics and Sound Libraries:} While the current
-    implementation lacks explicit integration with external graphics and
-    sound libraries, future development might benefit from incorporating
-    these elements to enhance the gaming experience.
-  \end{itemize}
-\item
-  \textbf{Users:}
-
-  \begin{itemize}
-  \item
-    \textbf{Console Users (Gamers):}
-
-    \begin{itemize}
-    \item
-      Interact with the game through keyboard inputs in the console.
-    \item
-      Experience a simplified representation of game elements through
-      ASCII art.
-    \item
-      May be familiar with console-based games and basic keyboard
-      controls.
-    \end{itemize}
-  \item
-    \textbf{Developers:}
-
-    \begin{itemize}
-    \item
-      Utilize C++ as the programming language for development.
-    \item
-      Require a console environment for testing and debugging.
-    \item
-      May enhance the application by integrating graphics and sound
-      libraries in future iterations.
-    \end{itemize}
-  \end{itemize}
+    \item Introduce more sophisticated computation logic, possibly utilizing piecewise functions or parametric equations to enrich the gameplay mechanics.
+    \item Expand the physics simulations to include additional forces like wind and drag.
+    \item Enhance visuals and user experience by adding diverse levels, implementing time-limits for launches, and refining the graphical interface.
 \end{itemize}
 
-\protect\hypertarget{qeee}{}{}\textbf{3.2 User Characteristics}
+\section{Pseudo Code for Physics Simulation}
+\begin{lstlisting}[language=C++, caption={Physics System Simulation}, label={lst:physics_simulation}]
+#include <boost/numeric/odeint.hpp>
+#include <array>
+// Define the state type for the simulation
+using State = std::array<double, 4>; // x, y, vx, vy
+using Stepper = boost::numeric::odeint::runge_kutta4<State>;
+
+void projectileSystem(const State &state, State &dstate_dt, const double) {
+    dstate_dt[0] = state[2]; // dx/dt = vx
+    dstate_dt[1] = state[3]; // dy/dt = vy
+    dstate_dt[2] = 0;        // dvx/dt = 0
+    dstate_dt[3] = GRAVITY;  // dvy/dt = gravity
+}
+\end{lstlisting}
+
+\section{Detailed Physical System Description}
+Building on PS1 and PS2 from the Physical System Description, let's elaborate:
 
 \begin{itemize}
-\item
-  \textbf{Console Users (Gamers):}
-
-  \begin{itemize}
-  \item
-    Comfortable with simple keyboard controls ('w', 'a', 'd', 'r', 'q')
-    for gameplay.
-  \item
-    Familiar with console-based interactions.
-  \item
-    Seeking a basic, retro-style gaming experience.
-  \end{itemize}
-\item
-  \textbf{Developers:}
-
-  \begin{itemize}
-  \item
-    Proficient in C++ programming.
-  \item
-    Familiar with console-based development and debugging.
-  \item
-    May have the capability and interest in extending the application
-    with more advanced features.
-  \end{itemize}
+    \item PS1: The simulation engine represents a physical environment where forces such as gravity, tension, and friction are simulated in real time to affect objects within the game.
+    \item PS2: The user interface includes a viewport of the simulation, input controls for adjusting force and angle, and feedback displays for velocity and trajectory.
 \end{itemize}
 
-\protect\hypertarget{qeeee}{}{}\textbf{3.3 System Constraints}
-
+\section{Enhanced Solution Characteristics Specification}
+\subsubsection{Assumptions}
 \begin{itemize}
-\item
-  \textbf{Hardware Constraints:}
-
-  \begin{itemize}
-  \item
-    The application's performance is constrained by the capabilities of
-    the console environment, limiting advanced graphical and audio
-    features.
-  \end{itemize}
-\item
-  \textbf{Physics Simulation Constraints:}
-
-  \begin{itemize}
-  \item
-    The physics simulation is simplistic, suitable for a console-based
-    environment but may lack the complexity of a full-fledged physics
-    engine.
-  \end{itemize}
-\item
-  \textbf{User Interface Constraints:}
-
-  \begin{itemize}
-  \item
-    The user interface is confined to console-based interactions,
-    restricting the visual representation and overall user experience.
-  \end{itemize}
+    \item[A3:] The system shall have access to sufficient computational resources to perform real-time simulations.
+    \item[A4:] The user's input device is accurate and allows for precise control over input parameters.
 \end{itemize}
 
-\protect\hypertarget{qr}{}{}\textbf{4. Specific System Description}
-
-\protect\hypertarget{qrr}{}{}\textbf{4.1 Problem Description}
-
-The physics-based gaming application aims to create an engaging and
-challenging gaming experience where players can manipulate objects,
-analyze trajectories, and apply physics principles within a dynamic and
-interactive virtual environment. The primary focus is on realistic
-collision dynamics, gravitational interactions, and the integration of
-additional forces, such as wind.
-
-\protect\hypertarget{qrrr}{}{}\textbf{4.1.1 Terminology and Definitions}
-
+\subsubsection{Enhanced Data Definitions}
+In addition to DD1 and DD2, we consider:
 \begin{itemize}
-\item
-  \textbf{Projectile:} A game element, represented as an object (e.g.,
-  bird, pig), possessing an initial position, velocity, and mass.
-\item
-  \textbf{Targets/Obstacles:} Various objects within the gaming
-  environment, each having different shapes and sizes, serving as
-  elements for interaction and challenge.
-\item
-  \textbf{Physics Simulation:} The process of modeling and simulating
-  realistic collision interactions and gravitational forces between
-  rigid bodies within the gaming environment.
-\item
-  \textbf{Gravitational Forces:} The influence of gravity on the
-  trajectory and motion of rigid bodies, affecting their movement within
-  the virtual space.
-\item
-  \textbf{Additional Forces (e.g., Wind):} Extra forces applied to rigid
-  bodies to introduce complexity and challenge, enhancing the overall
-  gameplay experience.
-\item
-  \textbf{Physics Engine:} The computational framework responsible for
-  accurately modeling collision dynamics, gravitational interactions,
-  and other physical phenomena within the gaming environment.
+    \item[DD3:] Environmental Data - Includes parameters like wind speed and direction that affect the trajectory of projectiles.
 \end{itemize}
 
-\protect\hypertarget{qrrrr}{}{}\textbf{4.1.2 Physical System
-Description}
-
-The physical system of the gaming application comprises virtual entities
-that adhere to the principles of physics. These entities include:
-
+\subsubsection{Enhanced Instance Models}
+Building on IM1 and IM2:
 \begin{itemize}
-\item
-  \textbf{Projectile:} An object with defined mass, initial position,
-  and velocity, subject to the laws of motion and gravitational forces.
-\item
-  \textbf{Targets/Obstacles:} Diverse objects within the gaming
-  environment, each with specific geometric characteristics, interacting
-  with projectiles through collisions.
-\item
-  \textbf{Gravitational Field:} A virtual representation of gravity,
-  influencing the trajectories of projectiles and contributing to the
-  overall physics simulation.
-\item
-  \textbf{Additional Forces (e.g., Wind):} External forces that impact
-  the motion of projectiles, introducing variability and complexity to
-  the gameplay.
+    \item[IM3:] Wind Influence Model - Integrates environmental data to adjust the projectile's trajectory accordingly.
 \end{itemize}
 
+\section{Enhanced Requirements}
+\subsection{Additional Functional Requirements}
 \begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  \textbf{Scalability:} Design the system to be extensible for potential
-  future expansions, allowing for the addition of new features, levels,
-  and challenges.
+    \setcounter{enumi}{4}
+    \item The system shall simulate the impact of environmental factors like wind on projectile trajectories.
+    \item The system shall provide a tutorial mode that explains the physics concepts through interactive examples.
 \end{enumerate}
 
-\protect\hypertarget{qrrrrrr}{}{}\textbf{4.2 Solution Characteristics
-Specification}
-
-The Solution Characteristics Specification outlines the key features and
-types that define the characteristics of the physics-based gaming
-application.
-
-\protect\hypertarget{qrrrrrrr}{}{}\textbf{4.2.1 Types}
-
-\textbf{4.2.1.1 Game Elements}
-
+\subsection{Additional Non-functional Requirements}
 \begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  \textbf{Projectile Type:}
-
-  \begin{itemize}
-  \item
-    \emph{Example Instance:}
-
-    \begin{itemize}
-    \item
-      Initial Position: (0, 0)
-    \item
-      Initial Velocity: (5, 5)
-    \item
-      Mass: 1.0
-    \end{itemize}
-  \end{itemize}
-\item
-  \textbf{Targets/Obstacles Type:}
-
-  \begin{itemize}
-  \item
-    \emph{Example Instance:}
-
-    \begin{itemize}
-    \item
-      Position: (10, 8)
-    \item
-      Shape: Rectangular
-    \item
-      Size: 3 units
-    \end{itemize}
-  \end{itemize}
+    \setcounter{enumi}{3}
+    \item \textbf{Scalability:} The game shall be designed to easily integrate new physics models and game levels.
 \end{enumerate}
 
-\textbf{4.2.1.2 Physics Simulation}
-
+\section{Additional System Features}
+\subsection{Environmental Effects Simulation}
 \begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{2}
-\item
-  \textbf{Collision Dynamics Type:}
-
-  \begin{itemize}
-  \item
-    \emph{Example Instance:}
-
-    \begin{itemize}
-    \item
-      Collision Detection Algorithm: Pixel-perfect collision
-    \item
-      Collision Response Algorithm: Destructive collision (objects break
-      apart)
-    \end{itemize}
-  \end{itemize}
-\item
-  \textbf{Gravitational Forces Type:}
-
-  \begin{itemize}
-  \item
-    \emph{Example Instance:}
-
-    \begin{itemize}
-    \item
-      Gravitational Acceleration: 0 (ignoring gravity for simplicity)
-    \end{itemize}
-  \end{itemize}
-\item
-  \textbf{Additional Forces Type (e.g., Wind):}
-
-  \begin{itemize}
-  \item
-    \emph{Example Instance:}
-
-    \begin{itemize}
-    \item
-      Type of Force: Wind
-    \item
-      Magnitude and Direction: (2, 0) units/s² (horizontal)
-    \end{itemize}
-  \end{itemize}
-\item
-  \textbf{Physics Engine Type:}
-
-  \begin{itemize}
-  \item
-    \emph{Example Instance:}
-
-    \begin{itemize}
-    \item
-      Simulation Accuracy: Medium
-    \item
-      Computational Efficiency: Balanced
-    \end{itemize}
-  \end{itemize}
+    \item The game will simulate environmental effects, providing players with challenges such as compensating for wind when aiming projectiles.
 \end{enumerate}
 
-\textbf{4.2.1.3 User Interaction}
-
+\section{User Documentation and Help System}
 \begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{6}
-\item
-  \textbf{Physics Inputs Type:}
-
-  \begin{itemize}
-  \item
-    \emph{Example Instance:}
-
-    \begin{itemize}
-    \item
-      Initial Positions and Velocities: Player sets the initial launch
-      conditions
-    \item
-      External Forces: None initially
-    \end{itemize}
-  \end{itemize}
-\item
-  \textbf{Physics Outputs Type:}
-
-  \begin{itemize}
-  \item
-    \emph{Example Instance:}
-
-    \begin{itemize}
-    \item
-      Updated Positions and Velocities: Calculated after each simulation
-      step
-    \end{itemize}
-  \end{itemize}
+    \item Comprehensive user documentation will be provided, explaining how to play the game and understand the underlying physics concepts.
+    \item An in-game help system will offer hints and explanations for each level, aiding users in comprehending the application of physics in gameplay.
 \end{enumerate}
 
-\textbf{4.2.1.4 User Controls}
-
+\section{Development Plan}
+The development of "Angry Birds Alike" will follow these phases:
 \begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{8}
-\item
-  \textbf{User Input Controls Type:}
-
-  \begin{itemize}
-  \item
-    \emph{Example Instance:}
-
-    \begin{itemize}
-    \item
-      Launch Angle: Adjustable via touch or drag
-    \item
-      Force: Adjustable via touch or drag
-    \item
-      Time Step Size: Fixed at 0.1 seconds
-    \end{itemize}
-  \end{itemize}
-\item
-  \textbf{Time Step Size Control Type:}
-
-  \begin{itemize}
-  \item
-    \emph{Example Instance:}
-
-    \begin{itemize}
-    \item
-      Time Step Size: Fixed at 0.1 seconds
-    \end{itemize}
-  \end{itemize}
+    \item Requirements analysis and project setup.
+    \item Core physics engine and gameplay mechanics development.
+    \item Implementation of user interface and graphics.
+    \item In-depth testing across platforms, fine-tuning based on feedback.
+    \item Final preparations for launch, including marketing and creation of support documentation.
+    \item Post-launch support and development of additional content based on user feedback.
 \end{enumerate}
 
-\textbf{4.2.1.5 Graphics and Sound}
+\section{Appendices}
+\subsection{Appendix A: Glossary}
+Definitions of all technical terms, acronyms, and abbreviations used within the SRS.
+
+\subsection{Appendix B: Analysis Models}
+Detailed analysis models including data flow diagrams, class diagrams, and other relevant design schematics.
+
+\subsection{Appendix C: Issues List}
+An ongoing log of issues, queries, and decisions made throughout the development process.
+
+\subsection{Appendix D: Compliance Requirements}
+Detailed breakdown of compliance requirements the software needs to meet, including privacy laws, accessibility standards, and educational guidelines.
+
+\subsection{Appendix E: Detailed RK4 Method Explanation}
+An in-depth explanation of the Runge-Kutta 4 method with step-by-step examples from the game's physics engine.
+
+\section{References}
+The following sources were referenced in the preparation of this Software Requirements Specification:
 
 \begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{10}
-\item
-  \textbf{Graphics Type:}
-
-  \begin{itemize}
-  \item
-    \emph{Example Instance:}
-
-    \begin{itemize}
-    \item
-      Visual Effects: Cartoonish animations on collision
-    \item
-      Graphics Rendering Engine: Custom 2D engine
-    \end{itemize}
-  \end{itemize}
-\item
-  \textbf{Sound Effects Type:}
-
-  \begin{itemize}
-  \item
-    \emph{Example Instance:}
-
-    \begin{itemize}
-    \item
-      Collision Sounds: Comical crashing sounds
-    \item
-      Launch Sounds: Slingshot stretching and bird squawking
-    \end{itemize}
-  \end{itemize}
+    \item SFML Documentation. (n.d.). \textit{Simple and Fast Multimedia Library}. Retrieved from \url{https://www.sfml-dev.org/documentation/}
+    \item Boost.odeint Documentation. (n.d.). \textit{odeint - Solving Ordinary Differential Equations}. Retrieved from \url{https://www.boost.org/doc/libs/1_75_0/libs/numeric/odeint/doc/html/index.html}
+    \item Hairer, E., Nørsett, S. P., \& Wanner, G. (1993). \textit{Solving Ordinary Differential Equations I: Nonstiff Problems}. Springer Series in Computational Mathematics.
+    \item Rovio Entertainment Corporation. (n.d.). \textit{Angry Birds}. Retrieved from \url{https://www.angrybirds.com/}
+    \item Serway, R. A., \& Jewett, J. W. (2018). \textit{Physics for Scientists and Engineers}. Cengage Learning.
+    \item Real-Time Collision Detection. (2005). Christer Ericson, \textit{Real-Time Collision Detection}. Morgan Kaufmann Publishers.
+    \item Butcher, J. C. (2008). \textit{Numerical Methods for Ordinary Differential Equations}. John Wiley \& Sons.
+    \item The Physics Classroom. (n.d.). \textit{Momentum and Its Conservation}. Retrieved from \url{https://www.physicsclassroom.com/class/momentum}
+    \item Kiusalaas, J. (2013). \textit{Numerical Methods in Engineering with Python 3}. Cambridge University Press.
+    \item OpenGL Wiki. (n.d.). \textit{Main Page}. Retrieved from \url{https://www.khronos.org/opengl/wiki/Main_Page}
 \end{enumerate}
 
-\protect\hypertarget{qrrrrrrrr}{}{}\textbf{4.3 Scope Decisions}
-
-The scope decisions outline the specific boundaries and inclusions for
-the development of the physics-based gaming application. These decisions
-help define the project's limits and guide the development team
-throughout the implementation process.
-
-\textbf{4.3.1 Inclusions}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  \textbf{Realistic Physics Simulation:}
-
-  \begin{itemize}
-  \item
-    Inclusion: The application will include a physics engine that
-    accurately models collision dynamics, gravitational interactions,
-    and additional forces (e.g., wind) to create a realistic gaming
-    experience.
-  \end{itemize}
-\item
-  \textbf{Engaging Gameplay:}
-
-  \begin{itemize}
-  \item
-    Inclusion: The gameplay will focus on challenging players to apply
-    physics principles strategically, encouraging experimentation and
-    skill development.
-  \end{itemize}
-\item
-  \textbf{User-Friendly Interface:}
-
-  \begin{itemize}
-  \item
-    Inclusion: The application will provide a user-friendly interface
-    allowing players to manipulate initial conditions, adjust
-    parameters, and actively participate in the simulation.
-  \end{itemize}
-\item
-  \textbf{Visual and Auditory Feedback:}
-
-  \begin{itemize}
-  \item
-    Inclusion: Graphics will be used to visually represent physics-based
-    interactions, emphasizing rigid body collisions and movements. Sound
-    effects corresponding to key physics events will be implemented to
-    enhance the overall sensory experience.
-  \end{itemize}
-\item
-  \textbf{Dynamic Challenges:}
-
-  \begin{itemize}
-  \item
-    Inclusion: Additional forces, such as wind, will be introduced to
-    create dynamic challenges, requiring adaptability and skill from the
-    players.
-  \end{itemize}
-\item
-  \textbf{Configurability:}
-
-  \begin{itemize}
-  \item
-    Inclusion: Users will be able to specify initial conditions, launch
-    angles, forces, and time step sizes, providing a customizable and
-    personalized gaming experience.
-  \end{itemize}
-\item
-  \textbf{Scalability:}
-
-  \begin{itemize}
-  \item
-    Inclusion: The system will be designed to be extensible for
-    potential future expansions, allowing for the addition of new
-    features, levels, and challenges.
-  \end{itemize}
-\end{enumerate}
-
-\protect\hypertarget{qrrrrrrrrrrr}{}{}\textbf{4.4 Modelling Decisions}
-
-In the modelling decisions, various assumptions, theoretical models, and
-data definitions are established to guide the development of the
-physics-based gaming application.
-
-\protect\hypertarget{qrrrrrrrrrrrr}{}{}\textbf{4.4.1 Assumptions}
-
-\textbf{4.4.1.1 Environment Assumptions}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  \textbf{Dimensional Constraints:}
-
-  \begin{itemize}
-  \item
-    Assumption: The gaming environment is strictly two-dimensional,
-    simplifying the physics simulation and rendering processes. There is
-    no need to account for the complexities of a three-dimensional
-    space.
-  \end{itemize}
-\end{enumerate}
-
-\textbf{4.4.1.2 Gravity Assumptions}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{1}
-\item
-  \textbf{Uniform Gravitational Field:}
-
-  \begin{itemize}
-  \item
-    Assumption: Gravity acts uniformly on all objects, neglecting
-    variations due to altitude, geographic location, or other factors.
-    This simplification ensures a consistent and predictable
-    gravitational force throughout the game.
-  \end{itemize}
-\end{enumerate}
-
-\textbf{4.4.1.3 Collision Dynamics Assumptions}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{2}
-\item
-  \textbf{Elastic Collisions:}
-
-  \begin{itemize}
-  \item
-    Assumption: Collisions between objects are assumed to be perfectly
-    elastic, meaning kinetic energy is conserved during interactions.
-    This simplification allows for straightforward and predictable
-    object responses in the game.
-  \end{itemize}
-\end{enumerate}
-
-\textbf{4.4.1.4 Wind Force Assumptions}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{3}
-\item
-  \textbf{Constant Wind Forces:}
-
-  \begin{itemize}
-  \item
-    Assumption: Wind forces acting on objects are considered constant
-    within a simulation step, simplifying their application. Dynamic or
-    varying wind conditions are not taken into account for simplicity in
-    the physics calculations.
-  \end{itemize}
-\end{enumerate}
-
-\textbf{4.4.1.5 Time Step Assumptions}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{4}
-\item
-  \textbf{Fixed Time Step:}
-
-  \begin{itemize}
-  \item
-    Assumption: The physics simulation operates on a fixed time step,
-    simplifying calculations and ensuring a consistent update rate. This
-    assumption may introduce minor inaccuracies but contributes to a
-    stable and predictable simulation.
-  \end{itemize}
-\end{enumerate}
-
-\textbf{4.4.1.6 Object Properties Assumptions}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{5}
-\item
-  \textbf{Homogeneous Object Properties:}
-
-  \begin{itemize}
-  \item
-    Assumption: Objects within the game environment are considered
-    homogeneous in terms of physical properties, such as mass and size.
-    This simplification streamlines the physics calculations for various
-    object interactions.
-  \end{itemize}
-\end{enumerate}
-
-\textbf{4.4.1.7 Friction and Air Resistance Assumptions}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{6}
-\item
-  \textbf{Simplified Friction Model:}
-
-  \begin{itemize}
-  \item
-    Assumption: The friction and air resistance models applied to
-    objects are simplified, neglecting certain complexities such as
-    surface irregularities. This simplification is made for
-    computational efficiency and ease of implementation.
-  \end{itemize}
-\end{enumerate}
-
-\protect\hypertarget{qrrrrrrrrrrrrrr}{}{}\textbf{4.4.2 Theoretical
-Models}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  \textbf{Projectile Motion Model:}
-
-  \begin{itemize}
-  \item
-    Model: Utilizes classical projectile motion equations to determine
-    the trajectory of the projectile based on initial conditions and
-    external forces.
-  \end{itemize}
-\end{enumerate}
-
-\textbf{Equations:}
-
-\begin{itemize}
-\item
-  X (t) = x0\hspace{0pt} + v0x \hspace{0pt}t
-\item
-  y (t) = y0 \hspace{0pt}+ v0y \hspace{0pt} t -- 1/2 gt\^{}2
-\end{itemize}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{1}
-\item
-  \textbf{Collision Dynamics Model:}
-
-  \begin{itemize}
-  \item
-    Model: Employs simplified collision detection and response
-    algorithms to handle interactions between rigid bodies.
-  \end{itemize}
-\end{enumerate}
-
-\textbf{Equations:}
-
-\begin{itemize}
-\item
-  Collision Detection: Determine if two objects A and B collide.
-\item
-  Collision Response: Adjust the velocities of colliding objects based
-  on the collision type.
-\end{itemize}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{2}
-\item
-  \textbf{Gravitational Model:}
-
-  \begin{itemize}
-  \item
-    Model: Applies Newton's law of universal gravitation to compute the
-    gravitational forces acting on each object.
-  \end{itemize}
-\end{enumerate}
-
-\textbf{Equation:}
-
-\begin{itemize}
-\item
-  F = Gm1 m2/r\^{}2
-\end{itemize}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{3}
-\item
-  \textbf{Wind Force Model:}
-
-  \begin{itemize}
-  \item
-    Model: Introduces an additional force (wind) with constant magnitude
-    and direction to create dynamic challenges.
-  \end{itemize}
-\end{enumerate}
-
-\textbf{Equation:}
-
-FWind = Magnitude × Direction
-
-\protect\hypertarget{qrrrrrrrrrrrrrrr}{}{}\textbf{4.4.3 General
-Definitions}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  \textbf{Position:}
-
-  \begin{itemize}
-  \item
-    Definition: The location of an object in the two-dimensional gaming
-    environment, represented by coordinates (x, y).
-  \end{itemize}
-\item
-  \textbf{Velocity:}
-
-  \begin{itemize}
-  \item
-    Definition: The rate of change of an object's position with respect
-    to time, represented by components (vx, vy).
-  \end{itemize}
-\end{enumerate}
-
-4.4.4 Data Definitions
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  \textbf{Projectile Data:}
-
-  \begin{itemize}
-  \item
-    Definition: Data structure representing a projectile with attributes
-    for position, velocity, and mass.
-  \end{itemize}
-\item
-  \textbf{Target/Obstacle Data:}
-
-  \begin{itemize}
-  \item
-    Definition: Data structure representing a target/obstacle with
-    attributes for position, shape, and size.
-  \end{itemize}
-\end{enumerate}
-
-\protect\hypertarget{qkl}{}{}\textbf{4.4.5 Data Types}
-
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  \textbf{Position Data Type:}
-
-  \begin{itemize}
-  \item
-    Type: Double precision floating-point numbers (x, y).
-  \end{itemize}
-\item
-  \textbf{Velocity Data Type:}
-
-  \begin{itemize}
-  \item
-    Type: Double precision floating-point numbers (vx, vy).
-  \end{itemize}
-\item
-  \textbf{Mass Data Type:}
-
-  \begin{itemize}
-  \item
-    Type: Double precision floating-point number representing the mass
-    of an object.
-  \end{itemize}
-\end{enumerate}
-
-\protect\hypertarget{qrrrrrrrrrrrrrrrrr}{}{}\textbf{4.4.6 Instance
-Models}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  \textbf{Projectile Instance Model:}
-
-  \begin{itemize}
-  \item
-    Model: An instance of the projectile data structure with specific
-    values for position, velocity, and mass.
-  \end{itemize}
-\item
-  \textbf{Target/Obstacle Instance Model:}
-
-  \begin{itemize}
-  \item
-    Model: An instance of the target/obstacle data structure with
-    specific values for position, shape, and size.
-  \end{itemize}
-\end{enumerate}
-
-\protect\hypertarget{qrrrrrrrrrrrrrrrrrr}{}{}\textbf{4.4.7 Input Data
-Constraints}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  \textbf{Launch Angle Constraint:}
-
-  \begin{itemize}
-  \item
-    Constraint: Launch angles are limited to a predefined range (e.g., 0
-    to 90 degrees) for realistic projectile motion.
-  \end{itemize}
-\item
-  \textbf{Force Constraint:}
-
-  \begin{itemize}
-  \item
-    Constraint: Forces applied to projectiles are within a specified
-    range to maintain a balanced gaming experience.
-  \end{itemize}
-\end{enumerate}
-
-\protect\hypertarget{qrrrrrrrrrrrrrrrrrrr}{}{}\textbf{4.4.8 Properties
-of a Correct Solution}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  \textbf{Conservation of Energy:}
-
-  \begin{itemize}
-  \item
-    Property: The simulation maintains the conservation of energy,
-    ensuring that the total energy of the system remains constant.
-  \end{itemize}
-\end{enumerate}
-
-\textbf{The conservation of energy is expressed by the equation:}
-
-Etotal = Ekinetic + EPotential
-
-Where:
-
-\begin{itemize}
-\item
-  Etotal is the total energy of the system.
-\item
-  Ekinetic is the kinetic energy associated with the motion of objects.
-\item
-  Epotential the potential energy associated with the position of
-  objects.
-\end{itemize}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{1}
-\item
-  \textbf{Accuracy of Collision Response:}
-
-  \begin{itemize}
-  \item
-    Property: The collision response accurately reflects the
-    conservation of momentum and kinetic energy.
-  \end{itemize}
-\item
-  \textbf{Realistic Projectile Motion:}
-
-  \begin{itemize}
-  \item
-    Property: The projectile motion adheres to realistic physics
-    principles, considering launch angles, initial velocities, and
-    gravitational forces.
-  \end{itemize}
-\item
-  \textbf{Dynamic Gameplay:}
-
-  \begin{itemize}
-  \item
-    Property: The introduction of wind forces creates dynamic and
-    challenging gameplay scenarios.
-  \end{itemize}
-\end{enumerate}
-
-\protect\hypertarget{qb}{}{}\textbf{5. Requirements:}
-
-\protect\hypertarget{qbb}{}{}\textbf{5.1 Functional Requirements}
-
-\textbf{5.1.1 Game Physics}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  The game shall implement gravity using the formula: \textbf{y =
-  y\_initial + v\_initial * t - 0.5 * g * t\^{}2}.
-\item
-  Horizontal movement shall be implemented using the formula: \textbf{x
-  = x\_initial + v\_horizontal * t}.
-\item
-  Collision detection between objects shall be based on bounding box
-  comparison.
-\item
-  Elastic collision response shall be implemented for basic object
-  interaction.
-\end{enumerate}
-
-\textbf{5.1.2 Game Elements}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  The game shall include objects with properties such as position,
-  velocity, and dimensions.
-\item
-  Objects shall have sprite images representing their visual appearance.
-\end{enumerate}
-
-\textbf{5.1.3 User Interaction}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  Players shall interact with the game through controls to trigger
-  actions such as launching objects.
-\end{enumerate}
-
-\textbf{5.1.4 Use Cases}
-
-Use Case 1: Launching an Object
-
-\textbf{Primary Actor:} Player
-
-\textbf{Description:} The player interacts with the game to launch an
-object.
-
-\textbf{Preconditions:}
-
-\begin{itemize}
-\item
-  The game is in an active state.
-\end{itemize}
-
-\textbf{Steps:}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  The player selects the object to launch.
-\item
-  The player sets the launch parameters.
-\item
-  The player triggers the launch action.
-\end{enumerate}
-
-\textbf{Postconditions:}
-
-\begin{itemize}
-\item
-  The launched object follows the specified trajectory.
-\end{itemize}
-
-\textbf{Use Case 2: Collision Detection}
-
-\textbf{Primary Actor:} Game Engine
-
-\textbf{Description:} The game engine detects collisions between game
-objects.
-
-\textbf{Preconditions:}
-
-\begin{itemize}
-\item
-  Game objects are in motion.
-\end{itemize}
-
-\textbf{Steps:}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  Continuously monitor the positions of game objects.
-\item
-  Detect collisions based on bounding box comparison.
-\end{enumerate}
-
-\textbf{Postconditions:}
-
-\begin{itemize}
-\item
-  Collision events trigger appropriate responses in the game.
-\end{itemize}
-
-\protect\hypertarget{qbbb}{}{}\textbf{5.2 Non-functional Requirements}
-
-\textbf{5.2.1 Performance}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  \textbf{Minimum Frame Rate:}
-
-  \begin{itemize}
-  \item
-    The game shall maintain a minimum frame rate of 30 frames per second
-    (FPS) to ensure smooth and enjoyable gameplay.
-  \end{itemize}
-\item
-  Efficient Collision Detection and Response:
-
-  \begin{itemize}
-  \item
-    Collision detection algorithms and response mechanisms shall be
-    optimized to ensure efficient processing and minimal impact on
-    gameplay performance.
-  \end{itemize}
-\end{enumerate}
-
-\textbf{5.2.2 Usability}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  \textbf{Intuitive User Interface:}
-
-  \begin{itemize}
-  \item
-    The game shall feature an intuitive and visually appealing user
-    interface, ensuring that players can easily navigate through menus
-    and interact with game elements.
-  \end{itemize}
-\item
-  \textbf{User-friendly Controls:}
-
-  \begin{itemize}
-  \item
-    Controls for launching objects and other interactions shall be
-    designed to be easy to understand, responsive, and comfortable for
-    players to use.
-  \end{itemize}
-\end{enumerate}
-
-\textbf{5.2.3 Reliability}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  \textbf{Stability in Physics Calculations:}
-
-  \begin{itemize}
-  \item
-    The game's physics calculations, including gravity and object
-    interactions, shall be implemented in a stable and reliable manner
-    to minimize bugs and unexpected behaviors.
-  \end{itemize}
-\item
-  \textbf{Robust Collision Handling:}
-
-  \begin{itemize}
-  \item
-    The collision handling system shall be robust, capable of accurately
-    detecting collisions and responding appropriately to ensure the
-    integrity of the game's physics simulation.
-  \end{itemize}
-\end{enumerate}
-
-\textbf{Non-functional Requirements Physics Simulation}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  \textbf{Realism and Accuracy:}
-
-  \begin{itemize}
-  \item
-    The physics simulation shall aim for a balance between realism and
-    gameplay, ensuring that the behavior of game objects aligns with
-    real-world physics principles.
-  \item
-    Deviations from real-world physics shall be intentional and
-    communicated clearly to players.
-  \end{itemize}
-\item
-  \textbf{Stability in Complex Scenes:}
-
-  \begin{itemize}
-  \item
-    The physics engine shall be capable of maintaining stability and
-    accuracy even in scenes with a high number of interacting objects or
-    complex geometric shapes.
-  \end{itemize}
-\item
-  \textbf{Dynamic Time Step:}
-
-  \begin{itemize}
-  \item
-    The physics simulation shall incorporate a dynamic time step
-    mechanism to adapt to varying processing speeds, maintaining
-    stability and accuracy across different hardware configurations.
-  \end{itemize}
-\end{enumerate}
-
-\textbf{5.2.5 Object Interactions}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  \textbf{Elasticity Consistency:}
-
-  \begin{itemize}
-  \item
-    Objects in the game shall exhibit consistent elasticity in
-    collisions, providing predictable reactions based on their physical
-    properties.
-  \end{itemize}
-\item
-  \textbf{Friction and Drag:}
-
-  \begin{itemize}
-  \item
-    The game shall simulate realistic friction and air resistance,
-    affecting the motion of objects in a manner that aligns with
-    real-world physics.
-  \end{itemize}
-\item
-  \textbf{Object Material Properties:}
-
-  \begin{itemize}
-  \item
-    Game objects shall have customizable material properties (e.g.,
-    density, elasticity, friction) to allow developers to fine-tune the
-    physics simulation for specific gameplay scenarios.
-  \end{itemize}
-\end{enumerate}
-
-\textbf{5.2.6 Debugging and Analysis Tools}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  \textbf{Physics Debugging Tools:}
-
-  \begin{itemize}
-  \item
-    The game shall include built-in tools for debugging and visualizing
-    physics interactions, helping developers identify and address issues
-    related to object movements, collisions, and forces.
-  \end{itemize}
-\item
-  \textbf{Performance Profiling:}
-
-  \begin{itemize}
-  \item
-    Tools for performance profiling of the physics engine shall be
-    available, allowing developers to identify bottlenecks and optimize
-    the simulation for better performance.
-  \end{itemize}
-\end{enumerate}
-
-\textbf{5.2.7 Adaptability and Extensibility}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  \textbf{Modular Physics Components:}
-
-  \begin{itemize}
-  \item
-    The physics system shall be designed with modularity in mind,
-    allowing for easy integration of additional physics features or
-    third-party physics libraries.
-  \end{itemize}
-\item
-  \textbf{Parameter Tuning:}
-
-  \begin{itemize}
-  \item
-    The game shall provide parameters that can be tuned to adjust the
-    overall physics behavior, catering to different game genres or
-    design preferences.
-  \end{itemize}
-\end{enumerate}
-
-\protect\hypertarget{qn}{}{}\textbf{6. Likely Changes:}
-
-\textbf{6.1 Physics Model Refinement:}
-
-Recognize the possibility of refining the physics model to enhance
-realism based on player feedback or advancements in simulation
-techniques.
-
-\textbf{6.2 Additional Forces:}
-
-Anticipate the introduction of new forces or environmental factors for
-added complexity and variety in gameplay.
-
-\textbf{6.3 User Interface Enhancements:}
-
-Acknowledge potential adjustments to the user interface to improve user
-experience and accommodate additional controls.
-
-\protect\hypertarget{qm}{}{}\textbf{7. Unlikely Changes:}
-
-\textbf{7.1 Core Physics Algorithms:}
-
-Specify that fundamental physics algorithms governing collisions,
-gravitational interactions, and rigid body dynamics are unlikely to
-change unless there are groundbreaking advancements in simulation
-techniques.
-
-\textbf{7.2 Rigid Body Assumption:}
-
-Clarify that the assumption of rigid bodies is a foundational element
-and is unlikely to change, ensuring stability in the physics simulation.
-
-\textbf{7.3 Simulation Framework:}
-
-Highlight that the overall simulation framework, once established, is
-unlikely to undergo significant changes, providing stability for
-integration with other game
-elements.\protect\hypertarget{_Hlk157473991}{}{}
-
-\textbf{8. Traceability Matrix}
-
-A traceability matrix and graphs are typically tools used in project
-management and software development to ensure that requirements,
-features, and decisions can be traced back to their origins and that
-there is a clear mapping between various elements of the project. In our
-case, let's focus on creating a simplified traceability matrix.
-
-\textbf{Traceability Matrix :}
-
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2500}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2500}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2500}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2500}}@{}}
-\toprule
-\begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Requirement}
-
-\textbf{ID}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\textbf{4.2.1 Types}
-
-\textbf{1}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\textbf{4.2.2 Solution}
-
-\textbf{Characteristics}
-
-\textbf{Specification}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\textbf{4.4 Modelling}
-
-\textbf{Decisions}
-\end{minipage} \\
-\midrule
-\endhead
-1 & Projectile Type & Game Elements & Assumptions \\
-2 & Targets/Obstacles type & Game Elements & Assumptions \\
-3 & Collision Dynamics type & Physics Simulation & Assumptions,
-
-Theoretical Models \\
-4 & Gravitational Forces type & Physics Simulation & Assumptions,
-
-Theoretical Models \\
-5 & Additional Forces Type
-
-(e.g., Wind) & Physics Simulation & Assumptions,
-
-Theoretical Models \\
-6 & Physics Engine Type & Physics Simulation & Assumptions,
-
-Theoretical Models \\
-7 & Physics Inputs Type & Physics Inputs & Assumptions,
-
-Theoretical Models \\
-8 & Physics outputs Type & Physics 0utputs & Assumptions,
-
-Theoretical Models \\
-9 & User Input Controls Type & Controls & Assumptions,
-
-Theoretical Models \\
-10 & Time Step Size Control type & Controls & Assumptions,
-
-Theoretical Models \\
-11 & Graphics Type & Graphics and Sound & Assumptions,
-
-Theoretical Models \\
-12 & Sound Effects Type & Graphics and Sound & Assumptions,
-
-Theoretical Models \\
-\bottomrule
-\end{longtable}
-
-\textbf{Models to Code}
-
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}@{}}
-\toprule
-\begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Model}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Code Functions/Structures}
-\end{minipage} \\
-\midrule
-\endhead
-Projectile Type & Bird struct \\
-Targets/Obstacles Type & Pig struct \\
-Collision Dynamics Type & checkCollision() function \\
-Gravitational Forces Type & updateBird Position() function \\
-Additional Forces Type (e.g., Wind) & updateBird Position() function \\
-Physics Engine Type & updateBird Position() function \\
-Physics Inputs Type & handleInput() function \\
-Physics outputs Type & updateBird Position() function, renderGame()
-function \\
-User Input Controls type & handleInput() function \\
-Time Step Size Control Type & Main loop with time step \\
-Graphics Type & renderGame() function \\
-Sound Effects Type & renderGame() function \\
-\bottomrule
-\end{longtable}
-
-This directed acyclic graph illustrates the dependencies between
-different components of the project. For example, the "Physics
-Simulation" node depends on "Game Elements," "Controls," and "Graphics
-and Sound." This graph helps visualize the flow of dependencies.
-
-\textbf{Requirement Traceability Graph}
-
-This graph shows the relationships between different project elements,
-starting from the requirements. It demonstrates how requirements are
-connected to different types, models, and eventually, the code
-components.
-
-\protect\hypertarget{qzz}{}{}\textbf{9. Development Plan}
-
-A development plan outlines the steps and activities required to achieve
-the goals of a project. Here's a simplified development plan for the
-physics-based gaming application:
-
-1. \textbf{Project Kickoff (Week 1-2)}
-
-\begin{itemize}
-\item
-  \textbf{Objectives:}
-
-  \begin{itemize}
-  \item
-    Clarify project scope, goals, and requirements.
-  \item
-    Assemble development team.
-  \item
-    Setup project repository and version control.
-  \end{itemize}
-\item
-  \textbf{Tasks:}
-
-  \begin{itemize}
-  \item
-    Hold a kickoff meeting.
-  \item
-    Define roles and responsibilities.
-  \item
-    Create and share project documentation.
-  \item
-    Establish version control using Git.
-  \end{itemize}
-\end{itemize}
-
-2. \textbf{Requirement Analysis (Week 3-4)}
-
-\begin{itemize}
-\item
-  \textbf{Objectives:}
-
-  \begin{itemize}
-  \item
-    Refine and clarify project requirements.
-  \item
-    Prioritize features and functionalities.
-  \item
-    Finalize the system requirements specification (SRS).
-  \end{itemize}
-\item
-  \textbf{Tasks:}
-
-  \begin{itemize}
-  \item
-    Conduct meetings with stakeholders.
-  \item
-    Revise and update SRS document.
-  \item
-    Prioritize features based on importance and complexity.
-  \end{itemize}
-\end{itemize}
-
-3. \textbf{Design and Architecture (Week 5-8)}
-
-\begin{itemize}
-\item
-  \textbf{Objectives:}
-
-  \begin{itemize}
-  \item
-    Define system architecture.
-  \item
-    Create class diagrams and data flow diagrams.
-  \item
-    Select appropriate frameworks and libraries.
-  \end{itemize}
-\item
-  \textbf{Tasks:}
-
-  \begin{itemize}
-  \item
-    Develop a high-level architecture plan.
-  \item
-    Create detailed class diagrams for key components.
-  \item
-    Choose graphics and sound libraries/frameworks.
-  \item
-    Decide on the overall system structure.
-  \end{itemize}
-\end{itemize}
-
-4. \textbf{Implementation (Week 9-12)}
-
-\begin{itemize}
-\item
-  \textbf{Objectives:}
-
-  \begin{itemize}
-  \item
-    Build the core functionalities of the game.
-  \item
-    Develop physics engine, collision detection, and rendering.
-  \item
-    Implement user controls and input handling.
-  \end{itemize}
-\item
-  \textbf{Tasks:}
-
-  \begin{itemize}
-  \item
-    Begin coding the physics engine.
-  \item
-    Implement basic game rendering.
-  \item
-    Develop user input controls.
-  \item
-    Integrate collision detection algorithms.
-  \end{itemize}
-\end{itemize}
-
-5. \textbf{Testing and Debugging (Week 13-16)}
-
-\begin{itemize}
-\item
-  \textbf{Objectives:}
-
-  \begin{itemize}
-  \item
-    Identify and fix software defects.
-  \item
-    Conduct unit testing and integration testing.
-  \item
-    Ensure physics simulations are accurate.
-  \end{itemize}
-\item
-  \textbf{Tasks:}
-
-  \begin{itemize}
-  \item
-    Perform unit tests on individual components.
-  \item
-    Conduct integration tests for system interactions.
-  \item
-    Debug and resolve any issues identified during testing.
-  \end{itemize}
-\end{itemize}
-
-6. \textbf{Refinement and Optimization (Week 17-18)}
-
-\begin{itemize}
-\item
-  \textbf{Objectives:}
-
-  \begin{itemize}
-  \item
-    Optimize code for performance.
-  \item
-    Refine user interface and graphics.
-  \item
-    Enhance overall user experience.
-  \end{itemize}
-\item
-  \textbf{Tasks:}
-
-  \begin{itemize}
-  \item
-    Optimize algorithms for computational efficiency.
-  \item
-    Improve graphics rendering.
-  \item
-    Gather user feedback for UI/UX improvements.
-  \end{itemize}
-\end{itemize}
-
-7. \textbf{Documentation (Week 19-20)}
-
-\begin{itemize}
-\item
-  \textbf{Objectives:}
-
-  \begin{itemize}
-  \item
-    Document code, design decisions, and usage instructions.
-  \item
-    Finalize system documentation.
-  \end{itemize}
-\item
-  \textbf{Tasks:}
-
-  \begin{itemize}
-  \item
-    Write code comments for clarity.
-  \item
-    Update design documentation.
-  \item
-    Create a user guide for the application.
-  \end{itemize}
-\end{itemize}
-
-8. \textbf{Deployment (Week 21-22)}
-
-\begin{itemize}
-\item
-  \textbf{Objectives:}
-
-  \begin{itemize}
-  \item
-    Prepare the application for release.
-  \item
-    Set up distribution channels (if applicable).
-  \end{itemize}
-\item
-  \textbf{Tasks:}
-
-  \begin{itemize}
-  \item
-    Package the application for deployment.
-  \item
-    Create installers or deployment scripts.
-  \item
-    Publish the application on relevant platforms.
-  \end{itemize}
-\end{itemize}
-
-9. \textbf{Post-Launch Support and Updates (Ongoing)}
-
-\begin{itemize}
-\item
-  \textbf{Objectives:}
-
-  \begin{itemize}
-  \item
-    Address user feedback and bug reports.
-  \item
-    Implement updates and improvements.
-  \end{itemize}
-\item
-  \textbf{Tasks:}
-
-  \begin{itemize}
-  \item
-    Monitor user feedback channels.
-  \item
-    Prioritize and address reported issues.
-  \item
-    Release updates as needed.
-  \end{itemize}
-\end{itemize}
-
-\protect\hypertarget{qzzz}{}{}\textbf{10. Physical Constants}
-
-Physical constants are fundamental values used to model real-world
-physics within the game. They contribute to the accuracy and
-authenticity of the in-game physics simulation.
-
-\textbf{Gravity Constant (\emph{g})}
-
-\begin{itemize}
-\item
-  Standard Earth's gravity = 9.81m/s\^{}2.
-\end{itemize}
-
-\textbf{Air Density (\emph{ρ})}
-
-\begin{itemize}
-\item
-  Average air density at sea level: 1.225kg/m\^{}3.
-\end{itemize}
-
-\textbf{Friction Coefficient (\emph{μ})}
-
-\begin{itemize}
-\item
-  Coefficient of friction for surfaces: Typically, between 0 and 1,
-  representing different friction levels.
-\end{itemize}
-
-\textbf{Game Parameters}
-
-Game parameters are constants that define specific aspects of the gaming
-experience, such as scoring, difficulty, and user interactions.
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  \textbf{Score Multiplier (SCORE\_MULTIPLIERSCORE)}
-
-  \begin{itemize}
-  \item
-    A factor that multiplies the base score for achieving certain
-    in-game objectives.
-  \end{itemize}
-\item
-  \textbf{Difficulty Threshold (DIFFICULTY\_THRESHOLD)}
-
-  \begin{itemize}
-  \item
-    A value that determines the difficulty level, affecting factors like
-    enemy behavior, speed, or obstacle complexity.
-  \end{itemize}
-\item
-  \textbf{Time Step (Δ\emph{t})}
-
-  \begin{itemize}
-  \item
-    The time step used in the physics simulation, influencing the
-    accuracy of the simulation. Smaller values result in more accurate
-    but computationally intensive simulations.
-  \end{itemize}
-\end{enumerate}
-
-\textbf{Environmental Constants}
-
-Environmental constants define features related to the virtual
-environment in which the game takes place. These constants contribute to
-the atmosphere and ambiance of the gaming world.
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  \textbf{Wind Speed (WIND\_SPEED)}
-
-  \begin{itemize}
-  \item
-    The speed of the virtual wind, affecting the trajectory of
-    projectiles or objects in motion.
-  \end{itemize}
-\item
-  \textbf{Ambient Light Intensity (AMBIENT\_LIGHT)}
-
-  \begin{itemize}
-  \item
-    The intensity of the ambient light in the virtual environment,
-    influencing the overall visual atmosphere of the game.
-  \end{itemize}
-\item
-  \textbf{Background Music Volume (MUSIC\_VOLUME)}
-
-  \begin{itemize}
-  \item
-    The volume level of the background music, contributing to the
-    auditory experience of the game.
-  \end{itemize}
-\end{enumerate}
-
-\protect\hypertarget{qop}{}{}\textbf{11. Project Goal}
-
-The primary ambition of this project is to achieve a breakthrough in
-physics-based computation within the gaming realm. By focusing on the
-intricacies of realistic collision dynamics, gravitational interactions,
-and pioneering the implementation of dynamic momentum disruptions, the
-project aims to elevate the gaming experience to a level where players
-actively engage with and manipulate fundamental physics principles. When
-a bird collides, the goal is to authentically break the gravity
-momentum, simulating a quantum leap in computational realism. This
-project aspires to contribute to the advancement of physics
-understanding in the gaming community, pushing the boundaries of what is
-achievable in virtual worlds through cutting-edge computational physics.
-
-\textbf{Realistic Physics Simulation:}
-
-Implement a physics engine that accurately models collision dynamics,
-gravitational interactions, and additional forces to create a realistic
-and immersive gaming experience.
-
-\textbf{Engaging Gameplay:}
-
-Design a gaming environment that challenges players to apply physics
-principles strategically, encouraging experimentation and skill
-development.
-
-\textbf{User-Friendly Interface:}
-
-Provide a user-friendly interface allowing players to manipulate initial
-conditions, adjust parameters, and actively participate in the
-simulation.
-
-\textbf{Visual and Auditory Feedback:}
-
-Utilize graphics to visually represent physics-based interactions,
-emphasizing rigid body collisions and movements. Implement sound effects
-corresponding to key physics events, enhancing the overall sensory
-experience.
-
-\textbf{Dynamic Challenges:}
-
-Introduce variability through additional forces like wind, creating
-dynamic challenges that require adaptability and skill from the players.
-
-\textbf{Configurability:}
-
-Allow users to specify initial conditions, launch angles, forces, and
-time step sizes, providing a customizable and personalized gaming
-experience.
-
-\textbf{Scalability:}
-
-Design the system to be extensible for potential future expansions,
-allowing for the addition of new features, levels, and challenges.
-
-\textbf{Achieve Physics/Computing Breakthrough:}
-
-Develop a physics-based gaming application that explores breakthroughs
-in physics computation, emphasizing the accurate representation of
-momentum changes during collisions. Strive for a level of computational
-fidelity that contributes to advancements in real-time physics
-simulations within gaming environments.
-
-\protect\hypertarget{qbn}{}{}\textbf{12. Goal in Physics}
-
-\textbf{Achieving in Quantum Precision Physics-Based Gaming: Unleashing
-Realistic Momentum Dynamics}
-
-The paramount goal of this project is to attain a pinnacle of precision
-in physics-based gaming. By intricately modeling realistic collision
-dynamics, gravitational interactions, and introducing innovative
-momentum dynamics, the aim is to achieve a gaming experience that
-mirrors the precision of quantum physics principles. When a bird
-collides, pushing the boundaries of what is achievable in virtual
-physics simulations. This project is dedicated to advancing the
-understanding of physics principles in gaming, offering players an
-immersive experience that reflects the intricacies and precision of
-real-world physics.
 
 \end{document}

@@ -1,776 +1,527 @@
-\documentclass[12pt, titlepage]{article}
-
-\usepackage{amsmath, mathtools}
-
-\usepackage[round]{natbib}
-\usepackage{amsfonts}
-\usepackage{amssymb}
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
 \usepackage{graphicx}
-\usepackage{colortbl}
-\usepackage{xr}
 \usepackage{hyperref}
-\usepackage{longtable}
-\usepackage{xfrac}
-\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{listings}
+\usepackage{xcolor}
 \usepackage{float}
-\usepackage{siunitx}
-\usepackage{booktabs}
-\usepackage{multirow}
-\usepackage[section]{placeins}
-\usepackage{caption}
-\usepackage{fullpage}
-
-\hypersetup{
-bookmarks=true,     % show bookmarks bar?
-colorlinks=true,       % false: boxed links; true: colored links
-linkcolor=red,          % color of internal links (change box color with linkbordercolor)
-citecolor=blue,      % color of links to bibliography
-filecolor=magenta,  % color of file links
-urlcolor=cyan          % color of external links
-}
-\setcounter{secnumdepth}{4}
+\usepackage{longtable}
 \usepackage{array}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{url}
+\usepackage{tikz}
+\usetikzlibrary{matrix, shapes, arrows, positioning, decorations.pathreplacing}
+\usepackage[document]{ragged2e}
 
-%\externaldocument{../../SRS/SRS}
+% Document geometry
+\geometry{a4paper, margin=1in}
 
-%\input{../../Comments}
-%\input{../../Common}
+\title{Module Interface Specification for Angry Birds Alike}
+\author{Author: Hossain, Al Jubair}
+\date{March 31, 2023}
 
 \begin{document}
 
-\title{Module Interface Specification for \progname{Physics Game Based on Angry Birds}}
-
-\author{Al Jubair Hossain}
-
-\date{\today}
-
 \maketitle
 
-\pagenumbering{roman}
+\newpage
 
-\section{Revision History}
+\section*{Revision History}
+\begin{longtable}{|p{2cm}|p{2cm}|p{10cm}|}
+    \hline
+    \textbf{Date} & \textbf{Version} & \textbf{Notes} \\
+    \hline
+    March 5, 2023 & 1.0 & Fixed hyperlinks.\\
+    March 13, 2023 & 1.0 & Changed section 5.\\
+    \hline
+    March 31, 2023 & 1.5 & Adding various changes in sections from 3, 4, 5, and 6, adding module information on Physics engine, UI, Game Logic, Environment variables , graphical examples of the game after implementation \\
+    \hline
+\end{longtable}
 
-\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
-\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
-\midrule
-March 5, 2024 & 1 & Changed section (Hyperlink) \\
-March 13, 2024 & 2 & Changed section (5)\\
-\bottomrule
-\end{tabularx}
-
-~\newpage
-
-%\section{Symbols, Abbreviations and Acronyms}
-
-%See SRS Documentation at \wss{give url}
-
-%\wss{Also add any additional symbols, abbreviations or acronyms}
-
-%\newpage
+\newpage
 
 \tableofcontents
 
 \newpage
 
-\pagenumbering{arabic}
-
+\section{Symbols, Abbreviations, and Acronyms}
+\begin{longtable}{|l|l|}
+    \hline
+    \textbf{Symbol/Abbreviation/Acronym} & \textbf{Definition} \\
+    \hline
+    MIS & Module Interface Specification \\
+    SRS & Software Requirements Specification \\
+    VnV & Verification and Validation \\
+    \hline
+\end{longtable}
 \section{Introduction}
+This document provides the Module Interface Specifications (MIS) for the "Angry Birds Alike" project. It defines the interfaces for each module, detailing their inputs, outputs, and functionality. This MIS is intended to guide the implementation phase, ensuring that module interactions are clear and consistent. Complementary documents include the System Requirement Specifications (SRS), the Verification and Validation (VnV) plan, and the Module Guide (MG).
 
-\subsection{Purpose}
-The purpose of this Module Interface Specification (MIS) document is to define the interfaces for the various modules within the physics-based gaming application. It aims to ensure a clear understanding of how different modules interact and the specifications they must adhere to for successful integration.
+\section{Notation}
+The notation used in this document follows a standardized format for specifying module interfaces:
+- \textbf{Data Types}: Descriptions of the data types used within the modules.
+- \textbf{Functions}: Specification of module functions, including inputs, outputs, and side effects.
+- \textbf{Constants}: Constants used within the modules.
+- \textbf{State Variables}: Variables that store the state of the module.
 
-\subsection{Scope}
-This document covers the interface specifications for each module involved in the physicsbased gaming application, including components for physics simulation, user controls, graphics rendering, sound effects, and other relevant functionalities.
+Data Type Notation:
+- \textit{integer}: Represented as \textbf{int}, a whole number.
+- \textit{real}: Represented as \textbf{float}, a floating-point number.
+- \textit{string}: A sequence of characters.
 
-\section{Overall System Architecture}
-\subsection{High-Level System Overview}
-The physics-based gaming application is designed with a modular and scalable architecture to provide an engaging gaming experience. The high-level system overview outlines the primary components and their interactions.
+\section{Module Decomposition}
+The modules in "Angry Birds Alike" are decomposed according to the hierarchy established in the Module Guide. This decomposition supports the project's architectural design and clarifies the responsibilities of each module.
 
-\begin{enumerate}
-  \item \textbf{Physics Engine:} Responsible for simulating realistic collision dynamics, gravitational forces, and additional forces. It interfaces with the Projectile and Target/Obstacle modules.
+\subsection{Overview of Modules}
+- \textbf{M1 Game Logic Module}: Handles the core gameplay mechanics.
+- \textbf{M2 Physics Engine Module}: Manages physics simulations.
+- \textbf{M3 User Interface Module}: Controls the game's user interface and input processing.
+- \textbf{M4 Graphics Rendering Module}: Responsible for rendering game graphics.
+- \textbf{M5 Sound Module}: Manages game audio.
 
-  \item \textbf{User Interface:} Allows users to interact with the game, providing controls for setting initial conditions, launch parameters, and adjusting the time step size. It interfaces with the User Controls module.
+Each module's interface specification is detailed in the following sections.
+\section{MIS of Game Logic Module}
 
-  \item \textbf{Graphics and Sound Engine:} Visualizes physics-based interactions and implements sound effects. It interfaces with the Physics Engine, User Controls module, and the Projectile and Target/Obstacle modules for rendering scenes and triggering sounds.
+This section details the interface for the Game Logic Module, which is central to managing the game's rules, level progression, and scoring.
 
-\end{enumerate}
+\subsection{Module}
 
-\section{Flow of Execution:}
-\begin{enumerate}
-  \item User inputs through the User Interface, setting initial conditions and launch parameters.
+\textbf{Short Name}: GameLogic
 
-  \item The User Controls module processes input and communicates with the Physics Engine to simulate the projectile's motion.
+\subsection{Uses}
 
-  \item The Physics Engine updates the positions and velocities of the projectile and targets based on collision dynamics, gravitational forces, and additional forces.
+- Physics Engine Module (for physics calculations)
+- User Interface Module (for receiving player actions)
 
-  \item The Graphics and Sound Engine renders the updated scene, providing a visual representation of physics interactions and triggering sound effects.
+\subsection{Syntax}
 
-\end{enumerate}
+\subsubsection{Exported Constants}
 
-\subsection{Key Components}
-\subsubsection{Projectile Module}
-\begin{itemize}
-  \item \textbf{Responsibilities:} Represents the projectile with properties like position, velocity, and mass.
-  \item \textbf{Interactions:} Interfaces with the Physics Engine and User Controls module.
-\end{itemize}
+None
 
-\subsubsection{Target/Obstacle Module}
-\begin{itemize}
-  \item \textbf{Responsibilities:} Manages targets and obstacles with various shapes and sizes.
-  \item \textbf{Interactions:} Interfaces with the Physics Engine for collision checks.
-\end{itemize}
+\subsubsection{Exported Access Programs}
 
-\subsubsection{Physics Engine}
-\begin{itemize}
-  \item \textbf{Responsibilities:} Simulates collision dynamics, gravitational forces, and additional forces.
-  \item \textbf{Interactions:} Interfaces with the Projectile and Target/Obstacle modules, as well as the User Controls module.
-\end{itemize}
-
-\subsubsection{User Controls Module}
-\begin{itemize}
-  \item \textbf{Responsibilities:} Handles user inputs for setting initial conditions, launch parameters, and time step adjustments.
-  \item \textbf{Interactions:} Interfaces with the Physics Engine and Graphics and Sound Engine.
-\end{itemize}
-
-\subsubsection{Graphics and Sound Engine}
-\begin{itemize}
-  \item Responsibilities: Visualizes the game scene and implements sound effects.
-  \item Interactions: Interfaces with the Physics Engine, User Controls module, and Projectile and Target/Obstacle modules.
-\end{itemize}
-
-\subsection{System Dependencies}
-The components within the system have dependencies to ensure proper communication and functionality:
-\begin{enumerate}
-    \item Physics Engine Dependencies
-\begin{itemize}
-  \item Receives input from the Projectile and Target/Obstacle modules.
-  \item Provides output to the User Controls module for visualization and sound effects.
-\end{itemize}
-
-\item User Controls Module Dependencies:
-%\end{enumerate}
-
-\begin{itemize}
-  \item Sends user input to the Physics Engine to adjust simulation parameters.
-  \item Interfaces with the Graphics and Sound Engine for rendering and sound effects.
-\end{itemize}
-
-  \item Graphics and Sound Engine Dependencies:
-
-
-\begin{itemize}
-  \item Receives updates from the Physics Engine for rendering scenes.
-  \item Interfaces with the User Controls module for user interactions.
-  \item Triggers sound effects based on events from the Physics Engine.
-\end{itemize}
-
-\item Projectile and Target/Obstacle Module Dependencies
-\begin{itemize}
-  \item Provide input to the Physics Engine for collision checks and trajectory calculations.
-\end{itemize}
-\end{enumerate}
-
-
-\section{Module Interface Specifications}
-\subsection{Physics Engine Module}
-The Physics Engine Module is responsible for simulating realistic collision dynamics, gravitational forces, and additional forces within the physics-based gaming application.
-
-\subsubsection{Functions}
-\textbf{simulate Physics (projectile, targets, additional Forces)}
-
-\textbf{Description:} Simulates the physics interactions between the projectile and targets, considering gravitational forces and any additional forces.
-
-\subsection*{Parameters:}
-\begin{itemize}
-  \item \textbf{projectile:} Object representing the projectile with properties like position, velocity, and mass.
-  \item \textbf{targets:} Array of objects representing targets or obstacles with properties like position, shape, and size.
-  \item \textbf{Additional Forces:} Array of additional forces acting on the system.
-\end{itemize}
-
-\subsection*{Output:}
-\begin{itemize}
-  \item Updates the positions and velocities of the projectile and targets based on collision dynamics, gravitational forces, and additional forces.
-\end{itemize}
-
-\textbf{Check Collision (projectile, targets)}
-
-\textbf{Description:} Checks for collisions between the projectile and targets.
-
-Parameters:
-
-\begin{itemize}
-  \item \textbf{projectile:} Object representing the projectile with properties like position, velocity, and mass.
-  \item \textbf{targets:} Array of objects representing targets or obstacles with properties like position, shape, and size.
-\end{itemize}
-
-\section*{Output:}
-\begin{itemize}
-  \item Returns information about any collisions detected, including the objects involved and the collision points.
-\end{itemize}
-
-\subsubsection*{apply Gravity(projectile)}
-
-\subsubsection*{Description:} Applies gravitational forces to the projectile.
-
-\subsubsection*{Parameters:}
-
-\begin{itemize}
-  \item \textbf{projectile:} Object representing the projectile with properties like position, velocity, and mass.
-\end{itemize}
-
-\subsubsection*{Output:}
-\begin{itemize}
-  \item Updates the projectile's velocity and position based on gravitational forces.
-\end{itemize}
-
-\subsubsection{Dependencies}
-\begin{itemize}
-  \item \textbf{Dependent Modules:}
-    \begin{itemize}
-         \item Interfaces with the Projectile Module for obtaining information about the projectile.
-        \item Interfaces with the Target/Obstacle Module for obtaining information about targets or obstacles.
-        \item Interfaces with the User Controls Module for adjusting simulation parameters.
-  \end{itemize}
-
-\item \textbf{External Dependencies:}
-\begin{itemize}
-  \item May depend on external libraries or frameworks for mathematical calculations related to collision dynamics and gravitational forces.
-\end{itemize}
-\end{itemize}
-
-\subsubsection{Exceptions}
-\begin{itemize}
-  \item \textbf{Simulation Exception:}
-    \begin{itemize}
-        \item Raised if there are issues during the physics simulation process.
-     \item May include errors related to invalid input parameters or unexpected behaviors.
-    \end{itemize}
-%\end{itemize}
-
-\item \textbf{Collision Exception}
-\begin{itemize}
-  \item Raised if there are issues during collision detection.
-  \item May include errors related to invalid input parameters or unexpected behaviors.
-\end{itemize}
-\item \textbf{Gravity Exception:}
-\begin{itemize}
-  \item Raised if there are issues during the application of gravitational forces.
-  \item May include errors related to invalid input parameters or unexpected behaviors.
-\end{itemize}
-\end{itemize}
-
-\subsection{User Interface Module}
-The User Interface Module is responsible for handling user inputs, providing controls for setting initial conditions, launch parameters, and adjusting the time step size in the physics-based gaming application.
-
-\subsubsection{Functions}
-
-\textbf{Set Initial Conditions (position, velocity, mass)}
-
-\textbf{Description:} Allows the user to set the initial conditions for the projectile.
-
-\textbf{Parameters:}
-\begin{itemize}
-  \item \textbf{position:} The initial position of the projectile.
-  \item \textbf{velocity:} The initial velocity of the projectile.
-  \item \textbf{mass:} The mass of the projectile.
-\end{itemize}
-
-\textbf{Output:}
-\begin{itemize}
-  \item Updates the initial conditions for the projectile.
-\end{itemize}
-
-\subsubsection*{Set Launch Parameters (angle, force)}
-
-\subsubsection*{Description: }Enables the user to specify the launch angle and force for the projectile.
-
-\subsubsection*{Parameters:}
-\begin{itemize}
-  \item a\textbf{ngle:} The launch angle of the projectile.
-  \item \textbf{force:} The launch force applied to the projectile.
-\end{itemize}
-
-\subsubsection*{Output:}
-\begin{itemize}
-  \item Updates the launch parameters for the projectile.
-\end{itemize}
-
-\subsubsection*{Adjust Time Step Size (time Step)}
-
-\textbf{Description:} Allows the user to adjust the time step size for simulation accuracy.
-
-\begin{itemize}
-  \item Updates the time step size for the physics simulation.
-\end{itemize}
-
-\subsubsection{Dependencies}
-\begin{itemize}
-  \item \textbf{Dependent Modules:}
-    \begin{itemize}
-        \item Interfaces with the Physics Engine Module to transmit user-specified parameters and adjustments.
-    \end{itemize}
-\end{itemize}
-
-\subsubsection{Exceptions}
-\begin{itemize}
-  \item \textbf{Input Exception:}
-    \begin{itemize}
-     \item Raised if there are issues with user input parameters.
-     \item May include errors related to invalid input values or unexpected behaviors.
-    \end{itemize}
-  \item \textbf{Adjustment Exception:}
-    \begin{itemize}
-        \item Raised if there are issues during the adjustment of simulation parameters.
-        \item May include errors related to invalid input values or unexpected
-   \end{itemize}behaviors.
-\end{itemize}
-
-\section{Auxiliary Constants}
-\subsection{Physical Constants}
-Physical constants are essential values that remain constant throughout the physics-based gaming application. They are used for accurate simulations and calculations.
-
-\subsubsection{Gravitational Constant}
-\begin{itemize}
-  \item \textbf{Symbol:} G
-  \item \textbf{Value:} Approximately $6.674 \times 10^{-11} \mathrm{~N}\left(\mathrm{~m}^{2}\right) /\left(\mathrm{kg}^{2} \right)$
-  \item \textbf{Description:} Represents the gravitational force constant.
-\end{itemize}
-
-\subsubsection{Mass of the Earth}
-
-\begin{itemize}
-  \item \textbf{Symbol}: M\_E
-  \item \textbf{Value}: Approximately $5.972 \times 10^{24} \mathrm{~kg}$
-  \item \textbf{Description:} Represents the mass of the Earth.
-\end{itemize}
-
-\subsubsection{Acceleration Due to Gravity on Earth}
-
-\begin{itemize}
-  \item \textbf{Symbol:} $g$
-  \item \textbf{Value:} Approximately $9.81 \mathrm{~m} / \mathrm{s}^{2} $
-  \item \textbf{Description:} Represents the acceleration due to gravity on Earth.
-\end{itemize}
-
-\subsection{Game Parameters}
-Game parameters define the characteristics and behaviors of the physics-based gaming application. They influence gameplay and the visual representation of the game.
-
-\subsubsection{Maximum Launch Force}
-\begin{itemize}
-  \item \textbf{Symbol:} MAX\_LAUNCH\_FORCE
-  \item \textbf{Value:} $1000 \mathrm{~N}$
-  \item \textbf{Description:} Represents the maximum force that can be applied during projectile launch.
-\end{itemize}
-
-\subsubsection{Maximum Launch Angle}
-\begin{itemize}
-  \item \textbf{Symbol:} MAX\_LAUNCH\_ANGLE
-  \item \textbf{Value:} $\mathbf{9 0}$ degrees
-  \item \textbf{Description:} Represents the maximum launch angle for the projectile.
-\end{itemize}
-
-\subsubsection{Default Time Step Size}
-\begin{itemize}
-  \item \textbf{Symbol:} DEFAULT\_TIME\_STEP
-  \item \textbf{Value:} $0.01 \mathrm{~s}$
-  \item \textbf{Description:} Represents the default time step size for the physics simulation.
-\end{itemize}
-
-\subsection{Environmental Constants}
-Environmental constants are factors related to the virtual environment in which the physics-based gaming application operates.
-
-\subsubsection{Air Density}
-\begin{itemize}
-  \item \textbf{Symbol:} AIR\_DENSITY
-  \item \textbf{Value:} $1.225 \mathrm{~kg} / \mathrm{m}^{\wedge} 3$
-  \item \textbf{Description:} Represents the air density in the virtual environment.
-\end{itemize}
-
-\subsubsection{Wind Speed}
-\begin{itemize}
-  \item \textbf{Symbol:} WIND\_SPEED
-  \item \textbf{Value:} $0 \mathrm{~m} / \mathrm{s}$ (default, no wind)
-  \item \textbf{Description:} Represents the speed of the wind in the virtual environment.
-\end{itemize}
-
-\subsubsection{Coefficient of Restitution}
-\begin{itemize}
-  \item \textbf{Symbol:} COR
-  \item \textbf{Value:} 0.8
-  \item \textbf{Description:} Represents the coefficient of restitution, determining the elasticity of collisions.
-\end{itemize}
-
-\section{Verification Activities}
-\subsection{Requirements Verification}
-Verification of requirements ensures that the physics-based gaming application meets the specified criteria outlined in the problem statement. This process involves validating that each requirement is correctly implemented and that the overall system fulfills its intended purpose.
-
-\subsubsection{Traceability Matrix}
-A traceability matrix is a tool used to link each requirement back to its source and forward to the components or modules responsible for its implementation. It aids in ensuring that all requirements are addressed and helps in tracking changes.
-
-\section*{Example Traceability Matrix:}
-\begin{center}
-\begin{tabular}{|l|l|l|}
+\begin{tabular}{|l|l|l|l|}
 \hline
-\textbf{Requirement ID} & \textbf{Description} & \textbf{Implemented By} \\
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-REQ-1 & \begin{tabular}{l}
-Implement Realistic collision \\
-dynamics \\
-\end{tabular} & Physics Engine Module \\
+initializeLevel & LevelID & -- & LevelNotFound \\
 \hline
-REQ-2 & Integrate gravitational forces & Physics Engine Module \\
+getScore & -- & integer & -- \\
 \hline
-REQ-3 & \begin{tabular}{l}
-Allow user specification of \\
-launch angle \\
-\end{tabular} & \begin{tabular}{l}
-User Interface Module \\
-collision \\
-\end{tabular} \\
+launchProjectile & Velocity, Angle & -- & InvalidInput \\
 \hline
-REQ-4 & Implement sound effects for collision &  Graphics and Sound Module\\
+resetLevel & -- & -- & -- \\
+\hline
+endGame & -- & -- & -- \\
 \hline
 \end{tabular}
-\end{center}
 
-\subsubsection{Inspection and Review Procedures}
-Inspection and review procedures involve thorough examinations of the design documents, code, and other artifacts to identify potential issues and ensure compliance with requirements.
+\subsection{Semantics}
 
-\subsubsection*{Procedure: Design Document Review}
-\begin{itemize}
-  \item Review the Module Interface Specification (MIS) documents for each module.
-  \item Verify that each module's interface aligns with the specified requirements.
-  \item Check for clarity, completeness, and consistency in the design documentation.
-\end{itemize}
+\subsubsection{State Variables}
 
-\subsubsection*{Procedure: Code Review}
-\begin{itemize}
-  \item Examine the code for each module, ensuring adherence to the specified interfaces.
-  \item Verify that the code implements the desired physics interactions, user controls, and graphics and sound effects.
-  \item Identify and address any deviations from the design specifications.
-\end{itemize}
+- currentLevel: LevelID
+- score: integer
 
-\subsubsection*{Procedure: User Interface Testing}
-\begin{itemize}
-  \item Test the user interface module to ensure proper functionality of user controls.
-  \item Confirm that users can set initial conditions, specify launch parameters, and adjust the time step size successfully.
-  \item Identify and address any issues related to user interaction.
-\end{itemize}
+\subsubsection{Environment Variables}
 
-\subsubsection*{Procedure: Integration Testing}
-\begin{itemize}
-  \item Conduct integration tests to verify the seamless interaction between modules.
-  \item Ensure that modules exchange data correctly and produce the expected outputs.
-  \item Address any integration issues or inconsistencies.
-\end{itemize}
+None
 
-\section{Module Interface Specification (MIS)}
-\subsection{Physics Engine Module}
-\subsubsection{Functions}
+\subsubsection{Assumptions}
 
-\paragraph{simulate Physics (projectile, targets, additional Forces)}
-\vspace{0.2cm}
-Description: Simulates the physics interactions between the projectile and targets, considering gravitational forces and any additional forces.
+- initializeLevel is called before any other access programs to set up the game environment.
+- The game's levels are pre-defined and correspond to valid LevelID inputs.
 
-\subsubsection*{Parameters:}
-\begin{itemize}
-  \item \textbf{projectile:} Object representing the projectile with properties like position, velocity, and mass.
-  \item \textbf{targets:} Array of objects representing targets or obstacles with properties like position, shape, and size.
-  \item \textbf{Additional Forces:} Array of additional forces acting on the system.
-\end{itemize}
+\subsubsection{Access Routine Semantics}
 
-\subsubsection*{Output:}
-\begin{itemize}
-  \item Updates the positions and velocities of the projectile and targets based on collision dynamics, gravitational forces, and additional forces.
-\end{itemize}
+\textbf{initializeLevel(LevelID)}:
+- transition: Loads the specified level, setting currentLevel to the given LevelID.
+- exception: LevelNotFound if the specified LevelID does not correspond to a defined level.
 
-\paragraph{Check Collision (projectile, targets)} 
+\textbf{getScore()}:
+- output: Returns the current score of the game.
 
-\subsubsection*{Description:} Checks for collisions between the projectile and targets.
+\textbf{launchProjectile(Velocity, Angle)}:
+- transition: Launches a projectile with the specified velocity and angle. Updates game state based on the physics simulation.
+- exception: InvalidInput if the given Velocity or Angle are out of acceptable ranges.
 
-\subsection*{Parameters:}
-\begin{itemize}
-  \item \textbf{projectile:} Object representing the projectile with properties like position, velocity, and mass.
-  \item \textbf{targets:} Array of objects representing targets or obstacles with properties like position, shape, and size.
-\end{itemize}
+\textbf{resetLevel()}:
+- transition: Resets the current level to its initial state.
 
-\subsection*{Output:}
-\begin{itemize}
-  \item Returns information about any collisions detected, including the objects involved and the collision points.
-\end{itemize}
+\textbf{endGame()}:
+- transition: Terminates the current game session.
 
-\paragraph{Apply Gravity (projectile)}
-\subsubsection*{Description:} Applies gravitational forces to the projectile.
+\subsubsection{Local Functions}
 
-\subsection*{Parameters:}
-\begin{itemize}
-  \item projectile: Object representing the projectile with properties like position, velocity, and mass.
-\end{itemize}
+None
+\section{MIS of Physics Engine Module}
 
-\subsection*{Output:}
-\begin{itemize}
-  \item Updates the projectile's velocity and position based on gravitational forces.
-\end{itemize}
+This section outlines the interface for the Physics Engine Module, responsible for calculating and simulating the physical interactions within the game.
 
-\subsubsection{Dependencies}
-\begin{itemize}
-  \item \textbf{Dependent Modules:}
-    \begin{itemize}
-  \item Interfaces with the User Interface Module for adjusting simulation parameters.
-  \item Interfaces with the Graphics and Sound Module for visualization and sound effects.
-  \item Interfaces with the Game Logic Module for overall game state management.
-    \end{itemize}
-  \item \textbf{External Dependencies:}
-    \begin{itemize}
-  \item May depend on external libraries or frameworks for mathematical calculations related to collision dynamics and gravitational forces.
-    \end{itemize}
-\end{itemize}
+\subsection{Module}
 
-\subsubsection{Exceptions}
-\begin{itemize}
-  \item \textbf{Simulation Exception:}
+\textbf{Short Name}: PhysicsEngine
 
-  \begin{itemize}
-  \item Raised if there are issues during the physics simulation process.
-  \item May include errors related to invalid input parameters or unexpected behaviors.
-    \end{itemize}
-  \item \textbf{Collision Exception:}
-    \begin{itemize}
-  \item Raised if there are issues during collision detection.
-  \item May include errors related to invalid input parameters or unexpected behaviors.
-    \end{itemize}
-  \item \textbf{Gravity Exception:}
-    \begin{itemize}
-  \item Raised if there are issues during the application of gravitational forces.
-  \item May include errors related to invalid input parameters or unexpected behaviors.
-    \end{itemize}
-\end{itemize}
+\subsection{Uses}
 
-\subsection{User Interface Module}
-\subsubsection{Functions}
+- Game Logic Module (to receive commands related to game actions)
 
-\subsection*{6.2.1.1 set Initial Conditions (position, velocity, mass)}
-Description: Allows the user to set the initial conditions for the projectile.
+\subsection{Syntax}
 
-\subsection*{Parameters:}
-\begin{itemize}
-  \item \textbf{position:} The initial position of the projectile.
-  \item \textbf{velocity:} The initial velocity of the projectile.
-  \item \textbf{mass:} The mass of the projectile.
-\end{itemize}
+\subsubsection{Exported Constants}
 
-\subsection*{Output:}
-\begin{itemize}
-  \item Updates the initial conditions for the projectile.
-\end{itemize}
+None
 
-\subsection*{6.2.1.2 set Launch Parameters (angle, force)}
-Description: Enables the user to specify the launch angle and force for the projectile.
+\subsubsection{Exported Access Programs}
 
-\subsection*{Parameters:}
-\begin{itemize}
-  \item \textbf{angle:} The launch angle of the projectile.
-  \item \textbf{force:} The launch force applied to the projectile.
-\end{itemize}
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+calculateTrajectory & Velocity, Angle & Sequence of Points & InvalidInput \\
+\hline
+detectCollision & Sequence of Points, Objects & Boolean, ImpactPoint & -- \\
+\hline
+applyPhysicsEffects & ImpactPoint, Objects & -- & -- \\
+\hline
+\end{tabular}
 
-\subsection*{Output:}
-\begin{itemize}
-  \item Updates the launch parameters for the projectile.
-\end{itemize}
+\subsection{Semantics}
 
-\paragraph{Adjust Time Step Size (time Step)}
-\subsubsection*{Description:} Allows the user to adjust the time step size for simulation accuracy.
+\subsubsection{State Variables}
 
-\subsection*{Parameters:}
-\begin{itemize}
-  \item Time Step: The new time step size for the physics simulation.
-\end{itemize}
+None
 
-\subsection*{Output:}
-\begin{itemize}
-  \item Updates the time step size for the physics simulation.
-\end{itemize}
+\subsubsection{Environment Variables}
 
-\subsubsection{Dependencies}
-\begin{itemize}
-  \item \textbf{Dependent Modules:}
-    \begin{itemize}
-  \item Interfaces with the Physics Engine Module to transmit user-specified parameters and adjustments.
-  \item Interfaces with the Graphics and Sound Module for user interactions.
-    \end{itemize}
-\end{itemize}
+None
 
-\subsubsection{Exceptions}
-\begin{itemize}
-  \item Input Exception:
-    \begin{itemize}
-  \item Raised if there are issues with user input parameters.
-  \item May include errors related to invalid input values or unexpected behaviors.
-    \end{itemize}
+\subsubsection{Assumptions}
 
+- The physics engine is initialized and configured before any game levels are loaded or any projectiles are launched.
 
-\item{Adjustment Exception:}
-\begin{itemize}
-  \item Raised if there are issues during the adjustment of simulation parameters.
-  \item May include errors related to invalid input values or unexpected behaviors.
-\end{itemize}
-\end{itemize}
+\subsubsection{Access Routine Semantics}
 
-\subsection{Graphics and Sound Module}
-\subsubsection{Functions}
-\paragraph{Render Scene (projectile, targets)}
-\textbf{Description:} Renders the current scene with the updated positions of the projectile and targets.
+\textbf{calculateTrajectory(Velocity, Angle)}:
+- output: Returns a sequence of points representing the trajectory of a projectile launched with the specified velocity and angle, considering gravitational forces.
+- exception: InvalidInput if the given Velocity or Angle are out of acceptable ranges.
 
-\subsection*{Parameters:}
-\begin{itemize}
-  \item projectile: Object representing the projectile with updated properties.
-  \item targets: Array of objects representing targets or obstacles with updated properties.
-\end{itemize}
+\textbf{detectCollision(Sequence of Points, Objects)}:
+- output: Returns a boolean indicating whether a collision occurs along the projectile's path, and if so, returns the point of impact (ImpactPoint).
+- transition: Checks the trajectory against the position of objects in the game to determine collisions.
 
-\subsection*{Output:}
-\begin{itemize}
-  \item Visualizes the physics-based interactions in the game.
-\end{itemize}
+\textbf{applyPhysicsEffects(ImpactPoint, Objects)}:
+- transition: Applies physics effects (e.g., force, momentum transfer) to objects involved in a collision at the given ImpactPoint.
 
-\paragraph{Play Sound(event)}
-\subsubsection{Description:} Triggers sound effects corresponding to key physics events.
+\subsubsection{Local Functions}
 
-\subsection*{Parameters:}
+None
+\section{MIS of User Interface Module}
 
-\begin{itemize}
-  \item \textbf{event:} The physics event (e.g., collision, launch) for which to trigger the sound effect.
-\end{itemize}
+This section describes the interface for the User Interface Module, which manages interactions between the player and the game, ensuring a seamless and intuitive gaming experience.
 
-\subsection*{Output:}
-\begin{itemize}
-  \item Plays the appropriate sound effect.
-\end{itemize}
+\subsection{Module}
 
-\subsubsection{Dependencies}
-\begin{itemize}
-  \item \textbf{Dependent Modules:}
-    \begin{itemize}
-  \item Interfaces with the Physics Engine Module for scene updates.
-  \item Interfaces with the User Interface Module for event triggers.
-    \end{itemize}
-\end{itemize}
+\textbf{Short Name}: UserInterface
 
-\subsubsection{Exceptions}
-\begin{itemize}
-  \item \textbf{Rendering Exception:}
-    \begin{itemize}
-  \item Raised if there are issues during the rendering process.
-  \item May include errors related to graphical rendering or unexpected behaviors.
-    \end{itemize}
-  \item \textbf{Sound Exception:}
-    \begin{itemize}
-  \item Raised if there are issues during the sound playback process.
-  \item May include errors related to sound file loading or unexpected behaviors.
-    \end{itemize}
-\end{itemize}
+\subsection{Uses}
 
-\subsection{Game Logic Module}
-\subsubsection{Functions}
-\paragraph{manage Game Flow ()}
-\subsubsection{Description:} Manages the overall flow of the game, including starting, pausing, and ending game sessions.
+- Physics Engine Module (to initiate projectile motion based on player input)
+- Game Logic Module (to update the game state based on player actions)
 
-\subsection*{Parameters:}
-\begin{itemize}
-  \item None
-\end{itemize}
+\subsection{Syntax}
 
-\subsection*{Output:}
-\begin{itemize}
-  \item Controls the progression of the game based on user interactions and physics events.
-\end{itemize}
+\subsubsection{Exported Constants}
 
-\paragraph{Update Game State ()}
-\subsubsection*{Description:} Updates the internal game state based on user actions and physics events. Parameters:
+None
 
-\begin{itemize}
-  \item None
-\end{itemize}
+\subsubsection{Exported Access Programs}
 
-\subsection*{Output:}
-\begin{itemize}
-  \item Adjusts the game state, such as scoring, based on user interactions and physics events.
-\end{itemize}
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+processInput & UserAction & -- & InvalidAction \\
+\hline
+updateDisplay & GameState & -- & -- \\
+\hline
+\end{tabular}
 
-\subsubsection{Dependencies}
-\begin{itemize}
-  \item Dependent Modules:
-    \begin{itemize}
-  \item Interfaces with the Physics Engine Module for physics-related events.
-  \item Interfaces with the User Interface Module for user interactions.
-    \end{itemize}
-\end{itemize}
+\subsection{Semantics}
 
-\subsubsection{Exceptions}
-\begin{itemize}
-  \item \textbf{Game Flow Exception:}
-    \begin{itemize}
-  \item Raised if there are issues during the management of the game flow.
-  \item May include errors related to unexpected game state transitions.
-    \end{itemize}
-  \item \textbf{Game State Exception:}
-    \begin{itemize}
-  \item Raised if there are issues during the update of the game state.
-  \item May include errors related to unexpected game state changes or calculations.
-    \end{itemize}
-\end{itemize}
+\subsubsection{State Variables}
 
-\section{Physics motion and use}
+None
 
-The Image in Figure \ref{fig:FIG1} illustrates a bird from "Angry Birds" being stretched on a slingshot, with vectors indicating the force of the spring $(F_{spring})$  pulling upwards and the force of gravity $(F_{grav})$ pulling down wards, as well as the displacement (s) of the stretch.
+\subsubsection{Environment Variables}
 
+\textbf{keyboard}: the device from which user input is received
 
-   
-\subsection{Angle of projection}
+\textbf{display}: the device on which the game state is visually rendered
 
-\begin{figure}[!h]
-    \centering
-    \includegraphics[scale=1.3]{Picture1.jpg} 
-    \caption{"Angry Bird stretched on a slingshot"}
- \label{fig:FIG1}
+\subsubsection{Assumptions}
+
+- The user interface is refreshed at regular intervals to reflect the current game state accurately.
+- User input is captured continuously during gameplay.
+
+\subsubsection{Access Routine Semantics}
+
+\textbf{processInput(UserAction)}:
+- transition: Interprets user actions (e.g., keyboard presses for moving the slingshot, launching the bird) and communicates these actions to the Game Logic Module for processing.
+- exception: InvalidAction if the user performs an action that is not recognized or not applicable in the current game state.
+
+\textbf{updateDisplay(GameState)}:
+- transition: Updates the visual display based on the current state of the game, including the position of objects, scores, and any other relevant gameplay information.
+
+\subsubsection{Local Functions}
+
+None
+
+\section{Simulation Interface}
+The Simulation Interface provides a visual representation of the projectile motion based on user inputs. The following figures show the simulation at different stages of a projectile's flight path.
+
+% Assuming the images are at the path /mnt/data/ and are named appropriately
+\subsection{Annotated Initial Launch}
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+    \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=\textwidth]{initi.png}};
+    \begin{scope}[x={(image.south east)},y={(image.north west)}]
+        % Annotations
+        \draw[latex-,thick,red] (0.5,0.7) -- ++(0.1,0.1) node[above right, black, fill=white] {Projectile Path};
+        \draw[-latex,thick,blue] (0.1,0.1) -- ++(0.2,0) node[below, black, fill=white] {Launch Direction};
+        % Add more annotations as needed
+    \end{scope}
+\end{tikzpicture}
+\caption{Annotated image of the initial stage of the projectile launch.}
+\label{fig:annotated_initial_launch}
 \end{figure}
 
-Figure \ref{fig:FIG2}  displays a bird from 'Angry Birds' in a slingshot, with notations for the stretch distance (s), the launch angle $\theta$, and the vertical height (h) to conceptualize the physics of projectile motion.
 
-
-
-\begin{figure}[!h]
-    \centering
-    \includegraphics[scale=1]{Picture2.jpg} 
-    \caption{Physics of projectile motion for a slingshot}
-    \label{fig:FIG2}
+\subsection{After Collision}
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+    \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=\textwidth]{afterc.png}};
+    \begin{scope}[x={(image.south east)},y={(image.north west)}]
+        % Annotations
+        \draw[latex-,thick,red] (0.8,0.5) -- ++(0.1,0.2) node[above right, black, fill=white] {Post-collision Path};
+        \draw[latex-,thick,green] (0.8,0.2) -- ++(0.1,-0.1) node[below right, black, fill=white] {Debris Trajectory};
+        \draw[fill=red,red] (0.75,0.2) circle (3pt) node[above left, black, fill=white] {Collision Point};
+        % Add more annotations as needed
+    \end{scope}
+\end{tikzpicture}
+\caption{Projectile in mid-flight, after colliding with targets.}
+\label{fig:after_collision}
 \end{figure}
 
-\vspace{2cm}
-Figure \ref{fig:FIG3} demonstrates a physics problem using 'Angry Birds', showing a bird being launched from a slingshot at an angle with initial velocity vo, aiming to hit targets A and B placed at different heights and distances.
 
-\begin{figure}[!h]
-    \centering
-    \includegraphics[scale=1]{Picture3.png} 
-    \caption{Slingshot Aimed at targets A and B}
-    \label{fig:FIG3}
-\end{figure}
+\section{MIS of Game Logic Module}
+
+This section outlines the interface for the Game Logic Module. This module is essential for controlling the flow of the game, managing levels, player scores, and enforcing the game rules.
+
+\subsection{Module}
+
+\textbf{Short Name}: GameLogic
+
+\subsection{Uses}
+
+- Physics Engine Module (to simulate physical interactions)
+- User Interface Module (to receive player inputs)
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+
+None
+
+\subsubsection{Exported Access Programs}
+
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+startLevel & LevelID & -- & InvalidLevelException \\
+\hline
+endLevel & -- & LevelOutcome & -- \\
+\hline
+updateScore & ScoreUpdate & -- & -- \\
+\hline
+resetLevel & -- & -- & -- \\
+\hline
+\end{tabular}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+- currentLevel: LevelID
+- currentScore: integer
+
+\subsubsection{Environment Variables}
+
+None
+
+\subsubsection{Assumptions}
+
+- startLevel is called at the beginning of each level.
+- endLevel is called when a level is completed or the player fails.
+
+\subsubsection{Access Routine Semantics}
+
+\textbf{startLevel(LevelID)}:
+- transition: Initializes the game state for the specified level. This includes setting up the initial positions of objects, resetting the score for the level, and preparing the physics engine for simulation.
+- exception: InvalidLevelException is thrown if the LevelID does not correspond to a valid level.
+
+\textbf{endLevel()}:
+- output: Returns an outcome of the current level, indicating whether the player has succeeded or failed, and any rewards earned. The game state is updated accordingly.
+- exception: None
+
+\textbf{updateScore(ScoreUpdate)}:
+- transition: Adjusts the current score based on actions taken during the level, such as destroying targets or completing objectives.
+- exception: None
+
+\textbf{resetLevel()}:
+- transition: Resets the current level to its initial state, including reinitializing the positions of objects and resetting the score.
+- exception: None
+
+\subsubsection{Local Functions}
+
+None
+\section{MIS of User Interface Module}
+
+This section provides details on the User Interface Module, which is responsible for handling all player interactions and updating the game display accordingly.
+
+\subsection{Module}
+
+\textbf{Short Name}: UserInterface
+
+\subsection{Uses}
+
+- Game Logic Module (to communicate player actions and receive game state updates)
+- Physics Engine Module (for displaying physics-based animations)
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+
+None
+
+\subsubsection{Exported Access Programs}
+
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+displayMainMenu & -- & -- & -- \\
+\hline
+displayLevel & LevelID & -- & InvalidLevelException \\
+\hline
+getPlayerInput & -- & PlayerAction & -- \\
+\hline
+updateDisplay & GameState & -- & -- \\
+\hline
+\end{tabular}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+- currentScreen: ScreenType
+
+\subsubsection{Environment Variables}
+
+- screen: a display device
+
+\subsubsection{Assumptions}
+
+- The UI module is initialized before any player interaction.
+- The display device is capable of rendering the game's graphics.
+
+\subsubsection{Access Routine Semantics}
+
+\textbf{displayMainMenu()}:
+- transition: Changes the currentScreen to the main menu and updates the display device to show the main menu options.
+- exception: None
+
+\textbf{displayLevel(LevelID)}:
+- transition: Loads the specified level's visual elements and prepares the screen for gameplay.
+- exception: InvalidLevelException is thrown if the LevelID does not correspond to a valid level.
+
+\textbf{getPlayerInput()}:
+- output: Captures and returns the player's input as a PlayerAction, which includes moving the launcher, firing a projectile, or navigating the UI.
+- exception: None
+
+\textbf{updateDisplay(GameState)}:
+- transition: Updates the game's visual representation on the display device based on the current game state, including the positions of objects, scores, and any UI elements.
+- exception: None
+
+\subsubsection{Local Functions}
+
+None
 
 \newpage
+\section{Appendix}
 
-\subsection{Collision}
+\subsection{Physics Equations and Concepts}
 
-\begin{figure}[!h]
-    \centering
-    \includegraphics[scale=1]{Picture4.jpg} 
-    \caption{Caption provided in image}
-    \label{fig:FIG4}
-\end{figure}
+This appendix provides a brief overview of the physics equations and concepts utilized within the Physics Engine Module to simulate realistic interactions within the game.
 
-\begin{figure}[!h]
-    \centering
-    \includegraphics[scale=0.89]{Picture5.png} 
-    \caption{Caption provided in image}
-    \label{fig:FIG5}
-\end{figure}
+\subsubsection*{Projectile Motion}
+
+The trajectory of a projectile is calculated using the initial velocity (\(v_0\)), the angle of launch (\(\theta\)), and the acceleration due to gravity (\(g\)). The horizontal (\(x\)) and vertical (\(y\)) positions at any time \(t\) can be calculated as follows:
+
+- Horizontal position: \( x(t) = v_{0x} \cdot t \)
+- Vertical position: \( y(t) = v_{0y} \cdot t - \frac{1}{2} g t^2 \)
+
+where \( v_{0x} = v_0 \cdot \cos(\theta) \) and \( v_{0y} = v_0 \cdot \sin(\theta) \).
+
+\subsubsection*{Collision Detection and Response}
+
+The module employs basic principles of momentum and energy conservation to simulate collisions between objects. When two objects collide, the module calculates the new velocities based on the masses and initial velocities of the objects involved.
+
+\subsubsection*{Gravity and Other Forces}
+
+Gravity is a constant force acting downward on all objects. The module also accounts for other forces, such as applied forces when a bird is launched, to update the velocities and positions of objects.
+
+\subsection{Glossary of Terms}
+
+- \textbf{Projectile}: An object thrown into space upon which the only force acting is gravity.
+- \textbf{Trajectory}: The path followed by a projectile flying or an object moving under the action of given forces.
+- \textbf{Collision}: An event where two or more bodies exert forces on each other in a relatively short time.
+- \textbf{Gravity}: A force that attracts a body towards the center of the earth, or towards any other physical body having mass.
+
+\newpage
+\section{Reflection}
+
+The development of "Angry Birds Alike" has been a comprehensive exercise in applying theoretical knowledge to a practical, engaging project. This section reflects on various aspects of the project's development, highlighting challenges encountered, solutions devised, and learning outcomes.
+
+\subsection{Challenges and Solutions}
+
+One of the most significant challenges was accurately simulating the physics involved in the game. Implementing a realistic trajectory calculation for the birds required a deep understanding of projectile motion physics and the application of numerical methods for solving differential equations. To address this, extensive research into physics simulation techniques was undertaken, and the Runge-Kutta method (RK4) was implemented for its balance between accuracy and computational efficiency.
+
+Another challenge I think, will be designing a user interface that is intuitive yet provides all necessary controls for the game. Achieving this required iterative design and testing, incorporating feedback from trial users to refine the UI/UX until it met the desired standards of accessibility and engagement.
+
+\subsection{Key Learning Outcomes}
+
+\textbf{Problem-Solving Skills:} Developing this game honed my ability to break down complex problems into manageable components, apply theoretical knowledge to practical situations, and devise effective solutions.
+
+\textbf{Software Engineering Principles:} This project reinforced the importance of modular design, information hiding, and the use of design patterns in creating maintainable and scalable software.
+
+\textbf{Physics Simulation:} I gained valuable experience in simulating real-world physics within a digital environment, an area that blends scientific knowledge with creative problem-solving.
+
+\subsection{Future Improvements}
+
+Given more time and resources, I would explore the implementation of more complex physics interactions, such as wind resistance, to add another layer of challenge and realism to the game. Additionally, integrating a more sophisticated AI for the game's opponents could enhance the gameplay, making it more dynamic and unpredictable.
+
+\subsection{Conclusion}
+
+"Angry Birds Alike" has been a challenging yet rewarding project that has significantly contributed to my growth as a software developer and problem-solver. It underscored the importance of a solid theoretical foundation, the value of user-centered design, and the necessity of perseverance through the challenges inherent in software development.
 
 \end{document}
