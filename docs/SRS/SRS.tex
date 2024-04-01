@@ -15,8 +15,14 @@
 \usepackage{caption}
 \usepackage{url}
 \usepackage{tikz}
-\usetikzlibrary{matrix, shapes, arrows, positioning}
+\usetikzlibrary{shapes.geometric, arrows, positioning, matrix}
 \usepackage[document]{ragged2e}
+\usepackage{pgfplots}
+\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm,text centered, draw=black, fill=red!30]
+\tikzstyle{io} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=blue!30]
+\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=orange!30]
+\tikzstyle{decision} = [diamond, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=green!30]
+\tikzstyle{arrow} = [thick,->,>=stealth]
 
 % Document geometry
 \geometry{a4paper, margin=1in}
@@ -28,7 +34,7 @@
     \vspace{0.5em}
     {\Large Author: Al Jubair Hossain} \\
     \vspace{0.5em}
-    {\large Date: March 30, 2024}
+    {\large Date: March 31, 2024}
 }
 \date{}
 
@@ -43,9 +49,9 @@
     \hline
     \textbf{Date} & \textbf{Version} & \textbf{Notes} \\
     \hline
-    January 9, 2024 & 1.0 & Initial draft completed. \\\hline
-    January 25, 2024 & 1.5 & A fixed version with sections of 4.1, 4.2, 5 were fixed with some specific information. \\\hline
-    March 30, 2024 & 2.0 & Final draft was completed with the changes in all the sections with specific info that was proposed in the project. Also, added the table of contents correctly and then adding all the formula and methods incorporating with the project . \\
+    Feb 3, 2024 & 1.0 & Initial draft completed. \\\hline
+    February 26, 2024 & 1.5 & A fixed version with sections of 1.4, 4.1, 4.2, 5 were modified with specific information of physics computations. \\\hline
+    March 31, 2024 & 2.0 & Final draft was completed with proposing methods for calculation ,and changes in all the sections of 3, 4.1-4.5.5, 5 ,9, 10 , 12 , 13, 16 ,17,19,20, 21 ,22, Appendix with specific info that was proposed in the project. Also, added the table of contents correctly and then adding all the formula and methods incorporating with the project . \\
     \hline
 \end{longtable}
 
@@ -175,6 +181,27 @@ It is assumed that users have access to a device capable of running the game wit
 
 \subsection{Terminology and Definitions}
 This section introduces key terms that are essential for understanding the game's mechanics and physics simulations:
+
+\subsection{Physics Engine and Game Mechanics}
+The game's physics engine is designed to simulate realistic interactions based on classical mechanics principles. Utilizing the Runge-Kutta 4th Order Method (RK4) for numerical integration, the engine accurately predicts projectile trajectories, collision outcomes, and object movements under gravitational forces.
+
+\subsubsection{Theoretical Background}
+The engine incorporates several key physics concepts:
+\begin{itemize}
+    \item Projectile Motion: Calculated using $v_0$, launch angle $\theta$, and gravitational acceleration $g$, to determine trajectory.
+    \item Collisions: Simulates elastic and inelastic collisions, applying conservation of momentum and energy principles.
+    \item Gravity Effects: All objects are subjected to gravitational forces, influencing their motion.
+\end{itemize}
+
+\subsubsection{Implementation Details}
+The physics engine is implemented in C++ with the Boost.odeint library for solving differential equations. Key formulas include:
+\begin{align}
+    \frac{dy}{dt} &= v \\
+    \frac{dv}{dt} &= -g \\
+    y(t) &= y_0 + v_0t + \frac{1}{2}gt^2
+\end{align}
+These equations form the basis for calculating object positions over time.
+
 
 \begin{description}
 \item[Projectile Motion:] Describes the motion of an object thrown into space upon which external forces, such as gravity, act.
@@ -538,21 +565,130 @@ The development of "Angry Birds Alike" will follow these phases:
     \item Post-launch support and development of additional content based on user feedback.
 \end{enumerate}
 
+\section{Traceability Information and Coverage }
+This matrix links SRS requirements, MG modules, and VnV test cases to ensure comprehensive coverage and coherence across documentation.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{SRS Requirement} & \textbf{MG Module} & \textbf{VnV Test Case} \\
+\hline
+IM1: Projectile Motion & M4: Physics Engine & TC1: Projectile Motion Accuracy \\
+IM2: Collision Dynamics & M4: Physics Engine & TC2: Collision Dynamics \\
+IM3: Gravity Effects & M4: Physics Engine & TC1: Gravity Effects Verification \\
+\hline
+\end{tabular}
+\caption{Traceability Matrix linking SRS Requirements, MG Modules, and VnV Test Cases.}
+\end{table}
+
+
 \section{Appendices}
 \subsection{Appendix A: Glossary}
-Definitions of all technical terms, acronyms, and abbreviations used within the SRS.
+\begin{description}
+    \item[SRS:] Software Requirements Specification.
+    \item[RK4:] Runge-Kutta 4th Order Method, a numerical technique used for solving ordinary differential equations.
+    \item[SFML:] Simple and Fast Multimedia Library, a cross-platform software development library designed for creating multimedia applications.
+    \item[ODE:] Ordinary Differential Equation, a differential equation containing one or more functions of one independent variable and its derivatives.
+    % Add more glossary terms here
+\end{description}
 
 \subsection{Appendix B: Analysis Models}
-Detailed analysis models including data flow diagrams, class diagrams, and other relevant design schematics.
+
+\subsubsection{DataFlow Diagram}
+\begin{tikzpicture}[node distance=3cm]
+\node (input) [io] {User Input\\(Angle, Velocity)};
+\node (engine) [process, right of=input, xshift=2.9cm] {Physics Engine};
+\node (output) [io, right of=engine, xshift=2.4cm] {Output Visualization};
+
+\draw [arrow] (input) -- node[anchor=south] {Parameters} (engine);
+\draw [arrow] (engine) -- node[anchor=south] {Trajectory Data} (output);
+\end{tikzpicture}
+
+\subsubsection{Class Diagram}
+\begin{tikzpicture}[node distance=2cm]
+\node (GameEngine) [process] {GameEngine\\+runSimulation(): void\\+updateState(): void};
+\node (Level) [process, below left of=GameEngine, xshift=-3cm, yshift=-1cm] {Level\\-obstacles: Obstacle[]\\-target: Target};
+\node (PhysicsCalculator) [process, below right of=GameEngine, xshift=1.8cm, yshift=-2.2cm] {PhysicsCalculator\\+calculateTrajectory(): Path\\+detectCollision(): boolean};
+\node (Projectile) [process, below of=GameEngine, yshift=-3cm] {Projectile\\-velocity: Vector\\-angle: float\\+launch(): void};
+
+\draw [arrow] (GameEngine) -- (Projectile);
+\draw [arrow] (GameEngine) -- (Level);
+\draw [arrow] (GameEngine) -- (PhysicsCalculator);
+\end{tikzpicture}
+
+
+\subsubsection{Physics Calculation Flowchart}
+\begin{tikzpicture}[node distance=2cm]
+\node (start) [startstop] {Start Simulation};
+\node (input) [io, below of=start] {Input: Initial Velocity, Angle, Mass};
+\node (forces) [process, below of=input] {Calculate Forces: Gravity, Drag};
+\node (RK4) [process, below of=forces] {Apply RK4 Method for Projectile Motion};
+\node (collision) [decision, below of=RK4, yshift=-1.5cm] {Collision Detected?};
+\node (update) [process, right of=collision, xshift=4cm] {Update Position and Velocity};
+\node (resolve) [process, below of=collision, yshift=-1.5cm] {Resolve Collision: Elastic/Inelastic};
+\node (end) [startstop, below of=resolve] {End Simulation};
+
+\draw [arrow] (start) -- (input);
+\draw [arrow] (input) -- (forces);
+\draw [arrow] (forces) -- (RK4);
+\draw [arrow] (RK4) -- (collision);
+\draw [arrow] (collision) -- node[anchor=east] {yes} (resolve);
+\draw [arrow] (resolve) -- (end);
+\draw [arrow] (collision) -- node[anchor=south] {no} (update);
+\draw [arrow] (update) |- (RK4);
+\end{tikzpicture}
 
 \subsection{Appendix C: Issues List}
-An ongoing log of issues, queries, and decisions made throughout the development process.
+\begin{tabular}{|p{0.2\textwidth}|p{0.6\textwidth}|p{0.2\textwidth}|}
+    \hline
+    \textbf{Issue ID} & \textbf{Description} & \textbf{Resolution} \\
+    \hline
+    001 & some inaccuracy found as projectile trajectory predictions at edge cases when used with Euler & Implemented improved numerical integration technique Like RK4 for edge cases. \\
+    \hline
+\end{tabular}
+
 
 \subsection{Appendix D: Compliance Requirements}
-Detailed breakdown of compliance requirements the software needs to meet, including privacy laws, accessibility standards, and educational guidelines.
+\begin{itemize}
+    \item The game must comply with the General Data Protection Regulation (GDPR) for users in the European Union.
+    \item Accessibility features must align with the Web Content Accessibility Guidelines (WCAG) 2.1 for inclusivity.
+    % Add more compliance requirements here
+\end{itemize}
+
 
 \subsection{Appendix E: Detailed RK4 Method Explanation}
-An in-depth explanation of the Runge-Kutta 4 method with step-by-step examples from the game's physics engine.
+The Runge-Kutta 4th Order Method is used to approximate the solutions to the ordinary differential equations governing projectile motion in "Angry Birds Alike". Here is a step-by-step breakdown of the RK4 method:
+
+\subsection{Projectile Distance by Launch Angle}
+The following chart illustrates the distance traveled by a projectile over a range of launch angles at a fixed initial speed, demonstrating the optimal angle for maximum distance.
+
+\begin{tikzpicture}
+\begin{axis}[
+    title={Projectile Distance by Launch Angle},
+    xlabel={Launch Angle [degrees]},
+    ylabel={Distance [meters]},
+    xmin=0, xmax=90,
+    ymin=0, ymax=150,
+    xtick={0,15,30,45,60,75,90},
+    ytick={0,30,60,90,120,150},
+    legend pos=north west,
+    ymajorgrids=true,
+    grid style=dashed,
+]
+
+\addplot[
+    color=blue,
+    mark=square,
+    ]
+    coordinates {
+    (10,50)(20,90)(30,120)(40,130)(45,135)(50,130)(60,120)(70,90)(80,60)(90,30)
+    };
+    \legend{Distance vs Angle}
+
+\end{axis}
+\end{tikzpicture}
+
 
 \section{References}
 The following sources were referenced in the preparation of this Software Requirements Specification:
