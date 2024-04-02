@@ -27,7 +27,7 @@
     \vspace{0.5em}
     {\Large Author: Al Jubair Hossain} \\
     \vspace{0.5em}
-    {\large March 30, 2024}
+    {\large March 31, 2024}
 }
 \date{}
 
@@ -42,9 +42,9 @@
     \hline
     \textbf{Date} & \textbf{Version} & \textbf{Notes} \\
     \hline
-    February 13, 2024 & 1.0 & Initial draft completed. \\\hline
-    February 18, 2024 & 1.5 & Revised draft with updates to testing strategies and test cases. \\\hline
-    March 30, 2024 & 2.0 & Revised draft with changes to adding right Physics and Math formulas , specific description and changes in sections of 3, 4, 4.1-4.6, 5, 5.1-5.2.2 , 6- changes to traceability matrix relating with SRS tests, 7 - Unit Tests and appendix. And corrected Author Name \\
+    February 3, 2024 & 1.0 & Initial draft completed. \\\hline
+    February 25, 2024 & 1.5 & Revised draft with updates to testing strategies and test cases while changing section 9. \\\hline
+    March 31, 2024 & 2.0 & Revised draft with changes to adding right Physics and Math formulas , specific description and changes in sections of 3, 4, 4.1-4.6, 5, 5.1-5.2.2 , 6- changes to traceability matrix relating with SRS tests, 7 - Unit Tests and appendix. And corrected Author Name \\
     \hline
 \end{tabular}
 
@@ -207,6 +207,18 @@ Functional requirements encompass the essential behaviors and functionalities of
     \item \textbf{Expected Outcome:} Upon completing a level's objectives, progress is correctly recorded, and the next level becomes accessible.
 \end{itemize}
 
+\subsection{Physics Engine Verification}
+\subsubsection{Test Case: Projectile Motion Accuracy (TC1)}
+\textbf{Objective:} Verify that the engine accurately calculates projectile trajectories within gravity.
+\textbf{Method:} Compare simulated trajectories with theoretical predictions for various initial velocities and angles.
+\textbf{Expected Outcome:} The simulated trajectories closely match theoretical calculations.
+
+\subsubsection{Test Case: Collision Dynamics (TC2)}
+\textbf{Objective:} Ensure collision outcomes adhere to conservation laws.
+\textbf{Method:} Simulate collisions between objects of varying masses and velocities, assessing momentum and energy conservation.
+\textbf{Expected Outcome:} Post-collision velocities and object states align with conservation principles.
+
+
 \subsection{Tests for Non-functional Requirements}
 
 Non-functional tests address the game's performance, usability, and overall quality, ensuring a satisfactory user experience beyond the core gameplay mechanics.
@@ -273,7 +285,6 @@ The VnV Plan for "Angry Birds Alike" employs specific tools tailored for C++ gam
 \end{itemize}
 
 These tools are critical for ensuring the "Angry Birds Alike" game meets its quality standards, offering a robust framework for verification and validation of the C++ codebase.
-
 
 \section{Unit Test Description}
 
@@ -344,7 +355,7 @@ To ensure thorough validation of each module, a traceability matrix maps unit te
 \hline
 \textbf{Module} & \textbf{Functional Requirements} & \textbf{Test Case IDs} \\
 \hline
-Physics Engine & Projectile motion, Collision response & TC1, TC2 \\
+Physics Engine & Projectile motion, Collision response, Gravity & TC1, TC2 \\
 User Interface & Intuitiveness, Accessibility & TC3, TC8 \\
 Game Mechanics & Level progression, Saving/Loading & TC4, TC5 \\
 Performance & Load time, Frame rate stability & TC6, TC7 \\
@@ -357,6 +368,25 @@ This matrix ensures comprehensive coverage, with each module's key functionaliti
 
 
 Each test case is designed to rigorously verify the functionality and performance of "Angry Birds Alike" components, ensuring a robust and reliable gaming experience for users.
+
+\subsection{Traceability and Test Coverage}
+This matrix links SRS requirements, MG modules, and VnV test cases to ensure comprehensive coverage and coherence across documentation.
+
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{SRS Requirement} & \textbf{MG Module} & \textbf{VnV Test Case} \\
+\hline
+IM1: Projectile Motion & M4: Physics Engine & TC1: Projectile Motion Accuracy \\
+IM2: Collision Dynamics & M4: Physics Engine & TC2: Collision Dynamics \\
+IM3: Gravity Effects & M4: Physics Engine & TC1: Gravity Effects Verification \\
+\hline
+\end{tabular}
+\caption{Traceability Matrix linking SRS Requirements, MG Modules, and VnV Test Cases.}
+\end{table}
+
 
 \section{Exit Criteria}
 Exit criteria define the conditions that must be met before concluding the verification and validation activities for "Angry Birds Alike." The completion of these activities ensures that the game meets the established quality standards and requirements. The exit criteria include:
@@ -412,7 +442,7 @@ The verification and validation process for "Angry Birds Alike" employs a select
 
 \subsection{Performance Testing Tools}
 \begin{itemize}
-    \item \textbf{Valgrind:} An instrumentation framework for building dynamic analysis tools that can automatically detect many memory management and threading bugs, and profile programs in detail.
+    \item \textbf{Leaks:} An instrumentation framework for checking  memory management, leaks and threading bugs, and profile programs in detail.
     \item \textbf{Google Benchmark:} A library for benchmarking code snippets, similar to unit tests. It's used for timing C++ code and gauging performance implications of code changes.
 \end{itemize}
 
