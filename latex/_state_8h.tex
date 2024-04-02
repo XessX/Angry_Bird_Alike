@@ -1,0 +1,29 @@
+\doxysection{include/\+State.h File Reference}
+\hypertarget{_state_8h}{}\label{_state_8h}\index{include/State.h@{include/State.h}}
+
+
+Defines the State type used throughout the simulation.  
+
+
+{\ttfamily \#include $<$array$>$}\newline
+{\ttfamily \#include $<$thread$>$}\newline
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{_state_8h_ae0aa721e28dc58468beed609af4a4d33}{State}} = std\+::array$<$double, 4$>$
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Defines the State type used throughout the simulation. 
+
+This header file introduces a State type, representing the fundamental state (position and velocity) of entities within the simulation. It is utilized across various components of the project for tracking and updating entity states. 
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{_state_8h_ae0aa721e28dc58468beed609af4a4d33}\label{_state_8h_ae0aa721e28dc58468beed609af4a4d33} 
+\index{State.h@{State.h}!State@{State}}
+\index{State@{State}!State.h@{State.h}}
+\doxysubsubsection{\texorpdfstring{State}{State}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{_entity_8h_ae0aa721e28dc58468beed609af4a4d33}{State}} = std\+::array$<$double, 4$>$}
+
+Represents the state of an entity in terms of its position and velocity. The state is stored as an array of doubles, where indices correspond to\+: 0\+: x position, 1\+: y position, 2\+: x velocity, 3\+: y velocity. 

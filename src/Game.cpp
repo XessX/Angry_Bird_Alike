@@ -31,9 +31,6 @@ Game::Game(): window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Projectile Sim
 }
 
 
-static float degreesToRadians(float degrees) {
-    return degrees * PI / 180.0f;
-}
 void Game::resetGame() {
     projectile.resetPosition(60.0f, WINDOW_HEIGHT - 200.0f);
     projectile.isMobile = false;
@@ -55,7 +52,7 @@ void Game::resetGame() {
 
 void Game::run() {
     while (window.isOpen()) {
-        sf::Event event;
+        sf::Event event{};
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();

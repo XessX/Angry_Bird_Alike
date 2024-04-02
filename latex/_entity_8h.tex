@@ -1,0 +1,54 @@
+\doxysection{include/\+Entity.h File Reference}
+\hypertarget{_entity_8h}{}\label{_entity_8h}\index{include/Entity.h@{include/Entity.h}}
+
+
+Represents a physical entity in the simulation.  
+
+
+{\ttfamily \#include $<$SFML/\+Graphics.\+hpp$>$}\newline
+{\ttfamily \#include $<$array$>$}\newline
+{\ttfamily \#include $<$boost/numeric/odeint/stepper/runge\+\_\+kutta4.\+hpp$>$}\newline
+{\ttfamily \#include $<$boost/numeric/odeint.\+hpp$>$}\newline
+{\ttfamily \#include "{}/\+Users/jubair/\+CLion\+Projects/untitled/include/\+Physics.\+h"{}}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_entity}{Entity}}
+\begin{DoxyCompactList}\small\item\em Represents an entity in the game, such as a projectile or target. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{_entity_8h_ae0aa721e28dc58468beed609af4a4d33}{State}} = std\+::array$<$double, 4$>$
+\begin{DoxyCompactList}\small\item\em Defines the state of an entity within the game. \end{DoxyCompactList}\item 
+using \mbox{\hyperlink{_entity_8h_a33969c4cc1bfecb28e68817eb5b07a8c}{Stepper}} = boost\+::numeric\+::odeint\+::runge\+\_\+kutta4$<$\mbox{\hyperlink{_entity_8h_ae0aa721e28dc58468beed609af4a4d33}{State}}$>$
+\begin{DoxyCompactList}\small\item\em Represents the numerical stepper used for physics integration within the game. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Represents a physical entity in the simulation. 
+
+This class encapsulates all the properties of a physical entity, including its mass, position, velocity, and provides methods to manipulate these properties. 
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{_entity_8h_ae0aa721e28dc58468beed609af4a4d33}\label{_entity_8h_ae0aa721e28dc58468beed609af4a4d33} 
+\index{Entity.h@{Entity.h}!State@{State}}
+\index{State@{State}!Entity.h@{Entity.h}}
+\doxysubsubsection{\texorpdfstring{State}{State}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{_entity_8h_ae0aa721e28dc58468beed609af4a4d33}{State}} = std\+::array$<$double, 4$>$}
+
+
+
+Defines the state of an entity within the game. 
+
+This type is used to represent the position and velocity of entities. \Hypertarget{_entity_8h_a33969c4cc1bfecb28e68817eb5b07a8c}\label{_entity_8h_a33969c4cc1bfecb28e68817eb5b07a8c} 
+\index{Entity.h@{Entity.h}!Stepper@{Stepper}}
+\index{Stepper@{Stepper}!Entity.h@{Entity.h}}
+\doxysubsubsection{\texorpdfstring{Stepper}{Stepper}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{_entity_8h_a33969c4cc1bfecb28e68817eb5b07a8c}{Stepper}} = boost\+::numeric\+::odeint\+::runge\+\_\+kutta4$<$\mbox{\hyperlink{_entity_8h_ae0aa721e28dc58468beed609af4a4d33}{State}}$>$}
+
+
+
+Represents the numerical stepper used for physics integration within the game. 
+
+This stepper is utilized to advance the state of entities based on the physics simulation. 

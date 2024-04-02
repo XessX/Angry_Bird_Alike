@@ -118,7 +118,7 @@ public:
  * @param a The first entity.
  * @param b The second entity.
  */
-    void printVelocities(const std::string& phase, const Entity& a, const Entity& b);
+    static void printVelocities(const std::string& phase, const Entity& a, const Entity& b);
 
     static float launchAngleDegrees;
     static float force;

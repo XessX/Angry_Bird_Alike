@@ -1,0 +1,65 @@
+\doxysection{Game.\+h}
+\hypertarget{_game_8h_source}{}\label{_game_8h_source}\index{include/Game.h@{include/Game.h}}
+\mbox{\hyperlink{_game_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00009\ \textcolor{comment}{//}}
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ Created\ by\ Jubair\ on\ 2024-\/03-\/25.}}
+\DoxyCodeLine{00011\ \textcolor{comment}{//}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#ifndef\ UNTITLED\_GAME\_H}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#define\ UNTITLED\_GAME\_H}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#ifndef\ GAME\_HPP}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#define\ GAME\_HPP}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <SFML/Graphics.hpp>}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_entity_8h}{/Users/jubair/CLionProjects/untitled/include/Entity.h}}"{}}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ <boost/numeric/odeint.hpp>}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ <thread>}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00030\ \textcolor{keyword}{using\ }\mbox{\hyperlink{_entity_8h_ae0aa721e28dc58468beed609af4a4d33}{State}}\ =\ std::array<double,\ 4>;\ \textcolor{comment}{//\ Replace\ with\ the\ actual\ line\ 29\ content.}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00037\ \textcolor{keyword}{using\ }\mbox{\hyperlink{_entity_8h_a33969c4cc1bfecb28e68817eb5b07a8c}{Stepper}}\ =\ boost::numeric::odeint::runge\_kutta4<State>;\ \textcolor{comment}{//\ Replace\ with\ the\ actual\ line\ 35\ content.}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00046\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_game}{Game}}\ \{}
+\DoxyCodeLine{00047\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00052\ \ \ \ \ \mbox{\hyperlink{class_game_ad59df6562a58a614fda24622d3715b65}{Game}}();}
+\DoxyCodeLine{00057\ \ \ \ \ \mbox{\hyperlink{class_game_a72ba6fb0c1d943d9860827e68cea3b8e}{Game}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ maxBirdResets);}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_a1ab78f5ed0d5ea879157357cf2fb2afa}{run}}();}
+\DoxyCodeLine{00062\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordtype}{void}\ handleKeyPress(sf::Keyboard::Key\ key);}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordtype}{void}\ update();}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ checkCollision(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_entity}{Entity}}\&\ a,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_entity}{Entity}}\&\ b);}
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{keywordtype}{void}\ simulateTrajectory(\textcolor{keywordtype}{float}\ degrees,\ \textcolor{keywordtype}{float}\ speed);}
+\DoxyCodeLine{00095\ \ \ \ \ \textcolor{keywordtype}{void}\ updateLaunchArrow(\textcolor{keywordtype}{float}\ angleDegrees,\ \textcolor{keywordtype}{float}\ force);}
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keywordtype}{void}\ render();}
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keywordtype}{void}\ resetGame();}
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keywordtype}{void}\ resetBirdPosition();}
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ isOutOfWindow(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_entity}{Entity}}\&\ entity);}
+\DoxyCodeLine{00122\ \ \ \ \ \textcolor{keywordtype}{void}\ printVelocities(\textcolor{keyword}{const}\ std::string\&\ phase,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_entity}{Entity}}\&\ a,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_entity}{Entity}}\&\ b);}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{float}\ launchAngleDegrees;}
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{float}\ force;}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \ \ \ \ sf::RenderWindow\ window;\ }
+\DoxyCodeLine{00128\ \ \ \ \ \mbox{\hyperlink{class_entity}{Entity}}\ projectile;\ }
+\DoxyCodeLine{00129\ \ \ \ \ std::vector<Entity>\ targets;\ }
+\DoxyCodeLine{00130\ \ \ \ \ \mbox{\hyperlink{_game_8h_a33969c4cc1bfecb28e68817eb5b07a8c}{Stepper}}\ stepper;\ }
+\DoxyCodeLine{00131\ \ \ \ \ sf::VertexArray\ trajectoryLine;\ }
+\DoxyCodeLine{00132\ \ \ \ \ sf::RectangleShape\ launchArrow;\ }
+\DoxyCodeLine{00133\ \ \ \ \ sf::Clock\ clock;\ }
+\DoxyCodeLine{00134\ \ \ \ \ \textcolor{keywordtype}{int}\ birdResetCounter\ =\ 0;\ }
+\DoxyCodeLine{00135\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ maxBirdResets;\ }
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00137\ \};}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00139\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ GAME\_HPP}}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00142\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//UNTITLED\_GAME\_H}}
+
+\end{DoxyCode}

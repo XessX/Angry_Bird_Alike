@@ -1,0 +1,170 @@
+\doxysection{Entity Class Reference}
+\hypertarget{class_entity}{}\label{class_entity}\index{Entity@{Entity}}
+
+
+Represents an entity in the game, such as a projectile or target.  
+
+
+
+
+{\ttfamily \#include $<$Entity.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_entity_a4c4eda7c3499c078d5ecb82c2860a392}{Entity}} (float radius, sf\+::\+Color color, double m, bool mobile, bool gravity)
+\item 
+void \mbox{\hyperlink{class_entity_a73dba3ee569f849b43e082f221050d61}{apply\+Force}} (float force\+Magnitude, float angle\+Degrees)
+\item 
+void \mbox{\hyperlink{class_entity_ae3391283ca9dadd5230b5e406b003bea}{update}} (float delta\+Time, \mbox{\hyperlink{_entity_8h_a33969c4cc1bfecb28e68817eb5b07a8c}{Stepper}} \&stepper)
+\item 
+void \mbox{\hyperlink{class_entity_afba1ecd8cd2ba767589f245feb2f5e0d}{reset\+Position}} (float x, float y)
+\item 
+void \mbox{\hyperlink{class_entity_a0e4f63d65dab07d369f074b8537be180}{transfer\+Momentum}} (\mbox{\hyperlink{class_entity}{Entity}} \&other)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static float \mbox{\hyperlink{class_entity_a42901c1c141ed116e43a95fc128a7910}{degrees\+To\+Radians}} (float degrees)
+\begin{DoxyCompactList}\small\item\em Converts an angle from degrees to radians. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{class_entity_abeab27e3f2b8c97ae6d6d03767420bb4}{collision\+Flag}} = false
+\item 
+\Hypertarget{class_entity_ad078b85671ca2207199e1abcebea0d67}\label{class_entity_ad078b85671ca2207199e1abcebea0d67} 
+sf\+::\+Circle\+Shape {\bfseries shape}
+\begin{DoxyCompactList}\small\item\em The shape representing the entity in the simulation. \end{DoxyCompactList}\item 
+\Hypertarget{class_entity_a394bc402878856084e957ab79d904819}\label{class_entity_a394bc402878856084e957ab79d904819} 
+\mbox{\hyperlink{_entity_8h_ae0aa721e28dc58468beed609af4a4d33}{State}} {\bfseries state}
+\begin{DoxyCompactList}\small\item\em The current state of the entity (x, y, vx, vy). \end{DoxyCompactList}\item 
+\Hypertarget{class_entity_ad453694d5ab370c3f900ba541dc899d7}\label{class_entity_ad453694d5ab370c3f900ba541dc899d7} 
+bool {\bfseries is\+Mobile}
+\begin{DoxyCompactList}\small\item\em Flag indicating if the entity can move. \end{DoxyCompactList}\item 
+\Hypertarget{class_entity_a0e9d56fb3ab660fbdd24b135542ef85f}\label{class_entity_a0e9d56fb3ab660fbdd24b135542ef85f} 
+bool {\bfseries affected\+By\+Gravity}
+\begin{DoxyCompactList}\small\item\em Flag indicating if the entity is affected by gravity. \end{DoxyCompactList}\item 
+\Hypertarget{class_entity_ac2257e579958b27fc56dd43bb914f426}\label{class_entity_ac2257e579958b27fc56dd43bb914f426} 
+double {\bfseries mass}
+\begin{DoxyCompactList}\small\item\em The mass of the entity. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Represents an entity in the game, such as a projectile or target. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_entity_a4c4eda7c3499c078d5ecb82c2860a392}\label{class_entity_a4c4eda7c3499c078d5ecb82c2860a392} 
+\index{Entity@{Entity}!Entity@{Entity}}
+\index{Entity@{Entity}!Entity@{Entity}}
+\doxysubsubsection{\texorpdfstring{Entity()}{Entity()}}
+{\footnotesize\ttfamily Entity\+::\+Entity (\begin{DoxyParamCaption}\item[{float}]{radius,  }\item[{sf\+::\+Color}]{color,  }\item[{double}]{m,  }\item[{bool}]{mobile,  }\item[{bool}]{gravity }\end{DoxyParamCaption})}
+
+Constructs an \doxylink{class_entity}{Entity} with specified properties.
+
+
+\begin{DoxyParams}{Parameters}
+{\em radius} & The radius of the entity. \\
+\hline
+{\em color} & The color of the entity. \\
+\hline
+{\em m} & The mass of the entity. \\
+\hline
+{\em mobile} & Indicates if the entity is mobile. \\
+\hline
+{\em gravity} & Indicates if the entity is affected by gravity. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_entity_a73dba3ee569f849b43e082f221050d61}\label{class_entity_a73dba3ee569f849b43e082f221050d61} 
+\index{Entity@{Entity}!applyForce@{applyForce}}
+\index{applyForce@{applyForce}!Entity@{Entity}}
+\doxysubsubsection{\texorpdfstring{applyForce()}{applyForce()}}
+{\footnotesize\ttfamily void Entity\+::apply\+Force (\begin{DoxyParamCaption}\item[{float}]{force\+Magnitude,  }\item[{float}]{angle\+Degrees }\end{DoxyParamCaption})}
+
+Applies a force to the entity, modifying its velocity.
+
+
+\begin{DoxyParams}{Parameters}
+{\em force\+Magnitude} & The magnitude of the force. \\
+\hline
+{\em angle\+Degrees} & The direction of the force in degrees.\\
+\hline
+\end{DoxyParams}
+Applies a force to the entity, modifying its velocity based on the force magnitude and direction. The force is directly converted to initial velocity components using trigonometric calculations. \Hypertarget{class_entity_a42901c1c141ed116e43a95fc128a7910}\label{class_entity_a42901c1c141ed116e43a95fc128a7910} 
+\index{Entity@{Entity}!degreesToRadians@{degreesToRadians}}
+\index{degreesToRadians@{degreesToRadians}!Entity@{Entity}}
+\doxysubsubsection{\texorpdfstring{degreesToRadians()}{degreesToRadians()}}
+{\footnotesize\ttfamily static float Entity\+::degrees\+To\+Radians (\begin{DoxyParamCaption}\item[{float}]{degrees }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Converts an angle from degrees to radians. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em degrees} & The angle in degrees to convert. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The angle converted to radians. 
+\end{DoxyReturn}
+\Hypertarget{class_entity_afba1ecd8cd2ba767589f245feb2f5e0d}\label{class_entity_afba1ecd8cd2ba767589f245feb2f5e0d} 
+\index{Entity@{Entity}!resetPosition@{resetPosition}}
+\index{resetPosition@{resetPosition}!Entity@{Entity}}
+\doxysubsubsection{\texorpdfstring{resetPosition()}{resetPosition()}}
+{\footnotesize\ttfamily void Entity\+::reset\+Position (\begin{DoxyParamCaption}\item[{float}]{x,  }\item[{float}]{y }\end{DoxyParamCaption})}
+
+Resets the entity\textquotesingle{}s position to specified coordinates.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & The x-\/coordinate of the new position. \\
+\hline
+{\em y} & The y-\/coordinate of the new position.\\
+\hline
+\end{DoxyParams}
+Resets the entity\textquotesingle{}s position to specified coordinates, making it immobile and unaffected by gravity. \Hypertarget{class_entity_a0e4f63d65dab07d369f074b8537be180}\label{class_entity_a0e4f63d65dab07d369f074b8537be180} 
+\index{Entity@{Entity}!transferMomentum@{transferMomentum}}
+\index{transferMomentum@{transferMomentum}!Entity@{Entity}}
+\doxysubsubsection{\texorpdfstring{transferMomentum()}{transferMomentum()}}
+{\footnotesize\ttfamily void Entity\+::transfer\+Momentum (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_entity}{Entity}} \&}]{other }\end{DoxyParamCaption})}
+
+Transfers momentum between this entity and another during a collision, following the laws of conservation of momentum. Assumes a perfectly elastic collision for simplicity. \Hypertarget{class_entity_ae3391283ca9dadd5230b5e406b003bea}\label{class_entity_ae3391283ca9dadd5230b5e406b003bea} 
+\index{Entity@{Entity}!update@{update}}
+\index{update@{update}!Entity@{Entity}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Entity\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time,  }\item[{\mbox{\hyperlink{_entity_8h_a33969c4cc1bfecb28e68817eb5b07a8c}{Stepper}} \&}]{stepper }\end{DoxyParamCaption})}
+
+Updates the entity\textquotesingle{}s position based on its velocity.
+
+
+\begin{DoxyParams}{Parameters}
+{\em delta\+Time} & The time elapsed since the last update. \\
+\hline
+{\em stepper} & The numerical stepper used for integration.\\
+\hline
+\end{DoxyParams}
+Updates the entity\textquotesingle{}s position based on its velocity. Uses the numerical integration stepper to compute the new state of the entity over time. 
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_entity_abeab27e3f2b8c97ae6d6d03767420bb4}\label{class_entity_abeab27e3f2b8c97ae6d6d03767420bb4} 
+\index{Entity@{Entity}!collisionFlag@{collisionFlag}}
+\index{collisionFlag@{collisionFlag}!Entity@{Entity}}
+\doxysubsubsection{\texorpdfstring{collisionFlag}{collisionFlag}}
+{\footnotesize\ttfamily bool Entity\+::collision\+Flag = false}
+
+Transfers momentum between this entity and another during a collision.
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & The other entity involved in the collision. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{_entity_8h}{Entity.\+h}}\item 
+src/Entity.\+cpp\end{DoxyCompactItemize}

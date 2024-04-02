@@ -1,0 +1,52 @@
+\doxysection{Entity.\+h}
+\hypertarget{_entity_8h_source}{}\label{_entity_8h_source}\index{include/Entity.h@{include/Entity.h}}
+\mbox{\hyperlink{_entity_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00009\ \textcolor{comment}{//}}
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ Created\ by\ Jubair\ on\ 2024-\/03-\/25.}}
+\DoxyCodeLine{00011\ \textcolor{comment}{//}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#ifndef\ UNTITLED\_ENTITY\_H}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#define\ UNTITLED\_ENTITY\_H}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#ifndef\ ENTITY\_HPP}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#define\ ENTITY\_HPP}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <SFML/Graphics.hpp>}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ <array>}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ <boost/numeric/odeint/stepper/runge\_kutta4.hpp>}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#include\ <boost/numeric/odeint.hpp>}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_physics_8h}{/Users/jubair/CLionProjects/untitled/include/Physics.h}}"{}}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00031\ \textcolor{keyword}{using\ }\mbox{\hyperlink{_entity_8h_ae0aa721e28dc58468beed609af4a4d33}{State}}\ =\ std::array<double,\ 4>;\ \textcolor{comment}{//\ Replace\ with\ the\ actual\ line\ 29\ content.}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00038\ \textcolor{keyword}{using\ }\mbox{\hyperlink{_entity_8h_a33969c4cc1bfecb28e68817eb5b07a8c}{Stepper}}\ =\ boost::numeric::odeint::runge\_kutta4<State>;\ \textcolor{comment}{//\ Replace\ with\ the\ actual\ line\ 35\ content.}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00044\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_entity}{Entity}}\ \{}
+\DoxyCodeLine{00045\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00056\ \ \ \ \ \mbox{\hyperlink{class_entity_a4c4eda7c3499c078d5ecb82c2860a392}{Entity}}(\textcolor{keywordtype}{float}\ radius,\ sf::Color\ color,\ \textcolor{keywordtype}{double}\ m,\ \textcolor{keywordtype}{bool}\ mobile,\ \textcolor{keywordtype}{bool}\ gravity);}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_entity_a73dba3ee569f849b43e082f221050d61}{applyForce}}(\textcolor{keywordtype}{float}\ forceMagnitude,\ \textcolor{keywordtype}{float}\ angleDegrees);}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_entity_ae3391283ca9dadd5230b5e406b003bea}{update}}(\textcolor{keywordtype}{float}\ deltaTime,\ \mbox{\hyperlink{_entity_8h_a33969c4cc1bfecb28e68817eb5b07a8c}{Stepper}}\&\ stepper);}
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_entity_afba1ecd8cd2ba767589f245feb2f5e0d}{resetPosition}}(\textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y);}
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_entity_abeab27e3f2b8c97ae6d6d03767420bb4}{collisionFlag}}\ =\ \textcolor{keyword}{false};\ \textcolor{comment}{//\ New\ flag\ to\ indicate\ a\ recent\ collision}}
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_entity_a0e4f63d65dab07d369f074b8537be180}{transferMomentum}}(\mbox{\hyperlink{class_entity}{Entity}}\ \&other);}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{comment}{//\ Member\ variables\ are\ typically\ documented\ where\ they\ are\ declared.}}
+\DoxyCodeLine{00087\ \ \ \ \ sf::CircleShape\ \mbox{\hyperlink{class_entity_ad078b85671ca2207199e1abcebea0d67}{shape}};\ }
+\DoxyCodeLine{00088\ \ \ \ \ \mbox{\hyperlink{_entity_8h_ae0aa721e28dc58468beed609af4a4d33}{State}}\ \mbox{\hyperlink{class_entity_a394bc402878856084e957ab79d904819}{state}};\ }
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_entity_ad453694d5ab370c3f900ba541dc899d7}{isMobile}};\ }
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_entity_a0e9d56fb3ab660fbdd24b135542ef85f}{affectedByGravity}};\ }
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_entity_ac2257e579958b27fc56dd43bb914f426}{mass}};\ }
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_entity_a42901c1c141ed116e43a95fc128a7910}{degreesToRadians}}(\textcolor{keywordtype}{float}\ degrees)\ \{}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ degrees\ *\ \mbox{\hyperlink{_physics_8h_aa08a577393243b86dfd2a97e61443673}{PI}}\ /\ 180.0f;}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \};}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ ENTITY\_HPP}}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//UNTITLED\_ENTITY\_H}}
+
+\end{DoxyCode}

@@ -1,0 +1,49 @@
+\doxysection{include/\+Physics.h File Reference}
+\hypertarget{_physics_8h}{}\label{_physics_8h}\index{include/Physics.h@{include/Physics.h}}
+
+
+Physics system for projectiles, including constants and basic physics operations.  
+
+
+{\ttfamily \#include "{}/\+Users/jubair/\+CLion\+Projects/untitled/include/\+State.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{_physics_8h_a4053caa0092c531be44e5bd81a9919b8}{projectile\+System}} (const \mbox{\hyperlink{_entity_8h_ae0aa721e28dc58468beed609af4a4d33}{State}} \&state, \mbox{\hyperlink{_entity_8h_ae0aa721e28dc58468beed609af4a4d33}{State}} \&dstate\+\_\+dt, double time)
+\begin{DoxyCompactList}\small\item\em Updates the derivative of the state for projectile motion. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{_physics_8h_aa08a577393243b86dfd2a97e61443673}\label{_physics_8h_aa08a577393243b86dfd2a97e61443673} 
+const float {\bfseries PI} = 3.\+14159265f
+\begin{DoxyCompactList}\small\item\em The value of pi. \end{DoxyCompactList}\item 
+\Hypertarget{_physics_8h_a48e56f4d6787b67d97b4655a84e7c3f1}\label{_physics_8h_a48e56f4d6787b67d97b4655a84e7c3f1} 
+const float {\bfseries GRAVITY} = -\/981.\+0f
+\begin{DoxyCompactList}\small\item\em Acceleration due to gravity (cm/s\texorpdfstring{$^\wedge$}{\string^}2). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Physics system for projectiles, including constants and basic physics operations. 
+
+Defines the physics system responsible for updating the state of entities in the simulation. It includes fundamental physics constants and the function prototype for the projectile system. 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{_physics_8h_a4053caa0092c531be44e5bd81a9919b8}\label{_physics_8h_a4053caa0092c531be44e5bd81a9919b8} 
+\index{Physics.h@{Physics.h}!projectileSystem@{projectileSystem}}
+\index{projectileSystem@{projectileSystem}!Physics.h@{Physics.h}}
+\doxysubsubsection{\texorpdfstring{projectileSystem()}{projectileSystem()}}
+{\footnotesize\ttfamily void projectile\+System (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_entity_8h_ae0aa721e28dc58468beed609af4a4d33}{State}} \&}]{state,  }\item[{\mbox{\hyperlink{_entity_8h_ae0aa721e28dc58468beed609af4a4d33}{State}} \&}]{dstate\+\_\+dt,  }\item[{double}]{time }\end{DoxyParamCaption})}
+
+
+
+Updates the derivative of the state for projectile motion. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em state} & The current state of the entity. \\
+\hline
+{\em dstate\+\_\+dt} & The derivative of the state to be updated. \\
+\hline
+{\em time} & The current time step for the simulation. \\
+\hline
+\end{DoxyParams}

@@ -2,12 +2,10 @@
 // Created by Jubair on 2024-03-25.
 //
 
-#include "/Users/jubair/CLionProjects/untitled/include/Game.h"
 #include "/Users/jubair/CLionProjects/untitled/include/Entity.h"
 #include "/Users/jubair/CLionProjects/untitled/include/Physics.h"
 #include <boost/numeric/odeint.hpp>
 #include <cmath>
-#include <boost/numeric/odeint.hpp>
 #include <vector>
 
 using State = std::array<double, 4>; // x, y, vx, vy
