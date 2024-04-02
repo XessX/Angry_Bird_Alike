@@ -416,3 +416,77 @@ events:
         
       exitCode: 0
 ...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/share/cmake-3.27/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/share/cmake-3.27/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/share/cmake-3.27/Modules/CheckCXXCompilerFlag.cmake:34 (cmake_check_compiler_flag)"
+      - "extern/Catch2/CMake/CatchMiscFunctions.cmake:12 (check_cxx_compiler_flag)"
+      - "extern/Catch2/CMake/CatchMiscFunctions.cmake:119 (add_cxx_flag_if_supported_to_targets)"
+      - "extern/Catch2/src/CMakeLists.txt:352 (add_build_reproducibility_settings)"
+    checks:
+      - "Performing Test HAVE_FLAG__ffile_prefix_map__Users_jubair_CLionProjects_untitled_extern_Catch2__"
+    directories:
+      source: "/Users/jubair/CLionProjects/untitled/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-FZ1ubD"
+      binary: "/Users/jubair/CLionProjects/untitled/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-FZ1ubD"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/jubair/CLionProjects/untitled/extern/Catch2/extras;/Users/jubair/CLionProjects/untitled/extern/Catch2/CMake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk"
+    buildResult:
+      variable: "HAVE_FLAG__ffile_prefix_map__Users_jubair_CLionProjects_untitled_extern_Catch2__"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/jubair/CLionProjects/untitled/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-FZ1ubD'
+        
+        Run Build Command(s): /Applications/CLion.app/Contents/bin/ninja/mac/aarch64/ninja -v cmTC_0f81c
+        [1/2] /Library/Developer/CommandLineTools/usr/bin/c++ -DHAVE_FLAG__ffile_prefix_map__Users_jubair_CLionProjects_untitled_extern_Catch2__  -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -fcolor-diagnostics   -ffile-prefix-map=/Users/jubair/CLionProjects/untitled/extern/Catch2/= -MD -MT CMakeFiles/cmTC_0f81c.dir/src.cxx.o -MF CMakeFiles/cmTC_0f81c.dir/src.cxx.o.d -o CMakeFiles/cmTC_0f81c.dir/src.cxx.o -c /Users/jubair/CLionProjects/untitled/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-FZ1ubD/src.cxx
+        [2/2] : && /Library/Developer/CommandLineTools/usr/bin/c++ -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/cmTC_0f81c.dir/src.cxx.o -o cmTC_0f81c   && :
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/share/cmake-3.27/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/share/cmake-3.27/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/share/cmake-3.27/Modules/CheckCXXCompilerFlag.cmake:34 (cmake_check_compiler_flag)"
+      - "external/Catch2/CMake/CatchMiscFunctions.cmake:12 (check_cxx_compiler_flag)"
+      - "external/Catch2/CMake/CatchMiscFunctions.cmake:119 (add_cxx_flag_if_supported_to_targets)"
+      - "external/Catch2/src/CMakeLists.txt:352 (add_build_reproducibility_settings)"
+    checks:
+      - "Performing Test HAVE_FLAG__ffile_prefix_map__Users_jubair_CLionProjects_untitled_external_Catch2__"
+    directories:
+      source: "/Users/jubair/CLionProjects/untitled/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-itJrg3"
+      binary: "/Users/jubair/CLionProjects/untitled/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-itJrg3"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/jubair/CLionProjects/untitled/external/Catch2/extras;/Users/jubair/CLionProjects/untitled/external/Catch2/CMake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk"
+    buildResult:
+      variable: "HAVE_FLAG__ffile_prefix_map__Users_jubair_CLionProjects_untitled_external_Catch2__"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/jubair/CLionProjects/untitled/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-itJrg3'
+        
+        Run Build Command(s): /Applications/CLion.app/Contents/bin/ninja/mac/aarch64/ninja -v cmTC_0c3ac
+        [1/2] /Library/Developer/CommandLineTools/usr/bin/c++ -DHAVE_FLAG__ffile_prefix_map__Users_jubair_CLionProjects_untitled_external_Catch2__  -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk   -ffile-prefix-map=/Users/jubair/CLionProjects/untitled/external/Catch2/= -MD -MT CMakeFiles/cmTC_0c3ac.dir/src.cxx.o -MF CMakeFiles/cmTC_0c3ac.dir/src.cxx.o.d -o CMakeFiles/cmTC_0c3ac.dir/src.cxx.o -c /Users/jubair/CLionProjects/untitled/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-itJrg3/src.cxx
+        [2/2] : && /Library/Developer/CommandLineTools/usr/bin/c++ -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/cmTC_0c3ac.dir/src.cxx.o -o cmTC_0c3ac   && :
+        
+      exitCode: 0
+...

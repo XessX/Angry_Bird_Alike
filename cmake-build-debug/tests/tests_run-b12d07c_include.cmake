@@ -1,0 +1,5 @@
+if(EXISTS "/Users/jubair/CLionProjects/untitled/cmake-build-debug/tests/tests_run-b12d07c_tests.cmake")
+  include("/Users/jubair/CLionProjects/untitled/cmake-build-debug/tests/tests_run-b12d07c_tests.cmake")
+else()
+  add_test(tests_run_NOT_BUILT-b12d07c tests_run_NOT_BUILT-b12d07c)
+endif()

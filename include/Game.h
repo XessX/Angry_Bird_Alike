@@ -59,7 +59,6 @@ public:
  * Runs the main game loop.
  */
     void run();
-private:
     /**
  * Handles key press events within the game.
  *
