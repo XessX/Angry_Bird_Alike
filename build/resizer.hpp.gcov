@@ -1,0 +1,98 @@
+        -:    0:Source:/opt/homebrew/include/boost/numeric/odeint/util/resizer.hpp
+        -:    0:Graph:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcda
+        -:    0:Runs:2
+        -:    0:Programs:1
+        -:    1:/*
+        -:    2: [auto_generated]
+        -:    3: boost/numeric/odeint/util/resizer.hpp
+        -:    4:
+        -:    5: [begin_description]
+        -:    6: Implementation of the resizers.
+        -:    7: [end_description]
+        -:    8:
+        -:    9: Copyright 2011-2012 Mario Mulansky
+        -:   10: Copyright 2011 Karsten Ahnert
+        -:   11:
+        -:   12: Distributed under the Boost Software License, Version 1.0.
+        -:   13: (See accompanying file LICENSE_1_0.txt or
+        -:   14: copy at http://www.boost.org/LICENSE_1_0.txt)
+        -:   15: */
+        -:   16:
+        -:   17:
+        -:   18:#ifndef BOOST_NUMERIC_ODEINT_UTIL_RESIZER_HPP_INCLUDED
+        -:   19:#define BOOST_NUMERIC_ODEINT_UTIL_RESIZER_HPP_INCLUDED
+        -:   20:
+        -:   21:
+        -:   22:#include <boost/numeric/odeint/util/is_resizeable.hpp>
+        -:   23:#include <boost/numeric/odeint/util/same_size.hpp>
+        -:   24:#include <boost/numeric/odeint/util/resize.hpp>
+        -:   25:
+        -:   26:namespace boost {
+        -:   27:namespace numeric {
+        -:   28:namespace odeint {
+        -:   29:
+        -:   30:template< class ResizeWrappedState , class State >
+        -:   31:bool adjust_size_by_resizeability( ResizeWrappedState &x , const State &y , boost::true_type )
+        -:   32:{
+        -:   33:    if ( !same_size( x.m_v , y ) )
+        -:   34:    {
+        -:   35:        resize( x.m_v , y );
+        -:   36:        return true;
+        -:   37:    }
+        -:   38:    else
+        -:   39:        return false;
+        -:   40:}
+        -:   41:
+        -:   42:template< class ResizeWrappedState , class State >
+        -:   43:bool adjust_size_by_resizeability( ResizeWrappedState & /* x */ , const State & /* y */ , boost::false_type )
+        -:   44:{
+        -:   45:    return false;
+        -:   46:}
+        -:   47:
+        -:   48:struct always_resizer
+        -:   49:{
+        -:   50:    template< class State , class ResizeFunction >
+        -:   51:    bool adjust_size( const State &x , ResizeFunction f )
+        -:   52:    {
+        -:   53:        return f( x );
+        -:   54:    }
+        -:   55:};
+        -:   56:
+        -:   57:
+        -:   58:struct initially_resizer
+        -:   59:{
+        -:   60:
+        -:   61:    bool m_initialized;
+        -:   62:
+        8:   63:    initially_resizer() : m_initialized( false )
+        8:   64:    { }
+        -:   65:
+        -:   66:    template< class State , class ResizeFunction >
+        -:   67:    bool adjust_size( const State &x , ResizeFunction f )
+        -:   68:    {
+        -:   69:        if( !m_initialized )
+        -:   70:        {
+        -:   71:            m_initialized = true;
+        -:   72:            return f( x );
+        -:   73:        } else
+        -:   74:            return false;
+        -:   75:    }
+        -:   76:};
+        -:   77:
+        -:   78:
+        -:   79:struct never_resizer
+        -:   80:{
+        -:   81:    template< class State , class ResizeFunction >
+        -:   82:    bool adjust_size( const State &/*x*/ , ResizeFunction /*f*/ )
+        -:   83:    {
+        -:   84:        return false;
+        -:   85:    }
+        -:   86:};
+        -:   87:
+        -:   88:
+        -:   89:}
+        -:   90:}
+        -:   91:}
+        -:   92:
+        -:   93:#endif // BOOST_NUMERIC_ODEINT_UTIL_RESIZER_HPP_INCLUDED

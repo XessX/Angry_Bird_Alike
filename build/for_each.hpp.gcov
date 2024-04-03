@@ -1,0 +1,128 @@
+        -:    0:Source:/opt/homebrew/include/boost/mpl/for_each.hpp
+        -:    0:Graph:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcda
+        -:    0:Runs:2
+        -:    0:Programs:1
+        -:    1:
+        -:    2:#ifndef BOOST_MPL_FOR_EACH_HPP_INCLUDED
+        -:    3:#define BOOST_MPL_FOR_EACH_HPP_INCLUDED
+        -:    4:
+        -:    5:// Copyright Aleksey Gurtovoy 2000-2008
+        -:    6://
+        -:    7:// Distributed under the Boost Software License, Version 1.0. 
+        -:    8:// (See accompanying file LICENSE_1_0.txt or copy at 
+        -:    9:// http://www.boost.org/LICENSE_1_0.txt)
+        -:   10://
+        -:   11:// See http://www.boost.org/libs/mpl for documentation.
+        -:   12:
+        -:   13:// $Id$
+        -:   14:// $Date$
+        -:   15:// $Revision$
+        -:   16:
+        -:   17:#include <boost/mpl/is_sequence.hpp>
+        -:   18:#include <boost/mpl/begin_end.hpp>
+        -:   19:#include <boost/mpl/apply.hpp>
+        -:   20:#include <boost/mpl/bool.hpp>
+        -:   21:#include <boost/mpl/next_prior.hpp>
+        -:   22:#include <boost/mpl/deref.hpp>
+        -:   23:#include <boost/mpl/identity.hpp>
+        -:   24:#include <boost/mpl/assert.hpp>
+        -:   25:#include <boost/mpl/aux_/config/gpu.hpp>
+        -:   26:#include <boost/mpl/aux_/unwrap.hpp>
+        -:   27:
+        -:   28:#include <boost/type_traits/is_same.hpp>
+        -:   29:#include <boost/utility/value_init.hpp>
+        -:   30:
+        -:   31:namespace boost { namespace mpl {
+        -:   32:
+        -:   33:namespace aux {
+        -:   34:
+        -:   35:template< bool done = true >
+        -:   36:struct for_each_impl
+        -:   37:{
+        -:   38:    template<
+        -:   39:          typename Iterator
+        -:   40:        , typename LastIterator
+        -:   41:        , typename TransformFunc
+        -:   42:        , typename F
+        -:   43:        >
+        -:   44:    BOOST_MPL_CFG_GPU_ENABLED
+        2:   45:    static void execute(
+        -:   46:          Iterator*
+        -:   47:        , LastIterator*
+        -:   48:        , TransformFunc*
+        -:   49:        , F
+        -:   50:        )
+        -:   51:    {
+        2:   52:    }
+        -:   53:};
+        -:   54:
+        -:   55:template<>
+        -:   56:struct for_each_impl<false>
+        -:   57:{
+        -:   58:    template<
+        -:   59:          typename Iterator
+        -:   60:        , typename LastIterator
+        -:   61:        , typename TransformFunc
+        -:   62:        , typename F
+        -:   63:        >
+        -:   64:    BOOST_MPL_CFG_GPU_ENABLED
+        6:   65:    static void execute(
+        -:   66:          Iterator*
+        -:   67:        , LastIterator*
+        -:   68:        , TransformFunc* 
+        -:   69:        , F f
+        -:   70:        )
+        -:   71:    {
+        -:   72:        typedef typename deref<Iterator>::type item;
+        -:   73:        typedef typename apply1<TransformFunc,item>::type arg;
+        -:   74:    
+        -:   75:        // dwa 2002/9/10 -- make sure not to invoke undefined behavior
+        -:   76:        // when we pass arg.
+        6:   77:        value_initialized<arg> x;
+        6:   78:        aux::unwrap(f, 0)(boost::get(x));
+        -:   79:        
+        -:   80:        typedef typename mpl::next<Iterator>::type iter;
+        6:   81:        for_each_impl<boost::is_same<iter,LastIterator>::value>
+        6:   82:            ::execute( static_cast<iter*>(0), static_cast<LastIterator*>(0), static_cast<TransformFunc*>(0), f);
+        6:   83:    }
+        -:   84:};
+        -:   85:
+        -:   86:} // namespace aux
+        -:   87:
+        -:   88:// agurt, 17/mar/02: pointer default parameters are necessary to workaround 
+        -:   89:// MSVC 6.5 function template signature's mangling bug
+        -:   90:template<
+        -:   91:      typename Sequence
+        -:   92:    , typename TransformOp
+        -:   93:    , typename F
+        -:   94:    >
+        -:   95:BOOST_MPL_CFG_GPU_ENABLED
+        -:   96:inline
+        2:   97:void for_each(F f, Sequence* = 0, TransformOp* = 0)
+        -:   98:{
+        -:   99:    BOOST_MPL_ASSERT(( is_sequence<Sequence> ));
+        -:  100:
+        -:  101:    typedef typename begin<Sequence>::type first;
+        -:  102:    typedef typename end<Sequence>::type last;
+        -:  103:
+        2:  104:    aux::for_each_impl< boost::is_same<first,last>::value >
+        2:  105:        ::execute(static_cast<first*>(0), static_cast<last*>(0), static_cast<TransformOp*>(0), f);
+        2:  106:}
+        -:  107:
+        -:  108:template<
+        -:  109:      typename Sequence
+        -:  110:    , typename F
+        -:  111:    >
+        -:  112:BOOST_MPL_CFG_GPU_ENABLED
+        -:  113:inline
+        2:  114:void for_each(F f, Sequence* = 0)
+        -:  115:{
+        -:  116:  // jfalcou: fully qualifying this call so it doesnt clash with phoenix::for_each
+        -:  117:  // ons ome compilers -- done on 02/28/2011
+        2:  118:  boost::mpl::for_each<Sequence, identity<> >(f);
+        2:  119:}
+        -:  120:
+        -:  121:}}
+        -:  122:
+        -:  123:#endif // BOOST_MPL_FOR_EACH_HPP_INCLUDED

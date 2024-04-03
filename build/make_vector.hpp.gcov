@@ -1,0 +1,60 @@
+        -:    0:Source:/opt/homebrew/include/boost/fusion/container/generation/make_vector.hpp
+        -:    0:Graph:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcda
+        -:    0:Runs:2
+        -:    0:Programs:1
+        -:    1:/*=============================================================================
+        -:    2:    Copyright (c) 2014-2015 Kohei Takahashi
+        -:    3:
+        -:    4:    Distributed under the Boost Software License, Version 1.0. (See accompanying
+        -:    5:    file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+        -:    6:==============================================================================*/
+        -:    7:#ifndef FUSION_MAKE_VECTOR_11112014_2252
+        -:    8:#define FUSION_MAKE_VECTOR_11112014_2252
+        -:    9:
+        -:   10:#include <boost/fusion/support/config.hpp>
+        -:   11:#include <boost/fusion/container/vector/vector.hpp>
+        -:   12:
+        -:   13:#if !defined(BOOST_FUSION_HAS_VARIADIC_VECTOR)
+        -:   14:# include <boost/fusion/container/generation/detail/pp_make_vector.hpp>
+        -:   15:#else
+        -:   16:
+        -:   17:///////////////////////////////////////////////////////////////////////////////
+        -:   18:// C++11 variadic interface
+        -:   19:///////////////////////////////////////////////////////////////////////////////
+        -:   20:
+        -:   21:#include <boost/fusion/support/detail/as_fusion_element.hpp>
+        -:   22:#include <boost/type_traits/remove_reference.hpp>
+        -:   23:#include <boost/type_traits/remove_const.hpp>
+        -:   24:#include <utility>
+        -:   25:
+        -:   26:namespace boost { namespace fusion
+        -:   27:{
+        -:   28:    namespace result_of
+        -:   29:    {
+        -:   30:        template <typename ...T>
+        -:   31:        struct make_vector
+        -:   32:        {
+        -:   33:            typedef vector<
+        -:   34:                typename detail::as_fusion_element<
+        -:   35:                    typename remove_const<
+        -:   36:                        typename remove_reference<T>::type
+        -:   37:                    >::type
+        -:   38:                >::type...
+        -:   39:            > type;
+        -:   40:        };
+        -:   41:    }
+        -:   42:
+        -:   43:    template <typename ...T>
+        -:   44:    BOOST_CONSTEXPR BOOST_FUSION_GPU_ENABLED
+        -:   45:    inline typename result_of::make_vector<T...>::type
+        2:   46:    make_vector(T&&... arg)
+        -:   47:    {
+        2:   48:        return typename result_of::make_vector<T...>::type(std::forward<T>(arg)...);
+        -:   49:    }
+        -:   50: }}
+        -:   51:
+        -:   52:
+        -:   53:#endif
+        -:   54:#endif
+        -:   55:

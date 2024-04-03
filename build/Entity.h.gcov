@@ -1,0 +1,110 @@
+        -:    0:Source:/Users/jubair/CLionProjects/untitled/include/Entity.h
+        -:    0:Graph:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcda
+        -:    0:Runs:2
+        -:    0:Programs:1
+        -:    1:/**
+        -:    2: * @file Entity.h
+        -:    3: * @brief Represents a physical entity in the simulation.
+        -:    4: *
+        -:    5: * This class encapsulates all the properties of a physical entity,
+        -:    6: * including its mass, position, velocity, and provides methods to manipulate these properties.
+        -:    7: */
+        -:    8:
+        -:    9://
+        -:   10:// Created by Jubair on 2024-03-25.
+        -:   11://
+        -:   12:
+        -:   13:#ifndef UNTITLED_ENTITY_H
+        -:   14:#define UNTITLED_ENTITY_H
+        -:   15:
+        -:   16:#ifndef ENTITY_HPP
+        -:   17:#define ENTITY_HPP
+        -:   18:
+        -:   19:#include <SFML/Graphics.hpp>
+        -:   20:#include <array>
+        -:   21:#include <boost/numeric/odeint/stepper/runge_kutta4.hpp>
+        -:   22:#include <boost/numeric/odeint.hpp>
+        -:   23:#include "/Users/jubair/CLionProjects/untitled/include/Physics.h"
+        -:   24:#include <vector>
+        -:   25:
+        -:   26:/**
+        -:   27: * @brief Defines the state of an entity within the game.
+        -:   28: *
+        -:   29: * This type is used to represent the position and velocity of entities.
+        -:   30: */
+        -:   31:using State = std::array<double, 4>; // Replace with the actual line 29 content.
+        -:   32:
+        -:   33:/**
+        -:   34: * @brief Represents the numerical stepper used for physics integration within the game.
+        -:   35: *
+        -:   36: * This stepper is utilized to advance the state of entities based on the physics simulation.
+        -:   37: */
+        -:   38:using Stepper = boost::numeric::odeint::runge_kutta4<State>; // Replace with the actual line 35 content.
+        -:   39:
+        -:   40:/**
+        -:   41: * @class Entity
+        -:   42: * @brief Represents an entity in the game, such as a projectile or target.
+        -:   43: */
+        -:   44:class Entity {
+        -:   45:public:
+        -:   46:    /**
+        -:   47: * Constructs an Entity with specified properties.
+        -:   48: *
+        -:   49: * @param radius The radius of the entity.
+        -:   50: * @param color The color of the entity.
+        -:   51: * @param m The mass of the entity.
+        -:   52: * @param mobile Indicates if the entity is mobile.
+        -:   53: * @param gravity Indicates if the entity is affected by gravity.
+        -:   54: */
+        -:   55:
+        -:   56:    Entity(float radius, sf::Color color, double m, bool mobile, bool gravity);
+        -:   57:    /**
+        -:   58:  * Applies a force to the entity, modifying its velocity.
+        -:   59:  *
+        -:   60:  * @param forceMagnitude The magnitude of the force.
+        -:   61:  * @param angleDegrees The direction of the force in degrees.
+        -:   62:  */
+        -:   63:    void applyForce(float forceMagnitude, float angleDegrees);
+        -:   64:    /**
+        -:   65: * Updates the entity's position based on its velocity.
+        -:   66: *
+        -:   67: * @param deltaTime The time elapsed since the last update.
+        -:   68: * @param stepper The numerical stepper used for integration.
+        -:   69: */
+        -:   70:    void update(float deltaTime, Stepper& stepper);
+        -:   71:    /**
+        -:   72: * Resets the entity's position to specified coordinates.
+        -:   73: *
+        -:   74: * @param x The x-coordinate of the new position.
+        -:   75: * @param y The y-coordinate of the new position.
+        -:   76: */
+        -:   77:    void resetPosition(float x, float y);
+        -:   78:    /**
+        -:   79: * Transfers momentum between this entity and another during a collision.
+        -:   80: *
+        -:   81: * @param other The other entity involved in the collision.
+        -:   82: */
+        -:   83:    bool collisionFlag = false; // New flag to indicate a recent collision
+        -:   84:    void transferMomentum(Entity &other);
+        -:   85:
+        -:   86:    // Member variables are typically documented where they are declared.
+        -:   87:    sf::CircleShape shape; ///< The shape representing the entity in the simulation.
+        -:   88:    State state; ///< The current state of the entity (x, y, vx, vy).
+        -:   89:    bool isMobile; ///< Flag indicating if the entity can move.
+        -:   90:    bool affectedByGravity; ///< Flag indicating if the entity is affected by gravity.
+        -:   91:    double mass; ///< The mass of the entity.
+        -:   92:    /**
+        -:   93: * @brief Converts an angle from degrees to radians.
+        -:   94: * @param degrees The angle in degrees to convert.
+        -:   95: * @return The angle converted to radians.
+        -:   96: */
+       10:   97:    static float degreesToRadians(float degrees) {
+       10:   98:        return degrees * PI / 180.0f;
+        -:   99:        }
+        -:  100:
+        -:  101:};
+        -:  102:
+        -:  103:#endif // ENTITY_HPP
+        -:  104:
+        -:  105:#endif //UNTITLED_ENTITY_H

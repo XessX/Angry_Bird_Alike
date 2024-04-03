@@ -1,0 +1,199 @@
+        -:    0:Source:/opt/homebrew/include/boost/multi_array/index_range.hpp
+        -:    0:Graph:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcda
+        -:    0:Runs:2
+        -:    0:Programs:1
+        -:    1:// Copyright 2002 The Trustees of Indiana University.
+        -:    2:
+        -:    3:// Use, modification and distribution is subject to the Boost Software 
+        -:    4:// License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+        -:    5:// http://www.boost.org/LICENSE_1_0.txt)
+        -:    6:
+        -:    7://  Boost.MultiArray Library
+        -:    8://  Authors: Ronald Garcia
+        -:    9://           Jeremy Siek
+        -:   10://           Andrew Lumsdaine
+        -:   11://  See http://www.boost.org/libs/multi_array for documentation.
+        -:   12:
+        -:   13:#ifndef BOOST_MULTI_ARRAY_INDEX_RANGE_HPP
+        -:   14:#define BOOST_MULTI_ARRAY_INDEX_RANGE_HPP
+        -:   15:
+        -:   16:#include <boost/config.hpp>
+        -:   17:#include <utility>
+        -:   18:#include <boost/limits.hpp>
+        -:   19:
+        -:   20:// For representing intervals, also with stride.
+        -:   21:// A degenerate range is a range with one element.
+        -:   22:
+        -:   23:// Thanks to Doug Gregor for the really cool idea of using the
+        -:   24:// comparison operators to express various interval types!
+        -:   25:
+        -:   26:// Internally, we represent the interval as half-open.
+        -:   27:
+        -:   28:namespace boost {
+        -:   29:namespace detail {
+        -:   30:namespace multi_array {
+        -:   31:
+        -:   32:  template <typename Index,typename SizeType>
+        -:   33:  class index_range {
+        -:   34:  public:
+        -:   35:    typedef Index index;
+        -:   36:    typedef SizeType size_type;
+        -:   37:
+        -:   38:  private:
+        8:   39:    static index from_start()
+        8:   40:      { return (std::numeric_limits<index>::min)(); }
+        -:   41:
+        8:   42:    static index to_end()
+        8:   43:      { return (std::numeric_limits<index>::max)(); }
+        -:   44:
+        -:   45:  public:
+        -:   46:
+       16:   47:    index_range()
+        8:   48:    {
+        8:   49:      start_ = from_start();
+        8:   50:      finish_ = to_end();
+        8:   51:      stride_ = 1;
+        8:   52:      degenerate_ = false;
+       16:   53:    }
+        -:   54:
+        -:   55:    explicit index_range(index pos)
+        -:   56:    {
+        -:   57:      start_ = pos;
+        -:   58:      finish_ = pos+1;
+        -:   59:      stride_ = 1;
+        -:   60:      degenerate_ = true;
+        -:   61:    }
+        -:   62:
+        -:   63:    explicit index_range(index start, index finish, index stride=1)
+        -:   64:      : start_(start), finish_(finish), stride_(stride),
+        -:   65:        degenerate_(false)
+        -:   66:    { }
+        -:   67:
+        -:   68:
+        -:   69:    // These are for chaining assignments to an index_range
+        -:   70:    index_range& start(index s) {
+        -:   71:      start_ = s;
+        -:   72:      degenerate_ = false;
+        -:   73:      return *this;
+        -:   74:    }
+        -:   75:
+        -:   76:    index_range& finish(index f) {
+        -:   77:      finish_ = f;
+        -:   78:      degenerate_ = false;
+        -:   79:      return *this;
+        -:   80:    }
+        -:   81:
+        -:   82:    index_range& stride(index s) { stride_ = s; return *this; }
+        -:   83:
+        -:   84:    index start() const
+        -:   85:    { 
+        -:   86:      return start_; 
+        -:   87:    }
+        -:   88:
+        -:   89:    index get_start(index low_index_range = index_range::from_start()) const
+        -:   90:    { 
+        -:   91:      if (start_ == from_start())
+        -:   92:        return low_index_range;
+        -:   93:      return start_; 
+        -:   94:    }
+        -:   95:
+        -:   96:    index finish() const
+        -:   97:    {
+        -:   98:      return finish_;
+        -:   99:    }
+        -:  100:
+        -:  101:    index get_finish(index high_index_range = index_range::to_end()) const
+        -:  102:    {
+        -:  103:      if (finish_ == to_end())
+        -:  104:        return high_index_range;
+        -:  105:      return finish_;
+        -:  106:    }
+        -:  107:
+        -:  108:    index stride() const { return stride_; }
+        -:  109:
+        -:  110:    size_type size(index idx) const
+        -:  111:    {
+        -:  112:      return (start_ == from_start() || finish_ == to_end())
+        -:  113:        ? idx : ((finish_ - start_) / stride_);
+        -:  114:    }
+        -:  115:
+        -:  116:    void set_index_range(index start, index finish, index stride=1)
+        -:  117:    {
+        -:  118:      start_ = start;
+        -:  119:      finish_ = finish;
+        -:  120:      stride_ = stride;
+        -:  121:    }
+        -:  122:
+        -:  123:    static index_range all() 
+        -:  124:    { return index_range(from_start(), to_end(), 1); }
+        -:  125:
+        -:  126:    bool is_degenerate() const { return degenerate_; }
+        -:  127:
+        -:  128:    index_range operator-(index shift) const
+        -:  129:    { 
+        -:  130:      return index_range(start_ - shift, finish_ - shift, stride_); 
+        -:  131:    }
+        -:  132:
+        -:  133:    index_range operator+(index shift) const
+        -:  134:    { 
+        -:  135:      return index_range(start_ + shift, finish_ + shift, stride_); 
+        -:  136:    }
+        -:  137:
+        -:  138:    index operator[](unsigned i) const
+        -:  139:    {
+        -:  140:      return start_ + i * stride_;
+        -:  141:    }
+        -:  142:
+        -:  143:    index operator()(unsigned i) const
+        -:  144:    {
+        -:  145:      return start_ + i * stride_;
+        -:  146:    }
+        -:  147:
+        -:  148:    // add conversion to std::slice?
+        -:  149:
+        -:  150:  public:
+        -:  151:    index start_, finish_, stride_;
+        -:  152:    bool degenerate_;
+        -:  153:  };
+        -:  154:
+        -:  155:  // Express open and closed interval end-points using the comparison
+        -:  156:  // operators.
+        -:  157:
+        -:  158:  // left closed
+        -:  159:  template <typename Index, typename SizeType>
+        -:  160:  inline index_range<Index,SizeType>
+        -:  161:  operator<=(Index s, const index_range<Index,SizeType>& r)
+        -:  162:  {
+        -:  163:    return index_range<Index,SizeType>(s, r.finish(), r.stride());
+        -:  164:  }
+        -:  165:
+        -:  166:  // left open
+        -:  167:  template <typename Index, typename SizeType>
+        -:  168:  inline index_range<Index,SizeType>
+        -:  169:  operator<(Index s, const index_range<Index,SizeType>& r)
+        -:  170:  {
+        -:  171:    return index_range<Index,SizeType>(s + 1, r.finish(), r.stride());
+        -:  172:  }
+        -:  173:
+        -:  174:  // right open
+        -:  175:  template <typename Index, typename SizeType>
+        -:  176:  inline index_range<Index,SizeType>
+        -:  177:  operator<(const index_range<Index,SizeType>& r, Index f)
+        -:  178:  {
+        -:  179:    return index_range<Index,SizeType>(r.start(), f, r.stride());
+        -:  180:  }
+        -:  181:
+        -:  182:  // right closed
+        -:  183:  template <typename Index, typename SizeType>
+        -:  184:  inline index_range<Index,SizeType>
+        -:  185:  operator<=(const index_range<Index,SizeType>& r, Index f)
+        -:  186:  {
+        -:  187:    return index_range<Index,SizeType>(r.start(), f + 1, r.stride());
+        -:  188:  }
+        -:  189:
+        -:  190:} // namespace multi_array
+        -:  191:} // namespace detail  
+        -:  192:} // namespace boost
+        -:  193:
+        -:  194:#endif

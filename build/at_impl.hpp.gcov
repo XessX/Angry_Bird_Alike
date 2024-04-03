@@ -1,0 +1,65 @@
+        -:    0:Source:/opt/homebrew/include/boost/fusion/container/vector/detail/at_impl.hpp
+        -:    0:Graph:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcda
+        -:    0:Runs:2
+        -:    0:Programs:1
+        -:    1:/*=============================================================================
+        -:    2:    Copyright (c) 2001-2011 Joel de Guzman
+        -:    3:
+        -:    4:    Distributed under the Boost Software License, Version 1.0. (See accompanying
+        -:    5:    file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+        -:    6:==============================================================================*/
+        -:    7:#if !defined(FUSION_AT_IMPL_05042005_0741)
+        -:    8:#define FUSION_AT_IMPL_05042005_0741
+        -:    9:
+        -:   10:#include <boost/fusion/support/config.hpp>
+        -:   11:#include <boost/fusion/support/detail/access.hpp>
+        -:   12:#include <boost/fusion/container/vector/detail/value_at_impl.hpp>
+        -:   13:#include <boost/static_assert.hpp>
+        -:   14:
+        -:   15:namespace boost { namespace fusion
+        -:   16:{
+        -:   17:    struct vector_tag;
+        -:   18:
+        -:   19:    namespace extension
+        -:   20:    {
+        -:   21:        template <typename Tag>
+        -:   22:        struct at_impl;
+        -:   23:
+        -:   24:        template <>
+        -:   25:        struct at_impl<vector_tag>
+        -:   26:        {
+        -:   27:            template <typename Sequence, typename N>
+        -:   28:            struct apply
+        -:   29:            {
+        -:   30:                typedef typename value_at_impl<vector_tag>::template apply<Sequence, N>::type element;
+        -:   31:                typedef typename detail::ref_result<element>::type type;
+        -:   32:
+        -:   33:                BOOST_CONSTEXPR BOOST_FUSION_GPU_ENABLED
+        -:   34:                static type
+       16:   35:                call(Sequence& v)
+        -:   36:                {
+        -:   37:                    BOOST_STATIC_ASSERT((N::value < Sequence::size::value));
+       16:   38:                    return v.at_impl(N());
+        -:   39:                }
+        -:   40:            };
+        -:   41:
+        -:   42:            template <typename Sequence, typename N>
+        -:   43:            struct apply <Sequence const, N>
+        -:   44:            {
+        -:   45:                typedef typename value_at_impl<vector_tag>::template apply<Sequence, N>::type element;
+        -:   46:                typedef typename detail::cref_result<element>::type type;
+        -:   47:
+        -:   48:                BOOST_CONSTEXPR BOOST_FUSION_GPU_ENABLED
+        -:   49:                static type
+        6:   50:                call(Sequence const& v)
+        -:   51:                {
+        -:   52:                    BOOST_STATIC_ASSERT((N::value < Sequence::size::value));
+        6:   53:                    return v.at_impl(N());
+        -:   54:                }
+        -:   55:            };
+        -:   56:        };
+        -:   57:    }
+        -:   58:}}
+        -:   59:
+        -:   60:#endif

@@ -1,0 +1,228 @@
+        -:    0:Source:/opt/homebrew/include/SFML/Graphics/VertexArray.hpp
+        -:    0:Graph:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcda
+        -:    0:Runs:2
+        -:    0:Programs:1
+        -:    1:////////////////////////////////////////////////////////////
+        -:    2://
+        -:    3:// SFML - Simple and Fast Multimedia Library
+        -:    4:// Copyright (C) 2007-2023 Laurent Gomila (laurent@sfml-dev.org)
+        -:    5://
+        -:    6:// This software is provided 'as-is', without any express or implied warranty.
+        -:    7:// In no event will the authors be held liable for any damages arising from the use of this software.
+        -:    8://
+        -:    9:// Permission is granted to anyone to use this software for any purpose,
+        -:   10:// including commercial applications, and to alter it and redistribute it freely,
+        -:   11:// subject to the following restrictions:
+        -:   12://
+        -:   13:// 1. The origin of this software must not be misrepresented;
+        -:   14://    you must not claim that you wrote the original software.
+        -:   15://    If you use this software in a product, an acknowledgment
+        -:   16://    in the product documentation would be appreciated but is not required.
+        -:   17://
+        -:   18:// 2. Altered source versions must be plainly marked as such,
+        -:   19://    and must not be misrepresented as being the original software.
+        -:   20://
+        -:   21:// 3. This notice may not be removed or altered from any source distribution.
+        -:   22://
+        -:   23:////////////////////////////////////////////////////////////
+        -:   24:
+        -:   25:#ifndef SFML_VERTEXARRAY_HPP
+        -:   26:#define SFML_VERTEXARRAY_HPP
+        -:   27:
+        -:   28:////////////////////////////////////////////////////////////
+        -:   29:// Headers
+        -:   30:////////////////////////////////////////////////////////////
+        -:   31:#include <SFML/Graphics/Export.hpp>
+        -:   32:#include <SFML/Graphics/Vertex.hpp>
+        -:   33:#include <SFML/Graphics/PrimitiveType.hpp>
+        -:   34:#include <SFML/Graphics/Rect.hpp>
+        -:   35:#include <SFML/Graphics/Drawable.hpp>
+        -:   36:#include <vector>
+        -:   37:
+        -:   38:
+        -:   39:namespace sf
+        -:   40:{
+        -:   41:////////////////////////////////////////////////////////////
+        -:   42:/// \brief Define a set of one or more 2D primitives
+        -:   43:///
+        -:   44:////////////////////////////////////////////////////////////
+        -:   45:class SFML_GRAPHICS_API VertexArray : public Drawable
+        -:   46:{
+        -:   47:public:
+        -:   48:
+        -:   49:    ////////////////////////////////////////////////////////////
+        -:   50:    /// \brief Default constructor
+        -:   51:    ///
+        -:   52:    /// Creates an empty vertex array.
+        -:   53:    ///
+        -:   54:    ////////////////////////////////////////////////////////////
+        -:   55:    VertexArray();
+        -:   56:
+        -:   57:    ////////////////////////////////////////////////////////////
+        -:   58:    /// \brief Construct the vertex array with a type and an initial number of vertices
+        -:   59:    ///
+        -:   60:    /// \param type        Type of primitives
+        -:   61:    /// \param vertexCount Initial number of vertices in the array
+        -:   62:    ///
+        -:   63:    ////////////////////////////////////////////////////////////
+        -:   64:    explicit VertexArray(PrimitiveType type, std::size_t vertexCount = 0);
+        -:   65:
+        -:   66:    ////////////////////////////////////////////////////////////
+        -:   67:    /// \brief Return the vertex count
+        -:   68:    ///
+        -:   69:    /// \return Number of vertices in the array
+        -:   70:    ///
+        -:   71:    ////////////////////////////////////////////////////////////
+        -:   72:    std::size_t getVertexCount() const;
+        -:   73:
+        -:   74:    ////////////////////////////////////////////////////////////
+        -:   75:    /// \brief Get a read-write access to a vertex by its index
+        -:   76:    ///
+        -:   77:    /// This function doesn't check \a index, it must be in range
+        -:   78:    /// [0, getVertexCount() - 1]. The behavior is undefined
+        -:   79:    /// otherwise.
+        -:   80:    ///
+        -:   81:    /// \param index Index of the vertex to get
+        -:   82:    ///
+        -:   83:    /// \return Reference to the index-th vertex
+        -:   84:    ///
+        -:   85:    /// \see getVertexCount
+        -:   86:    ///
+        -:   87:    ////////////////////////////////////////////////////////////
+        -:   88:    Vertex& operator [](std::size_t index);
+        -:   89:
+        -:   90:    ////////////////////////////////////////////////////////////
+        -:   91:    /// \brief Get a read-only access to a vertex by its index
+        -:   92:    ///
+        -:   93:    /// This function doesn't check \a index, it must be in range
+        -:   94:    /// [0, getVertexCount() - 1]. The behavior is undefined
+        -:   95:    /// otherwise.
+        -:   96:    ///
+        -:   97:    /// \param index Index of the vertex to get
+        -:   98:    ///
+        -:   99:    /// \return Const reference to the index-th vertex
+        -:  100:    ///
+        -:  101:    /// \see getVertexCount
+        -:  102:    ///
+        -:  103:    ////////////////////////////////////////////////////////////
+        -:  104:    const Vertex& operator [](std::size_t index) const;
+        -:  105:
+        -:  106:    ////////////////////////////////////////////////////////////
+        -:  107:    /// \brief Clear the vertex array
+        -:  108:    ///
+        -:  109:    /// This function removes all the vertices from the array.
+        -:  110:    /// It doesn't deallocate the corresponding memory, so that
+        -:  111:    /// adding new vertices after clearing doesn't involve
+        -:  112:    /// reallocating all the memory.
+        -:  113:    ///
+        -:  114:    ////////////////////////////////////////////////////////////
+        -:  115:    void clear();
+        -:  116:
+        -:  117:    ////////////////////////////////////////////////////////////
+        -:  118:    /// \brief Resize the vertex array
+        -:  119:    ///
+        -:  120:    /// If \a vertexCount is greater than the current size, the previous
+        -:  121:    /// vertices are kept and new (default-constructed) vertices are
+        -:  122:    /// added.
+        -:  123:    /// If \a vertexCount is less than the current size, existing vertices
+        -:  124:    /// are removed from the array.
+        -:  125:    ///
+        -:  126:    /// \param vertexCount New size of the array (number of vertices)
+        -:  127:    ///
+        -:  128:    ////////////////////////////////////////////////////////////
+        -:  129:    void resize(std::size_t vertexCount);
+        -:  130:
+        -:  131:    ////////////////////////////////////////////////////////////
+        -:  132:    /// \brief Add a vertex to the array
+        -:  133:    ///
+        -:  134:    /// \param vertex Vertex to add
+        -:  135:    ///
+        -:  136:    ////////////////////////////////////////////////////////////
+        -:  137:    void append(const Vertex& vertex);
+        -:  138:
+        -:  139:    ////////////////////////////////////////////////////////////
+        -:  140:    /// \brief Set the type of primitives to draw
+        -:  141:    ///
+        -:  142:    /// This function defines how the vertices must be interpreted
+        -:  143:    /// when it's time to draw them:
+        -:  144:    /// \li As points
+        -:  145:    /// \li As lines
+        -:  146:    /// \li As triangles
+        -:  147:    /// \li As quads
+        -:  148:    /// The default primitive type is sf::Points.
+        -:  149:    ///
+        -:  150:    /// \param type Type of primitive
+        -:  151:    ///
+        -:  152:    ////////////////////////////////////////////////////////////
+        -:  153:    void setPrimitiveType(PrimitiveType type);
+        -:  154:
+        -:  155:    ////////////////////////////////////////////////////////////
+        -:  156:    /// \brief Get the type of primitives drawn by the vertex array
+        -:  157:    ///
+        -:  158:    /// \return Primitive type
+        -:  159:    ///
+        -:  160:    ////////////////////////////////////////////////////////////
+        -:  161:    PrimitiveType getPrimitiveType() const;
+        -:  162:
+        -:  163:    ////////////////////////////////////////////////////////////
+        -:  164:    /// \brief Compute the bounding rectangle of the vertex array
+        -:  165:    ///
+        -:  166:    /// This function returns the minimal axis-aligned rectangle
+        -:  167:    /// that contains all the vertices of the array.
+        -:  168:    ///
+        -:  169:    /// \return Bounding rectangle of the vertex array
+        -:  170:    ///
+        -:  171:    ////////////////////////////////////////////////////////////
+        -:  172:    FloatRect getBounds() const;
+        -:  173:
+        -:  174:private:
+        -:  175:
+        -:  176:    ////////////////////////////////////////////////////////////
+        -:  177:    /// \brief Draw the vertex array to a render target
+        -:  178:    ///
+        -:  179:    /// \param target Render target to draw to
+        -:  180:    /// \param states Current render states
+        -:  181:    ///
+        -:  182:    ////////////////////////////////////////////////////////////
+        -:  183:    virtual void draw(RenderTarget& target, RenderStates states) const;
+        -:  184:
+        -:  185:private:
+        -:  186:
+        -:  187:    ////////////////////////////////////////////////////////////
+        -:  188:    // Member data
+        -:  189:    ////////////////////////////////////////////////////////////
+        -:  190:    std::vector<Vertex> m_vertices;      //!< Vertices contained in the array
+        -:  191:    PrimitiveType       m_primitiveType; //!< Type of primitives to draw
+        -:  192:};
+        -:  193:
+        -:  194:} // namespace sf
+        -:  195:
+        -:  196:
+        -:  197:#endif // SFML_VERTEXARRAY_HPP
+        -:  198:
+        -:  199:
+        -:  200:////////////////////////////////////////////////////////////
+        -:  201:/// \class sf::VertexArray
+        -:  202:/// \ingroup graphics
+        -:  203:///
+        -:  204:/// sf::VertexArray is a very simple wrapper around a dynamic
+        -:  205:/// array of vertices and a primitives type.
+        -:  206:///
+        -:  207:/// It inherits sf::Drawable, but unlike other drawables it
+        -:  208:/// is not transformable.
+        -:  209:///
+        -:  210:/// Example:
+        -:  211:/// \code
+        -:  212:/// sf::VertexArray lines(sf::LineStrip, 4);
+        -:  213:/// lines[0].position = sf::Vector2f(10, 0);
+        -:  214:/// lines[1].position = sf::Vector2f(20, 0);
+        -:  215:/// lines[2].position = sf::Vector2f(30, 5);
+        -:  216:/// lines[3].position = sf::Vector2f(40, 2);
+        -:  217:///
+        -:  218:/// window.draw(lines);
+        -:  219:/// \endcode
+        -:  220:///
+        -:  221:/// \see sf::Vertex
+        -:  222:///
+        -:  223:////////////////////////////////////////////////////////////

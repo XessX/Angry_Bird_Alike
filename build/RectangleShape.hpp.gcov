@@ -1,0 +1,137 @@
+        -:    0:Source:/opt/homebrew/include/SFML/Graphics/RectangleShape.hpp
+        -:    0:Graph:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcda
+        -:    0:Runs:2
+        -:    0:Programs:1
+        -:    1:////////////////////////////////////////////////////////////
+        -:    2://
+        -:    3:// SFML - Simple and Fast Multimedia Library
+        -:    4:// Copyright (C) 2007-2023 Laurent Gomila (laurent@sfml-dev.org)
+        -:    5://
+        -:    6:// This software is provided 'as-is', without any express or implied warranty.
+        -:    7:// In no event will the authors be held liable for any damages arising from the use of this software.
+        -:    8://
+        -:    9:// Permission is granted to anyone to use this software for any purpose,
+        -:   10:// including commercial applications, and to alter it and redistribute it freely,
+        -:   11:// subject to the following restrictions:
+        -:   12://
+        -:   13:// 1. The origin of this software must not be misrepresented;
+        -:   14://    you must not claim that you wrote the original software.
+        -:   15://    If you use this software in a product, an acknowledgment
+        -:   16://    in the product documentation would be appreciated but is not required.
+        -:   17://
+        -:   18:// 2. Altered source versions must be plainly marked as such,
+        -:   19://    and must not be misrepresented as being the original software.
+        -:   20://
+        -:   21:// 3. This notice may not be removed or altered from any source distribution.
+        -:   22://
+        -:   23:////////////////////////////////////////////////////////////
+        -:   24:
+        -:   25:#ifndef SFML_RECTANGLESHAPE_HPP
+        -:   26:#define SFML_RECTANGLESHAPE_HPP
+        -:   27:
+        -:   28:////////////////////////////////////////////////////////////
+        -:   29:// Headers
+        -:   30:////////////////////////////////////////////////////////////
+        -:   31:#include <SFML/Graphics/Export.hpp>
+        -:   32:#include <SFML/Graphics/Shape.hpp>
+        -:   33:
+        -:   34:
+        -:   35:namespace sf
+        -:   36:{
+        -:   37:////////////////////////////////////////////////////////////
+        -:   38:/// \brief Specialized shape representing a rectangle
+        -:   39:///
+        -:   40:////////////////////////////////////////////////////////////
+        -:   41:class SFML_GRAPHICS_API RectangleShape : public Shape
+        -:   42:{
+        -:   43:public:
+        -:   44:
+        -:   45:    ////////////////////////////////////////////////////////////
+        -:   46:    /// \brief Default constructor
+        -:   47:    ///
+        -:   48:    /// \param size Size of the rectangle
+        -:   49:    ///
+        -:   50:    ////////////////////////////////////////////////////////////
+        -:   51:    explicit RectangleShape(const Vector2f& size = Vector2f(0, 0));
+        -:   52:
+        -:   53:    ////////////////////////////////////////////////////////////
+        -:   54:    /// \brief Set the size of the rectangle
+        -:   55:    ///
+        -:   56:    /// \param size New size of the rectangle
+        -:   57:    ///
+        -:   58:    /// \see getSize
+        -:   59:    ///
+        -:   60:    ////////////////////////////////////////////////////////////
+        -:   61:    void setSize(const Vector2f& size);
+        -:   62:
+        -:   63:    ////////////////////////////////////////////////////////////
+        -:   64:    /// \brief Get the size of the rectangle
+        -:   65:    ///
+        -:   66:    /// \return Size of the rectangle
+        -:   67:    ///
+        -:   68:    /// \see setSize
+        -:   69:    ///
+        -:   70:    ////////////////////////////////////////////////////////////
+        -:   71:    const Vector2f& getSize() const;
+        -:   72:
+        -:   73:    ////////////////////////////////////////////////////////////
+        -:   74:    /// \brief Get the number of points defining the shape
+        -:   75:    ///
+        -:   76:    /// \return Number of points of the shape. For rectangle
+        -:   77:    ///         shapes, this number is always 4.
+        -:   78:    ///
+        -:   79:    ////////////////////////////////////////////////////////////
+        -:   80:    virtual std::size_t getPointCount() const;
+        -:   81:
+        -:   82:    ////////////////////////////////////////////////////////////
+        -:   83:    /// \brief Get a point of the rectangle
+        -:   84:    ///
+        -:   85:    /// The returned point is in local coordinates, that is,
+        -:   86:    /// the shape's transforms (position, rotation, scale) are
+        -:   87:    /// not taken into account.
+        -:   88:    /// The result is undefined if \a index is out of the valid range.
+        -:   89:    ///
+        -:   90:    /// \param index Index of the point to get, in range [0 .. 3]
+        -:   91:    ///
+        -:   92:    /// \return index-th point of the shape
+        -:   93:    ///
+        -:   94:    ////////////////////////////////////////////////////////////
+        -:   95:    virtual Vector2f getPoint(std::size_t index) const;
+        -:   96:
+        -:   97:private:
+        -:   98:
+        -:   99:    ////////////////////////////////////////////////////////////
+        -:  100:    // Member data
+        -:  101:    ////////////////////////////////////////////////////////////
+        -:  102:    Vector2f m_size; //!< Size of the rectangle
+        -:  103:};
+        -:  104:
+        -:  105:} // namespace sf
+        -:  106:
+        -:  107:
+        -:  108:#endif // SFML_RECTANGLESHAPE_HPP
+        -:  109:
+        -:  110:
+        -:  111:////////////////////////////////////////////////////////////
+        -:  112:/// \class sf::RectangleShape
+        -:  113:/// \ingroup graphics
+        -:  114:///
+        -:  115:/// This class inherits all the functions of sf::Transformable
+        -:  116:/// (position, rotation, scale, bounds, ...) as well as the
+        -:  117:/// functions of sf::Shape (outline, color, texture, ...).
+        -:  118:///
+        -:  119:/// Usage example:
+        -:  120:/// \code
+        -:  121:/// sf::RectangleShape rectangle;
+        -:  122:/// rectangle.setSize(sf::Vector2f(100, 50));
+        -:  123:/// rectangle.setOutlineColor(sf::Color::Red);
+        -:  124:/// rectangle.setOutlineThickness(5);
+        -:  125:/// rectangle.setPosition(10, 20);
+        -:  126:/// ...
+        -:  127:/// window.draw(rectangle);
+        -:  128:/// \endcode
+        -:  129:///
+        -:  130:/// \see sf::Shape, sf::CircleShape, sf::ConvexShape
+        -:  131:///
+        -:  132:////////////////////////////////////////////////////////////

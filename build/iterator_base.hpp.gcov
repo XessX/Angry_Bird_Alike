@@ -1,0 +1,41 @@
+        -:    0:Source:/opt/homebrew/include/boost/fusion/support/iterator_base.hpp
+        -:    0:Graph:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcda
+        -:    0:Runs:2
+        -:    0:Programs:1
+        -:    1:/*=============================================================================
+        -:    2:    Copyright (c) 2001-2011 Joel de Guzman
+        -:    3:
+        -:    4:    Distributed under the Boost Software License, Version 1.0. (See accompanying
+        -:    5:    file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+        -:    6:==============================================================================*/
+        -:    7:#if !defined(FUSION_ITERATOR_BASE_05042005_1008)
+        -:    8:#define FUSION_ITERATOR_BASE_05042005_1008
+        -:    9:
+        -:   10:#include <boost/config.hpp>
+        -:   11:#include <boost/fusion/support/config.hpp>
+        -:   12:
+        -:   13:namespace boost { namespace fusion
+        -:   14:{
+        -:   15:    struct iterator_root {};
+        -:   16:
+        -:   17:    template <typename Iterator>
+        -:   18:    struct iterator_base : iterator_root
+        -:   19:    {
+        -:   20:        BOOST_CONSTEXPR BOOST_FUSION_GPU_ENABLED
+        -:   21:        Iterator const&
+        6:   22:        cast() const BOOST_NOEXCEPT
+        -:   23:        {
+        6:   24:            return static_cast<Iterator const&>(*this);
+        -:   25:        }
+        -:   26:
+        -:   27:        BOOST_CXX14_CONSTEXPR BOOST_FUSION_GPU_ENABLED
+        -:   28:        Iterator&
+        -:   29:        cast() BOOST_NOEXCEPT
+        -:   30:        {
+        -:   31:            return static_cast<Iterator&>(*this);
+        -:   32:        }
+        -:   33:    };
+        -:   34:}}
+        -:   35:
+        -:   36:#endif

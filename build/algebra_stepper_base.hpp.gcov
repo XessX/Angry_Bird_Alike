@@ -1,0 +1,96 @@
+        -:    0:Source:/opt/homebrew/include/boost/numeric/odeint/stepper/base/algebra_stepper_base.hpp
+        -:    0:Graph:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcda
+        -:    0:Runs:2
+        -:    0:Programs:1
+        -:    1:/*
+        -:    2: [auto_generated]
+        -:    3: boost/numeric/odeint/stepper/base/algebra_stepper_base.hpp
+        -:    4:
+        -:    5: [begin_description]
+        -:    6: Base class for all steppers with an algebra and operations.
+        -:    7: [end_description]
+        -:    8:
+        -:    9: Copyright 2012-2013 Karsten Ahnert
+        -:   10: Copyright 2012 Mario Mulansky
+        -:   11:
+        -:   12: Distributed under the Boost Software License, Version 1.0.
+        -:   13: (See accompanying file LICENSE_1_0.txt or
+        -:   14: copy at http://www.boost.org/LICENSE_1_0.txt)
+        -:   15: */
+        -:   16:
+        -:   17:
+        -:   18:#ifndef BOOST_NUMERIC_ODEINT_STEPPER_BASE_ALGEBRA_STEPPER_BASE_HPP_INCLUDED
+        -:   19:#define BOOST_NUMERIC_ODEINT_STEPPER_BASE_ALGEBRA_STEPPER_BASE_HPP_INCLUDED
+        -:   20:
+        -:   21:
+        -:   22:namespace boost {
+        -:   23:namespace numeric {
+        -:   24:namespace odeint {
+        -:   25:
+        -:   26:template< class Algebra , class Operations >
+        -:   27:class algebra_stepper_base
+        -:   28:{
+        -:   29:public:
+        -:   30:
+        -:   31:    typedef Algebra algebra_type;
+        -:   32:    typedef Operations operations_type;
+        -:   33:
+        2:   34:    algebra_stepper_base( const algebra_type &algebra = algebra_type() )
+        2:   35:    : m_algebra( algebra ) { }
+        -:   36:
+        -:   37:    algebra_type& algebra()
+        -:   38:    {
+        -:   39:        return m_algebra;
+        -:   40:    }
+        -:   41:
+        -:   42:    const algebra_type& algebra() const
+        -:   43:    {
+        -:   44:        return m_algebra;
+        -:   45:    }
+        -:   46:
+        -:   47:protected:
+        -:   48:
+        -:   49:    algebra_type m_algebra;
+        -:   50:};
+        -:   51:
+        -:   52:
+        -:   53:/******* DOXYGEN *******/
+        -:   54:
+        -:   55:/**
+        -:   56: * \class algebra_stepper_base
+        -:   57: * \brief Base class for all steppers with algebra and operations.
+        -:   58: *
+        -:   59: * This class serves a base class for all steppers with algebra and operations. It holds the
+        -:   60: * algebra and provides access to the algebra.  The operations are not instantiated, since they are 
+        -:   61: * static classes inside the operations class.
+        -:   62: *
+        -:   63: * \tparam Algebra The type of the algebra. Must fulfill the Algebra Concept, at least partially to work
+        -:   64: * with the stepper.
+        -:   65: * \tparam Operations The type of the operations. Must fulfill the Operations Concept, at least partially 
+        -:   66: * to work with the stepper.
+        -:   67: */
+        -:   68:
+        -:   69:    /**
+        -:   70:     * \fn algebra_stepper_base::algebra_stepper_base( const algebra_type &algebra = algebra_type() )
+        -:   71:     * \brief Constructs a algebra_stepper_base and creates the algebra. This constructor can be used as a default
+        -:   72:     * constructor if the algebra has a default constructor.
+        -:   73:     * \param algebra The algebra_stepper_base stores and uses a copy of algebra.
+        -:   74:     */
+        -:   75:
+        -:   76:    /**
+        -:   77:     * \fn algebra_type& algebra_stepper_base::algebra()
+        -:   78:     * \return A reference to the algebra which is held by this class.
+        -:   79:     */
+        -:   80:
+        -:   81:    /**
+        -:   82:     * \fn const algebra_type& algebra_stepper_base::algebra() const
+        -:   83:     * \return A const reference to the algebra which is held by this class.
+        -:   84:     */
+        -:   85:
+        -:   86:} // odeint
+        -:   87:} // numeric
+        -:   88:} // boost
+        -:   89:
+        -:   90:
+        -:   91:#endif // BOOST_NUMERIC_ODEINT_STEPPER_BASE_ALGEBRA_STEPPER_BASE_HPP_INCLUDED

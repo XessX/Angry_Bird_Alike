@@ -1,0 +1,219 @@
+        -:    0:Source:/Users/jubair/CLionProjects/untitled/src/Game.cpp
+        -:    0:Graph:./CMakeFiles/test_run.dir/src/Game.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/src/Game.cpp.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1://
+        -:    2:// Created by Jubair on 2024-03-25.
+        -:    3://
+        -:    4:#include "/Users/jubair/CLionProjects/untitled/include/Game.h"
+        -:    5:#include "/Users/jubair/CLionProjects/untitled/include/Entity.h"
+        -:    6:#include "/Users/jubair/CLionProjects/untitled/include/Physics.h"
+        -:    7:#include <iostream>
+        -:    8:#include <cmath>
+        -:    9:#include <boost/numeric/odeint.hpp>
+        -:   10:#include <vector>
+        -:   11:#include <thread>
+        -:   12:
+        -:   13:using State = std::array<double, 4>; // x, y, vx, vy
+        -:   14:using Stepper = boost::numeric::odeint::runge_kutta4<State>;
+        -:   15:
+        -:   16:const int WINDOW_WIDTH = static_cast<int>(800 * 1.30);
+        -:   17:const int WINDOW_HEIGHT = static_cast<int>(600 * 1.30);
+        -:   18:// Static variables initialization
+        -:   19:float Game::launchAngleDegrees = 45.0f;
+        -:   20:float Game::force = 1000.0f;
+        -:   21:float trajectoryPoints=60;
+        -:   22:float launchLength=1000.0f;
+        2:   23:Game::Game(): window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Projectile Simulation"),
+        -:   24:        // Assign mass of 1.0 to the bird (projectile)
+        2:   25:         projectile(20.0f, sf::Color::Red, 1.0, true, true) {
+        1:   26:    trajectoryLine.setPrimitiveType(sf::LinesStrip);
+        1:   27:    launchArrow.setSize(sf::Vector2f(50.0f, 5.0f));
+        1:   28:    launchArrow.setFillColor(sf::Color::White);
+        1:   29:    launchArrow.setOrigin(0, 2.5f); // Origin at the base, center for rotation
+        1:   30:    resetGame();
+        2:   31:}
+        -:   32:
+        -:   33:
+        2:   34:void Game::resetGame() {
+        2:   35:    projectile.resetPosition(60.0f, WINDOW_HEIGHT - 200.0f);
+        2:   36:    projectile.isMobile = false;
+        2:   37:    birdResetCounter = 0;
+        -:   38:    // Initialize targets with positions and add them to the vector
+        2:   39:    targets.emplace_back(20.0f, sf::Color::Green, 2.0, false, false);
+        2:   40:    targets.back().resetPosition(WINDOW_WIDTH - 200.0f, WINDOW_HEIGHT - 200.0f);
+        -:   41:
+        2:   42:    targets.emplace_back(20.0f, sf::Color::Green, 2.0, false, false);
+        2:   43:    targets.back().resetPosition(WINDOW_WIDTH - 150.0f, WINDOW_HEIGHT - 200.0f);
+        -:   44:
+        2:   45:    targets.emplace_back(20.0f, sf::Color::Green, 2.0, false, false);
+        2:   46:    targets.back().resetPosition(WINDOW_WIDTH - 250.0f, WINDOW_HEIGHT - 200.0f);
+        2:   47:    force = 1000.0f; // Reset force/speed to default
+        2:   48:    launchAngleDegrees = 45.0f; // Reset angle to default
+        2:   49:    simulateTrajectory(launchAngleDegrees, force);
+        2:   50:    updateLaunchArrow(launchAngleDegrees, force);
+        2:   51:}
+        -:   52:
+    #####:   53:void Game::run() {
+    #####:   54:    while (window.isOpen()) {
+    #####:   55:        sf::Event event{};
+    #####:   56:        while (window.pollEvent(event)) {
+    #####:   57:            if (event.type == sf::Event::Closed)
+    #####:   58:                window.close();
+    #####:   59:            else if (event.type == sf::Event::KeyPressed)
+    #####:   60:                handleKeyPress(event.key.code);
+        -:   61:        }
+    #####:   62:        update();
+    #####:   63:        render();
+        -:   64:    }
+    #####:   65:}
+        -:   66:
+        -:   67:// In the Game class, adjust the simulation and rendering to reflect changes in force and angle
+    #####:   68:void Game::handleKeyPress(sf::Keyboard::Key key) {
+        2:   69:    float forceAdjustment = 100.0f; // Adjust this value as needed for the game's scale
+        2:   70:    float angleAdjustment = 5.0f;
+    #####:   71:    float angleAdjustmentSub=0.5f;
+        -:   72:
+    #####:   73:    if (key == sf::Keyboard::Up && launchAngleDegrees < 90) {
+    #####:   74:        launchAngleDegrees += angleAdjustment;
+    #####:   75:    } else if (key == sf::Keyboard::Down && launchAngleDegrees > 0) {
+    #####:   76:        launchAngleDegrees -= angleAdjustment;
+    #####:   77:    } else if (key == sf::Keyboard::D && launchAngleDegrees < 90) {
+    #####:   78:        launchAngleDegrees += angleAdjustmentSub;
+    #####:   79:    } else if (key == sf::Keyboard::C && launchAngleDegrees > 0) {
+    #####:   80:        launchAngleDegrees -= angleAdjustmentSub;
+    #####:   81:    } else if (key == sf::Keyboard::Right) {
+    #####:   82:        force += forceAdjustment;
+    #####:   83:    } else if (key == sf::Keyboard::Left && force > forceAdjustment) {
+    #####:   84:        force -= forceAdjustment;
+    #####:   85:    } else if (key == sf::Keyboard::Space && !projectile.isMobile) {
+    #####:   86:        projectile.applyForce(force, launchAngleDegrees);
+    #####:   87:    } else if (key == sf::Keyboard::R) {
+    #####:   88:        resetGame();
+    #####:   89:    } else if (key == sf::Keyboard::Q) { // Quit the game
+    #####:   90:        window.close();
+    #####:   91:    }
+        -:   92:    // Recalculate trajectory with the updated force and angle
+    #####:   93:    simulateTrajectory(launchAngleDegrees, force);
+    #####:   94:    updateLaunchArrow(launchAngleDegrees, force);
+    #####:   95:}
+        -:   96:
+        -:   97:// Update the `update` method to use the modified checkCollision method correctly
+    #####:   98:void Game::update() {
+    #####:   99:    float deltaTime = clock.restart().asSeconds();
+    #####:  100:    projectile.update(deltaTime, stepper);
+        -:  101:
+        -:  102:    // Reset collision flags before collision detection
+    #####:  103:    projectile.collisionFlag = false;
+    #####:  104:    for (auto &target : targets) {
+    #####:  105:        target.collisionFlag = false;
+        -:  106:    }
+        -:  107:
+        -:  108:    // Check for collision between projectile and each target
+    #####:  109:    for (auto &target : targets) {
+    #####:  110:        if (checkCollision(projectile, target)) {
+    #####:  111:            printVelocities("Before", projectile, target);
+    #####:  112:            projectile.transferMomentum(target);
+    #####:  113:            printVelocities("After", projectile, target);
+        -:  114:
+    #####:  115:            target.isMobile = true;
+    #####:  116:        }
+    #####:  117:        target.update(deltaTime, stepper);
+        -:  118:    }
+        -:  119:
+        -:  120:    // Check for collisions among targets
+    #####:  121:    for (size_t i = 0; i < targets.size(); ++i) {
+    #####:  122:        for (size_t j = i + 1; j < targets.size(); ++j) {
+    #####:  123:            if (checkCollision(targets[i], targets[j])) {
+    #####:  124:                printVelocities("Before", targets[i], targets[j]);
+    #####:  125:                targets[i].transferMomentum(targets[j]);
+    #####:  126:                printVelocities("After", targets[i], targets[j]);
+        -:  127:
+    #####:  128:                targets[i].isMobile = true;
+    #####:  129:                targets[j].isMobile = true;
+    #####:  130:            }
+    #####:  131:        }
+    #####:  132:    }
+        1:  133:
+        1:  134:    // Reset bird if it goes out of bounds, with limited resets
+    #####:  135:    if (isOutOfWindow(projectile) && birdResetCounter < maxBirdResets) {
+    #####:  136:        resetBirdPosition();
+    #####:  137:        birdResetCounter++;
+    #####:  138:    }
+    #####:  139:}
+        -:  140:
+    #####:  141:bool Game::isOutOfWindow(const Entity& entity) {
+        -:  142:    // Check if entity is outside the window bounds
+    #####:  143:    auto pos = entity.shape.getPosition();
+    #####:  144:    return pos.x < 0 || pos.x > WINDOW_WIDTH || pos.y < 0 || pos.y > WINDOW_HEIGHT;
+        -:  145:}
+        -:  146:
+    #####:  147:void Game::resetBirdPosition() {
+        -:  148:    // Reset the bird to its initial position and make it immobile
+    #####:  149:    projectile.resetPosition(60.0f, WINDOW_HEIGHT - 200.0f);
+    #####:  150:    projectile.isMobile = false;
+    #####:  151:}
+        -:  152:
+        -:  153:
+        2:  154:void Game::simulateTrajectory(float angleDegrees, float speed) {
+        2:  155:    trajectoryLine.clear();
+        2:  156:    State tempState = projectile.state;
+        2:  157:    float angleRadians = Entity::degreesToRadians(angleDegrees);
+        2:  158:    tempState[2] = std::cos(angleRadians) * speed; // Set initial horizontal velocity
+        2:  159:    tempState[3] = std::sin(angleRadians) * speed; // Set initial vertical velocity
+        -:  160:
+        -:  161:    // Simulate the trajectory for a set number of steps or until a break condition is met
+      122:  162:    for (size_t i = 0; i < trajectoryPoints; ++i) { // Increase iteration count for longer trajectory
+      120:  163:        stepper.do_step(projectileSystem, tempState, 0, 0.02); // Decrease time step for finer trajectory line
+        -:  164:
+        -:  165:        // Continue appending points even if they go out of the window bounds
+      120:  166:        trajectoryLine.append(sf::Vertex(sf::Vector2f(static_cast<float>(tempState[0]), WINDOW_HEIGHT - static_cast<float>(tempState[1])), sf::Color::Yellow));
+        -:  167:
+        -:  168:        // Optional: Break if the projectile goes too far out of bounds (to avoid infinite trajectory)
+      240:  169:        if (tempState[0] > WINDOW_WIDTH * 2 || tempState[1] > WINDOW_HEIGHT * 2 ||
+      120:  170:            tempState[0] < -WINDOW_WIDTH || tempState[1] < -WINDOW_HEIGHT) {
+    #####:  171:            break;
+        -:  172:        }
+      120:  173:    }
+        2:  174:}
+        -:  175:
+        -:  176:// Modify the checkCollision method to accept two Entity objects and return a bool
+        2:  177:bool Game::checkCollision(const Entity& a, const Entity& b) {
+        2:  178:    float dx = a.shape.getPosition().x - b.shape.getPosition().x;
+        2:  179:    float dy = a.shape.getPosition().y - b.shape.getPosition().y;
+        2:  180:    float distance = sqrt(dx * dx + dy * dy);
+        -:  181:
+        2:  182:    return distance < (a.shape.getRadius() + b.shape.getRadius());
+        -:  183:}
+        -:  184:
+        -:  185:// Adjust the launch arrow orientation to match the launch direction
+        2:  186:void Game::updateLaunchArrow(float angleDegrees, float force) {
+        2:  187:    launchArrow.setPosition(projectile.shape.getPosition());
+        -:  188:    // Angle adjustment might be needed to align with your coordinate system
+        2:  189:    launchArrow.setRotation( -angleDegrees);
+        2:  190:    float lengthScale = force / launchLength;
+        2:  191:    launchArrow.setSize(sf::Vector2f(50.0f * lengthScale, launchArrow.getSize().y));
+        2:  192:}
+        -:  193:
+    #####:  194:void Game::render() {
+    #####:  195:    window.clear();
+        -:  196:    // Draw the projectile and launch arrow if the projectile is not mobile
+    #####:  197:    if (!projectile.isMobile) {
+    #####:  198:        window.draw(trajectoryLine);
+    #####:  199:        window.draw(launchArrow);
+    #####:  200:    }
+    #####:  201:    window.draw(projectile.shape);
+        -:  202:    // Draw each target by iterating through the targets vector
+    #####:  203:    for (auto& target : targets) {
+    #####:  204:        window.draw(target.shape);
+        -:  205:    }
+    #####:  206:    window.display();
+    #####:  207:}
+        -:  208:
+        -:  209:// Utility function to print velocities of two entities
+    #####:  210:void Game::printVelocities(const std::string& phase, const Entity& a, const Entity& b) {
+    #####:  211:    std::cout << phase << " collision: "
+    #####:  212:              << "Entity A vx = " << a.state[2] << ", vy = " << a.state[3]
+    #####:  213:              << " | Entity B vx = " << b.state[2] << ", vy = " << b.state[3] << std::endl;
+    #####:  214:}

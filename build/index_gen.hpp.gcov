@@ -1,0 +1,86 @@
+        -:    0:Source:/opt/homebrew/include/boost/multi_array/index_gen.hpp
+        -:    0:Graph:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcda
+        -:    0:Runs:2
+        -:    0:Programs:1
+        -:    1:// Copyright 2002 The Trustees of Indiana University.
+        -:    2:
+        -:    3:// Use, modification and distribution is subject to the Boost Software 
+        -:    4:// License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+        -:    5:// http://www.boost.org/LICENSE_1_0.txt)
+        -:    6:
+        -:    7://  Boost.MultiArray Library
+        -:    8://  Authors: Ronald Garcia
+        -:    9://           Jeremy Siek
+        -:   10://           Andrew Lumsdaine
+        -:   11://  See http://www.boost.org/libs/multi_array for documentation.
+        -:   12:
+        -:   13:#ifndef BOOST_MULTI_ARRAY_INDEX_GEN_HPP
+        -:   14:#define BOOST_MULTI_ARRAY_INDEX_GEN_HPP
+        -:   15:
+        -:   16:#include "boost/array.hpp"
+        -:   17:#include "boost/multi_array/index_range.hpp"
+        -:   18:#include "boost/multi_array/range_list.hpp"
+        -:   19:#include "boost/multi_array/types.hpp"
+        -:   20:#include <algorithm> 
+        -:   21:#include <cstddef>
+        -:   22:
+        -:   23:namespace boost {
+        -:   24:namespace detail {
+        -:   25:namespace multi_array {
+        -:   26:
+        -:   27:
+        -:   28:template <int NumRanges, int NumDims>
+        -:   29:struct index_gen {
+        -:   30:private:
+        -:   31:  typedef ::boost::detail::multi_array::index index;
+        -:   32:  typedef ::boost::detail::multi_array::size_type size_type;
+        -:   33:  typedef index_range<index,size_type> range;
+        -:   34:public:
+        -:   35:  template <int Dims, int Ranges>
+        -:   36:  struct gen_type {
+        -:   37:    typedef index_gen<Ranges,Dims> type;
+        -:   38:  };
+        -:   39:
+        -:   40:  typedef typename range_list_generator<range,NumRanges>::type range_list;
+        -:   41:  range_list ranges_;
+        -:   42:
+       16:   43:  index_gen() { }
+        -:   44:
+        -:   45:  template <int ND>
+        -:   46:  explicit index_gen(const index_gen<NumRanges-1,ND>& rhs,
+        -:   47:            const range& r)
+        -:   48:  {
+        -:   49:    std::copy(rhs.ranges_.begin(),rhs.ranges_.end(),ranges_.begin());
+        -:   50:    *ranges_.rbegin() = r;
+        -:   51:  }
+        -:   52:
+        -:   53:  index_gen<NumRanges+1,NumDims+1>
+        -:   54:  operator[](const range& r) const
+        -:   55:  {
+        -:   56:    index_gen<NumRanges+1,NumDims+1> tmp;
+        -:   57:    std::copy(ranges_.begin(),ranges_.end(),tmp.ranges_.begin());
+        -:   58:    *tmp.ranges_.rbegin() = r;
+        -:   59:    return tmp;
+        -:   60:  }
+        -:   61:
+        -:   62:  index_gen<NumRanges+1,NumDims>
+        -:   63:  operator[](index idx) const
+        -:   64:  {
+        -:   65:    index_gen<NumRanges+1,NumDims> tmp;
+        -:   66:    std::copy(ranges_.begin(),ranges_.end(),tmp.ranges_.begin());
+        -:   67:    *tmp.ranges_.rbegin() = range(idx);
+        -:   68:    return tmp;
+        -:   69:  }    
+        -:   70:
+        -:   71:  static index_gen<0,0> indices() {
+        -:   72:    return index_gen<0,0>();
+        -:   73:  }
+        -:   74:};
+        -:   75:
+        -:   76:} // namespace multi_array
+        -:   77:} // namespace detail
+        -:   78:} // namespace boost
+        -:   79:
+        -:   80:
+        -:   81:#endif

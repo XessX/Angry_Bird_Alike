@@ -1,0 +1,551 @@
+        -:    0:Source:/Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk/usr/include/c++/v1/__functional/invoke.h
+        -:    0:Graph:./CMakeFiles/test_run.dir/src/Game.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/src/Game.cpp.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:// -*- C++ -*-
+        -:    2://===----------------------------------------------------------------------===//
+        -:    3://
+        -:    4:// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
+        -:    5:// See https://llvm.org/LICENSE.txt for license information.
+        -:    6:// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+        -:    7://
+        -:    8://===----------------------------------------------------------------------===//
+        -:    9:
+        -:   10:#ifndef _LIBCPP___FUNCTIONAL_INVOKE_H
+        -:   11:#define _LIBCPP___FUNCTIONAL_INVOKE_H
+        -:   12:
+        -:   13:#include <__config>
+        -:   14:#include <__type_traits/add_lvalue_reference.h>
+        -:   15:#include <__type_traits/apply_cv.h>
+        -:   16:#include <__type_traits/conditional.h>
+        -:   17:#include <__type_traits/decay.h>
+        -:   18:#include <__type_traits/enable_if.h>
+        -:   19:#include <__type_traits/integral_constant.h>
+        -:   20:#include <__type_traits/is_base_of.h>
+        -:   21:#include <__type_traits/is_core_convertible.h>
+        -:   22:#include <__type_traits/is_member_function_pointer.h>
+        -:   23:#include <__type_traits/is_member_object_pointer.h>
+        -:   24:#include <__type_traits/is_reference_wrapper.h>
+        -:   25:#include <__type_traits/is_same.h>
+        -:   26:#include <__type_traits/is_void.h>
+        -:   27:#include <__type_traits/nat.h>
+        -:   28:#include <__type_traits/remove_cv.h>
+        -:   29:#include <__utility/declval.h>
+        -:   30:#include <__utility/forward.h>
+        -:   31:
+        -:   32:#if !defined(_LIBCPP_HAS_NO_PRAGMA_SYSTEM_HEADER)
+        -:   33:#  pragma GCC system_header
+        -:   34:#endif
+        -:   35:
+        -:   36:// TODO: Disentangle the type traits and std::invoke properly
+        -:   37:
+        -:   38:_LIBCPP_BEGIN_NAMESPACE_STD
+        -:   39:
+        -:   40:struct __any
+        -:   41:{
+        -:   42:    __any(...);
+        -:   43:};
+        -:   44:
+        -:   45:template <class _MP, bool _IsMemberFunctionPtr, bool _IsMemberObjectPtr>
+        -:   46:struct __member_pointer_traits_imp
+        -:   47:{
+        -:   48:};
+        -:   49:
+        -:   50:template <class _Rp, class _Class, class ..._Param>
+        -:   51:struct __member_pointer_traits_imp<_Rp (_Class::*)(_Param...), true, false>
+        -:   52:{
+        -:   53:    typedef _Class _ClassType;
+        -:   54:    typedef _Rp _ReturnType;
+        -:   55:    typedef _Rp (_FnType) (_Param...);
+        -:   56:};
+        -:   57:
+        -:   58:template <class _Rp, class _Class, class ..._Param>
+        -:   59:struct __member_pointer_traits_imp<_Rp (_Class::*)(_Param..., ...), true, false>
+        -:   60:{
+        -:   61:    typedef _Class _ClassType;
+        -:   62:    typedef _Rp _ReturnType;
+        -:   63:    typedef _Rp (_FnType) (_Param..., ...);
+        -:   64:};
+        -:   65:
+        -:   66:template <class _Rp, class _Class, class ..._Param>
+        -:   67:struct __member_pointer_traits_imp<_Rp (_Class::*)(_Param...) const, true, false>
+        -:   68:{
+        -:   69:    typedef _Class const _ClassType;
+        -:   70:    typedef _Rp _ReturnType;
+        -:   71:    typedef _Rp (_FnType) (_Param...);
+        -:   72:};
+        -:   73:
+        -:   74:template <class _Rp, class _Class, class ..._Param>
+        -:   75:struct __member_pointer_traits_imp<_Rp (_Class::*)(_Param..., ...) const, true, false>
+        -:   76:{
+        -:   77:    typedef _Class const _ClassType;
+        -:   78:    typedef _Rp _ReturnType;
+        -:   79:    typedef _Rp (_FnType) (_Param..., ...);
+        -:   80:};
+        -:   81:
+        -:   82:template <class _Rp, class _Class, class ..._Param>
+        -:   83:struct __member_pointer_traits_imp<_Rp (_Class::*)(_Param...) volatile, true, false>
+        -:   84:{
+        -:   85:    typedef _Class volatile _ClassType;
+        -:   86:    typedef _Rp _ReturnType;
+        -:   87:    typedef _Rp (_FnType) (_Param...);
+        -:   88:};
+        -:   89:
+        -:   90:template <class _Rp, class _Class, class ..._Param>
+        -:   91:struct __member_pointer_traits_imp<_Rp (_Class::*)(_Param..., ...) volatile, true, false>
+        -:   92:{
+        -:   93:    typedef _Class volatile _ClassType;
+        -:   94:    typedef _Rp _ReturnType;
+        -:   95:    typedef _Rp (_FnType) (_Param..., ...);
+        -:   96:};
+        -:   97:
+        -:   98:template <class _Rp, class _Class, class ..._Param>
+        -:   99:struct __member_pointer_traits_imp<_Rp (_Class::*)(_Param...) const volatile, true, false>
+        -:  100:{
+        -:  101:    typedef _Class const volatile _ClassType;
+        -:  102:    typedef _Rp _ReturnType;
+        -:  103:    typedef _Rp (_FnType) (_Param...);
+        -:  104:};
+        -:  105:
+        -:  106:template <class _Rp, class _Class, class ..._Param>
+        -:  107:struct __member_pointer_traits_imp<_Rp (_Class::*)(_Param..., ...) const volatile, true, false>
+        -:  108:{
+        -:  109:    typedef _Class const volatile _ClassType;
+        -:  110:    typedef _Rp _ReturnType;
+        -:  111:    typedef _Rp (_FnType) (_Param..., ...);
+        -:  112:};
+        -:  113:
+        -:  114:template <class _Rp, class _Class, class ..._Param>
+        -:  115:struct __member_pointer_traits_imp<_Rp (_Class::*)(_Param...) &, true, false>
+        -:  116:{
+        -:  117:    typedef _Class& _ClassType;
+        -:  118:    typedef _Rp _ReturnType;
+        -:  119:    typedef _Rp (_FnType) (_Param...);
+        -:  120:};
+        -:  121:
+        -:  122:template <class _Rp, class _Class, class ..._Param>
+        -:  123:struct __member_pointer_traits_imp<_Rp (_Class::*)(_Param..., ...) &, true, false>
+        -:  124:{
+        -:  125:    typedef _Class& _ClassType;
+        -:  126:    typedef _Rp _ReturnType;
+        -:  127:    typedef _Rp (_FnType) (_Param..., ...);
+        -:  128:};
+        -:  129:
+        -:  130:template <class _Rp, class _Class, class ..._Param>
+        -:  131:struct __member_pointer_traits_imp<_Rp (_Class::*)(_Param...) const&, true, false>
+        -:  132:{
+        -:  133:    typedef _Class const& _ClassType;
+        -:  134:    typedef _Rp _ReturnType;
+        -:  135:    typedef _Rp (_FnType) (_Param...);
+        -:  136:};
+        -:  137:
+        -:  138:template <class _Rp, class _Class, class ..._Param>
+        -:  139:struct __member_pointer_traits_imp<_Rp (_Class::*)(_Param..., ...) const&, true, false>
+        -:  140:{
+        -:  141:    typedef _Class const& _ClassType;
+        -:  142:    typedef _Rp _ReturnType;
+        -:  143:    typedef _Rp (_FnType) (_Param..., ...);
+        -:  144:};
+        -:  145:
+        -:  146:template <class _Rp, class _Class, class ..._Param>
+        -:  147:struct __member_pointer_traits_imp<_Rp (_Class::*)(_Param...) volatile&, true, false>
+        -:  148:{
+        -:  149:    typedef _Class volatile& _ClassType;
+        -:  150:    typedef _Rp _ReturnType;
+        -:  151:    typedef _Rp (_FnType) (_Param...);
+        -:  152:};
+        -:  153:
+        -:  154:template <class _Rp, class _Class, class ..._Param>
+        -:  155:struct __member_pointer_traits_imp<_Rp (_Class::*)(_Param..., ...) volatile&, true, false>
+        -:  156:{
+        -:  157:    typedef _Class volatile& _ClassType;
+        -:  158:    typedef _Rp _ReturnType;
+        -:  159:    typedef _Rp (_FnType) (_Param..., ...);
+        -:  160:};
+        -:  161:
+        -:  162:template <class _Rp, class _Class, class ..._Param>
+        -:  163:struct __member_pointer_traits_imp<_Rp (_Class::*)(_Param...) const volatile&, true, false>
+        -:  164:{
+        -:  165:    typedef _Class const volatile& _ClassType;
+        -:  166:    typedef _Rp _ReturnType;
+        -:  167:    typedef _Rp (_FnType) (_Param...);
+        -:  168:};
+        -:  169:
+        -:  170:template <class _Rp, class _Class, class ..._Param>
+        -:  171:struct __member_pointer_traits_imp<_Rp (_Class::*)(_Param..., ...) const volatile&, true, false>
+        -:  172:{
+        -:  173:    typedef _Class const volatile& _ClassType;
+        -:  174:    typedef _Rp _ReturnType;
+        -:  175:    typedef _Rp (_FnType) (_Param..., ...);
+        -:  176:};
+        -:  177:
+        -:  178:template <class _Rp, class _Class, class ..._Param>
+        -:  179:struct __member_pointer_traits_imp<_Rp (_Class::*)(_Param...) &&, true, false>
+        -:  180:{
+        -:  181:    typedef _Class&& _ClassType;
+        -:  182:    typedef _Rp _ReturnType;
+        -:  183:    typedef _Rp (_FnType) (_Param...);
+        -:  184:};
+        -:  185:
+        -:  186:template <class _Rp, class _Class, class ..._Param>
+        -:  187:struct __member_pointer_traits_imp<_Rp (_Class::*)(_Param..., ...) &&, true, false>
+        -:  188:{
+        -:  189:    typedef _Class&& _ClassType;
+        -:  190:    typedef _Rp _ReturnType;
+        -:  191:    typedef _Rp (_FnType) (_Param..., ...);
+        -:  192:};
+        -:  193:
+        -:  194:template <class _Rp, class _Class, class ..._Param>
+        -:  195:struct __member_pointer_traits_imp<_Rp (_Class::*)(_Param...) const&&, true, false>
+        -:  196:{
+        -:  197:    typedef _Class const&& _ClassType;
+        -:  198:    typedef _Rp _ReturnType;
+        -:  199:    typedef _Rp (_FnType) (_Param...);
+        -:  200:};
+        -:  201:
+        -:  202:template <class _Rp, class _Class, class ..._Param>
+        -:  203:struct __member_pointer_traits_imp<_Rp (_Class::*)(_Param..., ...) const&&, true, false>
+        -:  204:{
+        -:  205:    typedef _Class const&& _ClassType;
+        -:  206:    typedef _Rp _ReturnType;
+        -:  207:    typedef _Rp (_FnType) (_Param..., ...);
+        -:  208:};
+        -:  209:
+        -:  210:template <class _Rp, class _Class, class ..._Param>
+        -:  211:struct __member_pointer_traits_imp<_Rp (_Class::*)(_Param...) volatile&&, true, false>
+        -:  212:{
+        -:  213:    typedef _Class volatile&& _ClassType;
+        -:  214:    typedef _Rp _ReturnType;
+        -:  215:    typedef _Rp (_FnType) (_Param...);
+        -:  216:};
+        -:  217:
+        -:  218:template <class _Rp, class _Class, class ..._Param>
+        -:  219:struct __member_pointer_traits_imp<_Rp (_Class::*)(_Param..., ...) volatile&&, true, false>
+        -:  220:{
+        -:  221:    typedef _Class volatile&& _ClassType;
+        -:  222:    typedef _Rp _ReturnType;
+        -:  223:    typedef _Rp (_FnType) (_Param..., ...);
+        -:  224:};
+        -:  225:
+        -:  226:template <class _Rp, class _Class, class ..._Param>
+        -:  227:struct __member_pointer_traits_imp<_Rp (_Class::*)(_Param...) const volatile&&, true, false>
+        -:  228:{
+        -:  229:    typedef _Class const volatile&& _ClassType;
+        -:  230:    typedef _Rp _ReturnType;
+        -:  231:    typedef _Rp (_FnType) (_Param...);
+        -:  232:};
+        -:  233:
+        -:  234:template <class _Rp, class _Class, class ..._Param>
+        -:  235:struct __member_pointer_traits_imp<_Rp (_Class::*)(_Param..., ...) const volatile&&, true, false>
+        -:  236:{
+        -:  237:    typedef _Class const volatile&& _ClassType;
+        -:  238:    typedef _Rp _ReturnType;
+        -:  239:    typedef _Rp (_FnType) (_Param..., ...);
+        -:  240:};
+        -:  241:
+        -:  242:template <class _Rp, class _Class>
+        -:  243:struct __member_pointer_traits_imp<_Rp _Class::*, false, true>
+        -:  244:{
+        -:  245:    typedef _Class _ClassType;
+        -:  246:    typedef _Rp _ReturnType;
+        -:  247:};
+        -:  248:
+        -:  249:template <class _MP>
+        -:  250:struct __member_pointer_traits
+        -:  251:    : public __member_pointer_traits_imp<__remove_cv_t<_MP>,
+        -:  252:                    is_member_function_pointer<_MP>::value,
+        -:  253:                    is_member_object_pointer<_MP>::value>
+        -:  254:{
+        -:  255://     typedef ... _ClassType;
+        -:  256://     typedef ... _ReturnType;
+        -:  257://     typedef ... _FnType;
+        -:  258:};
+        -:  259:
+        -:  260:template <class _DecayedFp>
+        -:  261:struct __member_pointer_class_type {};
+        -:  262:
+        -:  263:template <class _Ret, class _ClassType>
+        -:  264:struct __member_pointer_class_type<_Ret _ClassType::*> {
+        -:  265:  typedef _ClassType type;
+        -:  266:};
+        -:  267:
+        -:  268:template <class _Fp, class _A0,
+        -:  269:         class _DecayFp = typename decay<_Fp>::type,
+        -:  270:         class _DecayA0 = typename decay<_A0>::type,
+        -:  271:         class _ClassT = typename __member_pointer_class_type<_DecayFp>::type>
+        -:  272:using __enable_if_bullet1 = typename enable_if
+        -:  273:    <
+        -:  274:        is_member_function_pointer<_DecayFp>::value
+        -:  275:        && is_base_of<_ClassT, _DecayA0>::value
+        -:  276:    >::type;
+        -:  277:
+        -:  278:template <class _Fp, class _A0,
+        -:  279:         class _DecayFp = typename decay<_Fp>::type,
+        -:  280:         class _DecayA0 = typename decay<_A0>::type>
+        -:  281:using __enable_if_bullet2 = typename enable_if
+        -:  282:    <
+        -:  283:        is_member_function_pointer<_DecayFp>::value
+        -:  284:        && __is_reference_wrapper<_DecayA0>::value
+        -:  285:    >::type;
+        -:  286:
+        -:  287:template <class _Fp, class _A0,
+        -:  288:         class _DecayFp = typename decay<_Fp>::type,
+        -:  289:         class _DecayA0 = typename decay<_A0>::type,
+        -:  290:         class _ClassT = typename __member_pointer_class_type<_DecayFp>::type>
+        -:  291:using __enable_if_bullet3 = typename enable_if
+        -:  292:    <
+        -:  293:        is_member_function_pointer<_DecayFp>::value
+        -:  294:        && !is_base_of<_ClassT, _DecayA0>::value
+        -:  295:        && !__is_reference_wrapper<_DecayA0>::value
+        -:  296:    >::type;
+        -:  297:
+        -:  298:template <class _Fp, class _A0,
+        -:  299:         class _DecayFp = typename decay<_Fp>::type,
+        -:  300:         class _DecayA0 = typename decay<_A0>::type,
+        -:  301:         class _ClassT = typename __member_pointer_class_type<_DecayFp>::type>
+        -:  302:using __enable_if_bullet4 = typename enable_if
+        -:  303:    <
+        -:  304:        is_member_object_pointer<_DecayFp>::value
+        -:  305:        && is_base_of<_ClassT, _DecayA0>::value
+        -:  306:    >::type;
+        -:  307:
+        -:  308:template <class _Fp, class _A0,
+        -:  309:         class _DecayFp = typename decay<_Fp>::type,
+        -:  310:         class _DecayA0 = typename decay<_A0>::type>
+        -:  311:using __enable_if_bullet5 = typename enable_if
+        -:  312:    <
+        -:  313:        is_member_object_pointer<_DecayFp>::value
+        -:  314:        && __is_reference_wrapper<_DecayA0>::value
+        -:  315:    >::type;
+        -:  316:
+        -:  317:template <class _Fp, class _A0,
+        -:  318:         class _DecayFp = typename decay<_Fp>::type,
+        -:  319:         class _DecayA0 = typename decay<_A0>::type,
+        -:  320:         class _ClassT = typename __member_pointer_class_type<_DecayFp>::type>
+        -:  321:using __enable_if_bullet6 = typename enable_if
+        -:  322:    <
+        -:  323:        is_member_object_pointer<_DecayFp>::value
+        -:  324:        && !is_base_of<_ClassT, _DecayA0>::value
+        -:  325:        && !__is_reference_wrapper<_DecayA0>::value
+        -:  326:    >::type;
+        -:  327:
+        -:  328:// __invoke forward declarations
+        -:  329:
+        -:  330:// fall back - none of the bullets
+        -:  331:
+        -:  332:template <class ..._Args>
+        -:  333:__nat __invoke(__any, _Args&& ...__args);
+        -:  334:
+        -:  335:// bullets 1, 2 and 3
+        -:  336:
+        -:  337:template <class _Fp, class _A0, class ..._Args,
+        -:  338:          class = __enable_if_bullet1<_Fp, _A0> >
+        -:  339:inline _LIBCPP_INLINE_VISIBILITY
+        -:  340:_LIBCPP_CONSTEXPR decltype((std::declval<_A0>().*std::declval<_Fp>())(std::declval<_Args>()...))
+    #####:  341:__invoke(_Fp&& __f, _A0&& __a0, _Args&& ...__args)
+        -:  342:    _NOEXCEPT_(noexcept((static_cast<_A0&&>(__a0).*__f)(static_cast<_Args&&>(__args)...)))
+    #####:  343:    { return           (static_cast<_A0&&>(__a0).*__f)(static_cast<_Args&&>(__args)...); }
+        -:  344:
+        -:  345:template <class _Fp, class _A0, class ..._Args,
+        -:  346:          class = __enable_if_bullet2<_Fp, _A0> >
+        -:  347:inline _LIBCPP_INLINE_VISIBILITY
+        -:  348:_LIBCPP_CONSTEXPR decltype((std::declval<_A0>().get().*std::declval<_Fp>())(std::declval<_Args>()...))
+        -:  349:__invoke(_Fp&& __f, _A0&& __a0, _Args&& ...__args)
+        -:  350:    _NOEXCEPT_(noexcept((__a0.get().*__f)(static_cast<_Args&&>(__args)...)))
+        -:  351:    { return          (__a0.get().*__f)(static_cast<_Args&&>(__args)...); }
+        -:  352:
+        -:  353:template <class _Fp, class _A0, class ..._Args,
+        -:  354:          class = __enable_if_bullet3<_Fp, _A0> >
+        -:  355:inline _LIBCPP_INLINE_VISIBILITY
+        -:  356:_LIBCPP_CONSTEXPR decltype(((*std::declval<_A0>()).*std::declval<_Fp>())(std::declval<_Args>()...))
+        -:  357:__invoke(_Fp&& __f, _A0&& __a0, _Args&& ...__args)
+        -:  358:    _NOEXCEPT_(noexcept(((*static_cast<_A0&&>(__a0)).*__f)(static_cast<_Args&&>(__args)...)))
+        -:  359:    { return          ((*static_cast<_A0&&>(__a0)).*__f)(static_cast<_Args&&>(__args)...); }
+        -:  360:
+        -:  361:// bullets 4, 5 and 6
+        -:  362:
+        -:  363:template <class _Fp, class _A0,
+        -:  364:          class = __enable_if_bullet4<_Fp, _A0> >
+        -:  365:inline _LIBCPP_INLINE_VISIBILITY
+        -:  366:_LIBCPP_CONSTEXPR decltype(std::declval<_A0>().*std::declval<_Fp>())
+        -:  367:__invoke(_Fp&& __f, _A0&& __a0)
+        -:  368:    _NOEXCEPT_(noexcept(static_cast<_A0&&>(__a0).*__f))
+        -:  369:    { return          static_cast<_A0&&>(__a0).*__f; }
+        -:  370:
+        -:  371:template <class _Fp, class _A0,
+        -:  372:          class = __enable_if_bullet5<_Fp, _A0> >
+        -:  373:inline _LIBCPP_INLINE_VISIBILITY
+        -:  374:_LIBCPP_CONSTEXPR decltype(std::declval<_A0>().get().*std::declval<_Fp>())
+        -:  375:__invoke(_Fp&& __f, _A0&& __a0)
+        -:  376:    _NOEXCEPT_(noexcept(__a0.get().*__f))
+        -:  377:    { return          __a0.get().*__f; }
+        -:  378:
+        -:  379:template <class _Fp, class _A0,
+        -:  380:          class = __enable_if_bullet6<_Fp, _A0> >
+        -:  381:inline _LIBCPP_INLINE_VISIBILITY
+        -:  382:_LIBCPP_CONSTEXPR decltype((*std::declval<_A0>()).*std::declval<_Fp>())
+        -:  383:__invoke(_Fp&& __f, _A0&& __a0)
+        -:  384:    _NOEXCEPT_(noexcept((*static_cast<_A0&&>(__a0)).*__f))
+        -:  385:    { return          (*static_cast<_A0&&>(__a0)).*__f; }
+        -:  386:
+        -:  387:// bullet 7
+        -:  388:
+        -:  389:template <class _Fp, class ..._Args>
+        -:  390:inline _LIBCPP_INLINE_VISIBILITY
+        -:  391:_LIBCPP_CONSTEXPR decltype(std::declval<_Fp>()(std::declval<_Args>()...))
+        -:  392:__invoke(_Fp&& __f, _Args&& ...__args)
+        -:  393:    _NOEXCEPT_(noexcept(static_cast<_Fp&&>(__f)(static_cast<_Args&&>(__args)...)))
+        -:  394:    { return          static_cast<_Fp&&>(__f)(static_cast<_Args&&>(__args)...); }
+        -:  395:
+        -:  396:// __invokable
+        -:  397:template <class _Ret, class _Fp, class ..._Args>
+        -:  398:struct __invokable_r
+        -:  399:{
+        -:  400:  template <class _XFp, class ..._XArgs>
+        -:  401:  static decltype(std::__invoke(std::declval<_XFp>(), std::declval<_XArgs>()...)) __try_call(int);
+        -:  402:  template <class _XFp, class ..._XArgs>
+        -:  403:  static __nat __try_call(...);
+        -:  404:
+        -:  405:  // FIXME: Check that _Ret, _Fp, and _Args... are all complete types, cv void,
+        -:  406:  // or incomplete array types as required by the standard.
+        -:  407:  using _Result = decltype(__try_call<_Fp, _Args...>(0));
+        -:  408:
+        -:  409:  using type = __conditional_t<
+        -:  410:      _IsNotSame<_Result, __nat>::value,
+        -:  411:      __conditional_t<is_void<_Ret>::value, true_type, __is_core_convertible<_Result, _Ret> >,
+        -:  412:      false_type>;
+        -:  413:  static const bool value = type::value;
+        -:  414:};
+        -:  415:template <class _Fp, class ..._Args>
+        -:  416:using __invokable = __invokable_r<void, _Fp, _Args...>;
+        -:  417:
+        -:  418:template <bool _IsInvokable, bool _IsCVVoid, class _Ret, class _Fp, class ..._Args>
+        -:  419:struct __nothrow_invokable_r_imp {
+        -:  420:  static const bool value = false;
+        -:  421:};
+        -:  422:
+        -:  423:template <class _Ret, class _Fp, class ..._Args>
+        -:  424:struct __nothrow_invokable_r_imp<true, false, _Ret, _Fp, _Args...>
+        -:  425:{
+        -:  426:    typedef __nothrow_invokable_r_imp _ThisT;
+        -:  427:
+        -:  428:    template <class _Tp>
+        -:  429:    static void __test_noexcept(_Tp) _NOEXCEPT;
+        -:  430:
+        -:  431:#ifdef _LIBCPP_CXX03_LANG
+        -:  432:    static const bool value = false;
+        -:  433:#else
+        -:  434:    static const bool value = noexcept(_ThisT::__test_noexcept<_Ret>(
+        -:  435:        _VSTD::__invoke(std::declval<_Fp>(), std::declval<_Args>()...)));
+        -:  436:#endif
+        -:  437:};
+        -:  438:
+        -:  439:template <class _Ret, class _Fp, class ..._Args>
+        -:  440:struct __nothrow_invokable_r_imp<true, true, _Ret, _Fp, _Args...>
+        -:  441:{
+        -:  442:#ifdef _LIBCPP_CXX03_LANG
+        -:  443:    static const bool value = false;
+        -:  444:#else
+        -:  445:    static const bool value = noexcept(
+        -:  446:        _VSTD::__invoke(std::declval<_Fp>(), std::declval<_Args>()...));
+        -:  447:#endif
+        -:  448:};
+        -:  449:
+        -:  450:template <class _Ret, class _Fp, class ..._Args>
+        -:  451:using __nothrow_invokable_r =
+        -:  452:    __nothrow_invokable_r_imp<
+        -:  453:            __invokable_r<_Ret, _Fp, _Args...>::value,
+        -:  454:            is_void<_Ret>::value,
+        -:  455:            _Ret, _Fp, _Args...
+        -:  456:    >;
+        -:  457:
+        -:  458:template <class _Fp, class ..._Args>
+        -:  459:using __nothrow_invokable =
+        -:  460:    __nothrow_invokable_r_imp<
+        -:  461:            __invokable<_Fp, _Args...>::value,
+        -:  462:            true, void, _Fp, _Args...
+        -:  463:    >;
+        -:  464:
+        -:  465:template <class _Fp, class ..._Args>
+        -:  466:struct __invoke_of
+        -:  467:    : public enable_if<
+        -:  468:        __invokable<_Fp, _Args...>::value,
+        -:  469:        typename __invokable_r<void, _Fp, _Args...>::_Result>
+        -:  470:{
+        -:  471:};
+        -:  472:
+        -:  473:template <class _Ret, bool = is_void<_Ret>::value>
+        -:  474:struct __invoke_void_return_wrapper
+        -:  475:{
+        -:  476:    template <class ..._Args>
+        -:  477:    static _Ret __call(_Args&&... __args) {
+        -:  478:        return std::__invoke(std::forward<_Args>(__args)...);
+        -:  479:    }
+        -:  480:};
+        -:  481:
+        -:  482:template <class _Ret>
+        -:  483:struct __invoke_void_return_wrapper<_Ret, true>
+        -:  484:{
+        -:  485:    template <class ..._Args>
+        -:  486:    static void __call(_Args&&... __args) {
+        -:  487:        std::__invoke(std::forward<_Args>(__args)...);
+        -:  488:    }
+        -:  489:};
+        -:  490:
+        -:  491:#if _LIBCPP_STD_VER > 14
+        -:  492:
+        -:  493:// is_invocable
+        -:  494:
+        -:  495:template <class _Fn, class ..._Args>
+        -:  496:struct _LIBCPP_TEMPLATE_VIS is_invocable
+        -:  497:    : integral_constant<bool, __invokable<_Fn, _Args...>::value> {};
+        -:  498:
+        -:  499:template <class _Ret, class _Fn, class ..._Args>
+        -:  500:struct _LIBCPP_TEMPLATE_VIS is_invocable_r
+        -:  501:    : integral_constant<bool, __invokable_r<_Ret, _Fn, _Args...>::value> {};
+        -:  502:
+        -:  503:template <class _Fn, class ..._Args>
+        -:  504:inline constexpr bool is_invocable_v = is_invocable<_Fn, _Args...>::value;
+        -:  505:
+        -:  506:template <class _Ret, class _Fn, class ..._Args>
+        -:  507:inline constexpr bool is_invocable_r_v = is_invocable_r<_Ret, _Fn, _Args...>::value;
+        -:  508:
+        -:  509:// is_nothrow_invocable
+        -:  510:
+        -:  511:template <class _Fn, class ..._Args>
+        -:  512:struct _LIBCPP_TEMPLATE_VIS is_nothrow_invocable
+        -:  513:    : integral_constant<bool, __nothrow_invokable<_Fn, _Args...>::value> {};
+        -:  514:
+        -:  515:template <class _Ret, class _Fn, class ..._Args>
+        -:  516:struct _LIBCPP_TEMPLATE_VIS is_nothrow_invocable_r
+        -:  517:    : integral_constant<bool, __nothrow_invokable_r<_Ret, _Fn, _Args...>::value> {};
+        -:  518:
+        -:  519:template <class _Fn, class ..._Args>
+        -:  520:inline constexpr bool is_nothrow_invocable_v = is_nothrow_invocable<_Fn, _Args...>::value;
+        -:  521:
+        -:  522:template <class _Ret, class _Fn, class ..._Args>
+        -:  523:inline constexpr bool is_nothrow_invocable_r_v = is_nothrow_invocable_r<_Ret, _Fn, _Args...>::value;
+        -:  524:
+        -:  525:template <class _Fn, class... _Args>
+        -:  526:struct _LIBCPP_TEMPLATE_VIS invoke_result
+        -:  527:    : __invoke_of<_Fn, _Args...>
+        -:  528:{
+        -:  529:};
+        -:  530:
+        -:  531:template <class _Fn, class... _Args>
+        -:  532:using invoke_result_t = typename invoke_result<_Fn, _Args...>::type;
+        -:  533:
+        -:  534:template <class _Fn, class ..._Args>
+        -:  535:_LIBCPP_HIDE_FROM_ABI _LIBCPP_CONSTEXPR_SINCE_CXX20 invoke_result_t<_Fn, _Args...>
+        -:  536:invoke(_Fn&& __f, _Args&&... __args)
+        -:  537:    noexcept(is_nothrow_invocable_v<_Fn, _Args...>)
+        -:  538:{
+        -:  539:    return _VSTD::__invoke(_VSTD::forward<_Fn>(__f), _VSTD::forward<_Args>(__args)...);
+        -:  540:}
+        -:  541:
+        -:  542:#endif // _LIBCPP_STD_VER > 14
+        -:  543:
+        -:  544:_LIBCPP_END_NAMESPACE_STD
+        -:  545:
+        -:  546:#endif // _LIBCPP___FUNCTIONAL_INVOKE_H

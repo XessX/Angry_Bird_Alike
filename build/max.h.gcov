@@ -1,0 +1,76 @@
+        -:    0:Source:/Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk/usr/include/c++/v1/__algorithm/max.h
+        -:    0:Graph:./CMakeFiles/test_run.dir/src/Game.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/src/Game.cpp.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1://===----------------------------------------------------------------------===//
+        -:    2://
+        -:    3:// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
+        -:    4:// See https://llvm.org/LICENSE.txt for license information.
+        -:    5:// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+        -:    6://
+        -:    7://===----------------------------------------------------------------------===//
+        -:    8:
+        -:    9:#ifndef _LIBCPP___ALGORITHM_MAX_H
+        -:   10:#define _LIBCPP___ALGORITHM_MAX_H
+        -:   11:
+        -:   12:#include <__algorithm/comp.h>
+        -:   13:#include <__algorithm/comp_ref_type.h>
+        -:   14:#include <__algorithm/max_element.h>
+        -:   15:#include <__config>
+        -:   16:#include <initializer_list>
+        -:   17:
+        -:   18:#if !defined(_LIBCPP_HAS_NO_PRAGMA_SYSTEM_HEADER)
+        -:   19:#  pragma GCC system_header
+        -:   20:#endif
+        -:   21:
+        -:   22:_LIBCPP_PUSH_MACROS
+        -:   23:#include <__undef_macros>
+        -:   24:
+        -:   25:_LIBCPP_BEGIN_NAMESPACE_STD
+        -:   26:
+        -:   27:template <class _Tp, class _Compare>
+        -:   28:_LIBCPP_NODISCARD_EXT inline
+        -:   29:_LIBCPP_INLINE_VISIBILITY _LIBCPP_CONSTEXPR_SINCE_CXX14
+        -:   30:const _Tp&
+      227:   31:max(const _Tp& __a, const _Tp& __b, _Compare __comp)
+        -:   32:{
+      227:   33:    return __comp(__a, __b) ? __b : __a;
+        -:   34:}
+        -:   35:
+        -:   36:template <class _Tp>
+        -:   37:_LIBCPP_NODISCARD_EXT inline
+        -:   38:_LIBCPP_INLINE_VISIBILITY _LIBCPP_CONSTEXPR_SINCE_CXX14
+        -:   39:const _Tp&
+      227:   40:max(const _Tp& __a, const _Tp& __b)
+        -:   41:{
+      227:   42:    return _VSTD::max(__a, __b, __less<_Tp>());
+        -:   43:}
+        -:   44:
+        -:   45:#ifndef _LIBCPP_CXX03_LANG
+        -:   46:
+        -:   47:template<class _Tp, class _Compare>
+        -:   48:_LIBCPP_NODISCARD_EXT inline
+        -:   49:_LIBCPP_INLINE_VISIBILITY _LIBCPP_CONSTEXPR_SINCE_CXX14
+        -:   50:_Tp
+        -:   51:max(initializer_list<_Tp> __t, _Compare __comp)
+        -:   52:{
+        -:   53:    return *_VSTD::__max_element<__comp_ref_type<_Compare> >(__t.begin(), __t.end(), __comp);
+        -:   54:}
+        -:   55:
+        -:   56:template<class _Tp>
+        -:   57:_LIBCPP_NODISCARD_EXT inline
+        -:   58:_LIBCPP_INLINE_VISIBILITY _LIBCPP_CONSTEXPR_SINCE_CXX14
+        -:   59:_Tp
+        -:   60:max(initializer_list<_Tp> __t)
+        -:   61:{
+        -:   62:    return *_VSTD::max_element(__t.begin(), __t.end(), __less<_Tp>());
+        -:   63:}
+        -:   64:
+        -:   65:#endif // _LIBCPP_CXX03_LANG
+        -:   66:
+        -:   67:_LIBCPP_END_NAMESPACE_STD
+        -:   68:
+        -:   69:_LIBCPP_POP_MACROS
+        -:   70:
+        -:   71:#endif // _LIBCPP___ALGORITHM_MAX_H

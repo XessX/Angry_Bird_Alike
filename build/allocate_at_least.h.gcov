@@ -1,0 +1,67 @@
+        -:    0:Source:/Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk/usr/include/c++/v1/__memory/allocate_at_least.h
+        -:    0:Graph:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcda
+        -:    0:Runs:2
+        -:    0:Programs:1
+        -:    1://===----------------------------------------------------------------------===//
+        -:    2://
+        -:    3:// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
+        -:    4:// See https://llvm.org/LICENSE.txt for license information.
+        -:    5:// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+        -:    6://
+        -:    7://===----------------------------------------------------------------------===//
+        -:    8:
+        -:    9:#ifndef _LIBCPP___MEMORY_ALLOCATE_AT_LEAST_H
+        -:   10:#define _LIBCPP___MEMORY_ALLOCATE_AT_LEAST_H
+        -:   11:
+        -:   12:#include <__config>
+        -:   13:#include <__memory/allocator_traits.h>
+        -:   14:#include <cstddef>
+        -:   15:
+        -:   16:#if !defined(_LIBCPP_HAS_NO_PRAGMA_SYSTEM_HEADER)
+        -:   17:#  pragma GCC system_header
+        -:   18:#endif
+        -:   19:
+        -:   20:_LIBCPP_BEGIN_NAMESPACE_STD
+        -:   21:
+        -:   22:#if _LIBCPP_STD_VER > 20
+        -:   23:template <class _Pointer>
+        -:   24:struct allocation_result {
+        -:   25:  _Pointer ptr;
+        -:   26:  size_t count;
+        -:   27:};
+        -:   28:_LIBCPP_CTAD_SUPPORTED_FOR_TYPE(allocation_result);
+        -:   29:
+        -:   30:template <class _Alloc>
+        -:   31:[[nodiscard]] _LIBCPP_HIDE_FROM_ABI constexpr
+        -:   32:allocation_result<typename allocator_traits<_Alloc>::pointer> allocate_at_least(_Alloc& __alloc, size_t __n) {
+        -:   33:  if constexpr (requires { __alloc.allocate_at_least(__n); }) {
+        -:   34:    return __alloc.allocate_at_least(__n);
+        -:   35:  } else {
+        -:   36:    return {__alloc.allocate(__n), __n};
+        -:   37:  }
+        -:   38:}
+        -:   39:
+        -:   40:template <class _Alloc>
+        -:   41:[[nodiscard]] _LIBCPP_HIDE_FROM_ABI constexpr
+        -:   42:auto __allocate_at_least(_Alloc& __alloc, size_t __n) {
+        -:   43:  return std::allocate_at_least(__alloc, __n);
+        -:   44:}
+        -:   45:#else
+        -:   46:template <class _Pointer>
+        -:   47:struct __allocation_result {
+        -:   48:  _Pointer ptr;
+        -:   49:  size_t count;
+        -:   50:};
+        -:   51:
+        -:   52:template <class _Alloc>
+        -:   53:_LIBCPP_NODISCARD _LIBCPP_HIDE_FROM_ABI _LIBCPP_CONSTEXPR
+        2:   54:__allocation_result<typename allocator_traits<_Alloc>::pointer> __allocate_at_least(_Alloc& __alloc, size_t __n) {
+        2:   55:  return {__alloc.allocate(__n), __n};
+        -:   56:}
+        -:   57:
+        -:   58:#endif // _LIBCPP_STD_VER > 20
+        -:   59:
+        -:   60:_LIBCPP_END_NAMESPACE_STD
+        -:   61:
+        -:   62:#endif // _LIBCPP___MEMORY_ALLOCATE_AT_LEAST_H

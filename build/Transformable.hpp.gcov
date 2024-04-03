@@ -1,0 +1,434 @@
+        -:    0:Source:/opt/homebrew/include/SFML/Graphics/Transformable.hpp
+        -:    0:Graph:./CMakeFiles/test_run.dir/src/Game.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/src/Game.cpp.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:////////////////////////////////////////////////////////////
+        -:    2://
+        -:    3:// SFML - Simple and Fast Multimedia Library
+        -:    4:// Copyright (C) 2007-2023 Laurent Gomila (laurent@sfml-dev.org)
+        -:    5://
+        -:    6:// This software is provided 'as-is', without any express or implied warranty.
+        -:    7:// In no event will the authors be held liable for any damages arising from the use of this software.
+        -:    8://
+        -:    9:// Permission is granted to anyone to use this software for any purpose,
+        -:   10:// including commercial applications, and to alter it and redistribute it freely,
+        -:   11:// subject to the following restrictions:
+        -:   12://
+        -:   13:// 1. The origin of this software must not be misrepresented;
+        -:   14://    you must not claim that you wrote the original software.
+        -:   15://    If you use this software in a product, an acknowledgment
+        -:   16://    in the product documentation would be appreciated but is not required.
+        -:   17://
+        -:   18:// 2. Altered source versions must be plainly marked as such,
+        -:   19://    and must not be misrepresented as being the original software.
+        -:   20://
+        -:   21:// 3. This notice may not be removed or altered from any source distribution.
+        -:   22://
+        -:   23:////////////////////////////////////////////////////////////
+        -:   24:
+        -:   25:#ifndef SFML_TRANSFORMABLE_HPP
+        -:   26:#define SFML_TRANSFORMABLE_HPP
+        -:   27:
+        -:   28:////////////////////////////////////////////////////////////
+        -:   29:// Headers
+        -:   30:////////////////////////////////////////////////////////////
+        -:   31:#include <SFML/Graphics/Export.hpp>
+        -:   32:#include <SFML/Graphics/Transform.hpp>
+        -:   33:
+        -:   34:
+        -:   35:namespace sf
+        -:   36:{
+        -:   37:////////////////////////////////////////////////////////////
+        -:   38:/// \brief Decomposed transform defined by a position, a rotation and a scale
+        -:   39:///
+        -:   40:////////////////////////////////////////////////////////////
+        -:   41:class SFML_GRAPHICS_API Transformable
+        -:   42:{
+        -:   43:public:
+        -:   44:
+        -:   45:    ////////////////////////////////////////////////////////////
+        -:   46:    /// \brief Default constructor
+        -:   47:    ///
+        -:   48:    ////////////////////////////////////////////////////////////
+        -:   49:    Transformable();
+        -:   50:
+        -:   51:    ////////////////////////////////////////////////////////////
+        -:   52:    /// \brief Virtual destructor
+        -:   53:    ///
+        -:   54:    ////////////////////////////////////////////////////////////
+        -:   55:    virtual ~Transformable();
+        -:   56:
+        -:   57:    ////////////////////////////////////////////////////////////
+        -:   58:    /// \brief set the position of the object
+        -:   59:    ///
+        -:   60:    /// This function completely overwrites the previous position.
+        -:   61:    /// See the move function to apply an offset based on the previous position instead.
+        -:   62:    /// The default position of a transformable object is (0, 0).
+        -:   63:    ///
+        -:   64:    /// \param x X coordinate of the new position
+        -:   65:    /// \param y Y coordinate of the new position
+        -:   66:    ///
+        -:   67:    /// \see move, getPosition
+        -:   68:    ///
+        -:   69:    ////////////////////////////////////////////////////////////
+        -:   70:    void setPosition(float x, float y);
+        -:   71:
+        -:   72:    ////////////////////////////////////////////////////////////
+        -:   73:    /// \brief set the position of the object
+        -:   74:    ///
+        -:   75:    /// This function completely overwrites the previous position.
+        -:   76:    /// See the move function to apply an offset based on the previous position instead.
+        -:   77:    /// The default position of a transformable object is (0, 0).
+        -:   78:    ///
+        -:   79:    /// \param position New position
+        -:   80:    ///
+        -:   81:    /// \see move, getPosition
+        -:   82:    ///
+        -:   83:    ////////////////////////////////////////////////////////////
+        -:   84:    void setPosition(const Vector2f& position);
+        -:   85:
+        -:   86:    ////////////////////////////////////////////////////////////
+        -:   87:    /// \brief set the orientation of the object
+        -:   88:    ///
+        -:   89:    /// This function completely overwrites the previous rotation.
+        -:   90:    /// See the rotate function to add an angle based on the previous rotation instead.
+        -:   91:    /// The default rotation of a transformable object is 0.
+        -:   92:    ///
+        -:   93:    /// \param angle New rotation, in degrees
+        -:   94:    ///
+        -:   95:    /// \see rotate, getRotation
+        -:   96:    ///
+        -:   97:    ////////////////////////////////////////////////////////////
+        -:   98:    void setRotation(float angle);
+        -:   99:
+        -:  100:    ////////////////////////////////////////////////////////////
+        -:  101:    /// \brief set the scale factors of the object
+        -:  102:    ///
+        -:  103:    /// This function completely overwrites the previous scale.
+        -:  104:    /// See the scale function to add a factor based on the previous scale instead.
+        -:  105:    /// The default scale of a transformable object is (1, 1).
+        -:  106:    ///
+        -:  107:    /// \param factorX New horizontal scale factor
+        -:  108:    /// \param factorY New vertical scale factor
+        -:  109:    ///
+        -:  110:    /// \see scale, getScale
+        -:  111:    ///
+        -:  112:    ////////////////////////////////////////////////////////////
+        -:  113:    void setScale(float factorX, float factorY);
+        -:  114:
+        -:  115:    ////////////////////////////////////////////////////////////
+        -:  116:    /// \brief set the scale factors of the object
+        -:  117:    ///
+        -:  118:    /// This function completely overwrites the previous scale.
+        -:  119:    /// See the scale function to add a factor based on the previous scale instead.
+        -:  120:    /// The default scale of a transformable object is (1, 1).
+        -:  121:    ///
+        -:  122:    /// \param factors New scale factors
+        -:  123:    ///
+        -:  124:    /// \see scale, getScale
+        -:  125:    ///
+        -:  126:    ////////////////////////////////////////////////////////////
+        -:  127:    void setScale(const Vector2f& factors);
+        -:  128:
+        -:  129:    ////////////////////////////////////////////////////////////
+        -:  130:    /// \brief set the local origin of the object
+        -:  131:    ///
+        -:  132:    /// The origin of an object defines the center point for
+        -:  133:    /// all transformations (position, scale, rotation).
+        -:  134:    /// The coordinates of this point must be relative to the
+        -:  135:    /// top-left corner of the object, and ignore all
+        -:  136:    /// transformations (position, scale, rotation).
+        -:  137:    /// The default origin of a transformable object is (0, 0).
+        -:  138:    ///
+        -:  139:    /// \param x X coordinate of the new origin
+        -:  140:    /// \param y Y coordinate of the new origin
+        -:  141:    ///
+        -:  142:    /// \see getOrigin
+        -:  143:    ///
+        -:  144:    ////////////////////////////////////////////////////////////
+        -:  145:    void setOrigin(float x, float y);
+        -:  146:
+        -:  147:    ////////////////////////////////////////////////////////////
+        -:  148:    /// \brief set the local origin of the object
+        -:  149:    ///
+        -:  150:    /// The origin of an object defines the center point for
+        -:  151:    /// all transformations (position, scale, rotation).
+        -:  152:    /// The coordinates of this point must be relative to the
+        -:  153:    /// top-left corner of the object, and ignore all
+        -:  154:    /// transformations (position, scale, rotation).
+        -:  155:    /// The default origin of a transformable object is (0, 0).
+        -:  156:    ///
+        -:  157:    /// \param origin New origin
+        -:  158:    ///
+        -:  159:    /// \see getOrigin
+        -:  160:    ///
+        -:  161:    ////////////////////////////////////////////////////////////
+        -:  162:    void setOrigin(const Vector2f& origin);
+        -:  163:
+        -:  164:    ////////////////////////////////////////////////////////////
+        -:  165:    /// \brief get the position of the object
+        -:  166:    ///
+        -:  167:    /// \return Current position
+        -:  168:    ///
+        -:  169:    /// \see setPosition
+        -:  170:    ///
+        -:  171:    ////////////////////////////////////////////////////////////
+        -:  172:    const Vector2f& getPosition() const;
+        -:  173:
+        -:  174:    ////////////////////////////////////////////////////////////
+        -:  175:    /// \brief get the orientation of the object
+        -:  176:    ///
+        -:  177:    /// The rotation is always in the range [0, 360].
+        -:  178:    ///
+        -:  179:    /// \return Current rotation, in degrees
+        -:  180:    ///
+        -:  181:    /// \see setRotation
+        -:  182:    ///
+        -:  183:    ////////////////////////////////////////////////////////////
+        -:  184:    float getRotation() const;
+        -:  185:
+        -:  186:    ////////////////////////////////////////////////////////////
+        -:  187:    /// \brief get the current scale of the object
+        -:  188:    ///
+        -:  189:    /// \return Current scale factors
+        -:  190:    ///
+        -:  191:    /// \see setScale
+        -:  192:    ///
+        -:  193:    ////////////////////////////////////////////////////////////
+        -:  194:    const Vector2f& getScale() const;
+        -:  195:
+        -:  196:    ////////////////////////////////////////////////////////////
+        -:  197:    /// \brief get the local origin of the object
+        -:  198:    ///
+        -:  199:    /// \return Current origin
+        -:  200:    ///
+        -:  201:    /// \see setOrigin
+        -:  202:    ///
+        -:  203:    ////////////////////////////////////////////////////////////
+        -:  204:    const Vector2f& getOrigin() const;
+        -:  205:
+        -:  206:    ////////////////////////////////////////////////////////////
+        -:  207:    /// \brief Move the object by a given offset
+        -:  208:    ///
+        -:  209:    /// This function adds to the current position of the object,
+        -:  210:    /// unlike setPosition which overwrites it.
+        -:  211:    /// Thus, it is equivalent to the following code:
+        -:  212:    /// \code
+        -:  213:    /// sf::Vector2f pos = object.getPosition();
+        -:  214:    /// object.setPosition(pos.x + offsetX, pos.y + offsetY);
+        -:  215:    /// \endcode
+        -:  216:    ///
+        -:  217:    /// \param offsetX X offset
+        -:  218:    /// \param offsetY Y offset
+        -:  219:    ///
+        -:  220:    /// \see setPosition
+        -:  221:    ///
+        -:  222:    ////////////////////////////////////////////////////////////
+        -:  223:    void move(float offsetX, float offsetY);
+        -:  224:
+        -:  225:    ////////////////////////////////////////////////////////////
+        -:  226:    /// \brief Move the object by a given offset
+        -:  227:    ///
+        -:  228:    /// This function adds to the current position of the object,
+        -:  229:    /// unlike setPosition which overwrites it.
+        -:  230:    /// Thus, it is equivalent to the following code:
+        -:  231:    /// \code
+        -:  232:    /// object.setPosition(object.getPosition() + offset);
+        -:  233:    /// \endcode
+        -:  234:    ///
+        -:  235:    /// \param offset Offset
+        -:  236:    ///
+        -:  237:    /// \see setPosition
+        -:  238:    ///
+        -:  239:    ////////////////////////////////////////////////////////////
+        -:  240:    void move(const Vector2f& offset);
+        -:  241:
+        -:  242:    ////////////////////////////////////////////////////////////
+        -:  243:    /// \brief Rotate the object
+        -:  244:    ///
+        -:  245:    /// This function adds to the current rotation of the object,
+        -:  246:    /// unlike setRotation which overwrites it.
+        -:  247:    /// Thus, it is equivalent to the following code:
+        -:  248:    /// \code
+        -:  249:    /// object.setRotation(object.getRotation() + angle);
+        -:  250:    /// \endcode
+        -:  251:    ///
+        -:  252:    /// \param angle Angle of rotation, in degrees
+        -:  253:    ///
+        -:  254:    ////////////////////////////////////////////////////////////
+        -:  255:    void rotate(float angle);
+        -:  256:
+        -:  257:    ////////////////////////////////////////////////////////////
+        -:  258:    /// \brief Scale the object
+        -:  259:    ///
+        -:  260:    /// This function multiplies the current scale of the object,
+        -:  261:    /// unlike setScale which overwrites it.
+        -:  262:    /// Thus, it is equivalent to the following code:
+        -:  263:    /// \code
+        -:  264:    /// sf::Vector2f scale = object.getScale();
+        -:  265:    /// object.setScale(scale.x * factorX, scale.y * factorY);
+        -:  266:    /// \endcode
+        -:  267:    ///
+        -:  268:    /// \param factorX Horizontal scale factor
+        -:  269:    /// \param factorY Vertical scale factor
+        -:  270:    ///
+        -:  271:    /// \see setScale
+        -:  272:    ///
+        -:  273:    ////////////////////////////////////////////////////////////
+        -:  274:    void scale(float factorX, float factorY);
+        -:  275:
+        -:  276:    ////////////////////////////////////////////////////////////
+        -:  277:    /// \brief Scale the object
+        -:  278:    ///
+        -:  279:    /// This function multiplies the current scale of the object,
+        -:  280:    /// unlike setScale which overwrites it.
+        -:  281:    /// Thus, it is equivalent to the following code:
+        -:  282:    /// \code
+        -:  283:    /// sf::Vector2f scale = object.getScale();
+        -:  284:    /// object.setScale(scale.x * factor.x, scale.y * factor.y);
+        -:  285:    /// \endcode
+        -:  286:    ///
+        -:  287:    /// \param factor Scale factors
+        -:  288:    ///
+        -:  289:    /// \see setScale
+        -:  290:    ///
+        -:  291:    ////////////////////////////////////////////////////////////
+        -:  292:    void scale(const Vector2f& factor);
+        -:  293:
+        -:  294:    ////////////////////////////////////////////////////////////
+        -:  295:    /// \brief get the combined transform of the object
+        -:  296:    ///
+        -:  297:    /// \return Transform combining the position/rotation/scale/origin of the object
+        -:  298:    ///
+        -:  299:    /// \see getInverseTransform
+        -:  300:    ///
+        -:  301:    ////////////////////////////////////////////////////////////
+        -:  302:    const Transform& getTransform() const;
+        -:  303:
+        -:  304:    ////////////////////////////////////////////////////////////
+        -:  305:    /// \brief get the inverse of the combined transform of the object
+        -:  306:    ///
+        -:  307:    /// \return Inverse of the combined transformations applied to the object
+        -:  308:    ///
+        -:  309:    /// \see getTransform
+        -:  310:    ///
+        -:  311:    ////////////////////////////////////////////////////////////
+        -:  312:    const Transform& getInverseTransform() const;
+        -:  313:
+        -:  314:private:
+        -:  315:
+        -:  316:    ////////////////////////////////////////////////////////////
+        -:  317:    // Member data
+        -:  318:    ////////////////////////////////////////////////////////////
+        -:  319:    Vector2f          m_origin;                     //!< Origin of translation/rotation/scaling of the object
+        -:  320:    Vector2f          m_position;                   //!< Position of the object in the 2D world
+        -:  321:    float             m_rotation;                   //!< Orientation of the object, in degrees
+        -:  322:    Vector2f          m_scale;                      //!< Scale of the object
+        -:  323:    mutable Transform m_transform;                  //!< Combined transformation of the object
+        -:  324:    mutable bool      m_transformNeedUpdate;        //!< Does the transform need to be recomputed?
+        -:  325:    mutable Transform m_inverseTransform;           //!< Combined transformation of the object
+        -:  326:    mutable bool      m_inverseTransformNeedUpdate; //!< Does the transform need to be recomputed?
+        -:  327:};
+        -:  328:
+        -:  329:} // namespace sf
+        -:  330:
+        -:  331:
+        -:  332:#endif // SFML_TRANSFORMABLE_HPP
+        -:  333:
+        -:  334:
+        -:  335:////////////////////////////////////////////////////////////
+        -:  336:/// \class sf::Transformable
+        -:  337:/// \ingroup graphics
+        -:  338:///
+        -:  339:/// This class is provided for convenience, on top of sf::Transform.
+        -:  340:///
+        -:  341:/// sf::Transform, as a low-level class, offers a great level of
+        -:  342:/// flexibility but it is not always convenient to manage. Indeed,
+        -:  343:/// one can easily combine any kind of operation, such as a translation
+        -:  344:/// followed by a rotation followed by a scaling, but once the result
+        -:  345:/// transform is built, there's no way to go backward and, let's say,
+        -:  346:/// change only the rotation without modifying the translation and scaling.
+        -:  347:/// The entire transform must be recomputed, which means that you
+        -:  348:/// need to retrieve the initial translation and scale factors as
+        -:  349:/// well, and combine them the same way you did before updating the
+        -:  350:/// rotation. This is a tedious operation, and it requires to store
+        -:  351:/// all the individual components of the final transform.
+        -:  352:///
+        -:  353:/// That's exactly what sf::Transformable was written for: it hides
+        -:  354:/// these variables and the composed transform behind an easy to use
+        -:  355:/// interface. You can set or get any of the individual components
+        -:  356:/// without worrying about the others. It also provides the composed
+        -:  357:/// transform (as a sf::Transform), and keeps it up-to-date.
+        -:  358:///
+        -:  359:/// In addition to the position, rotation and scale, sf::Transformable
+        -:  360:/// provides an "origin" component, which represents the local origin
+        -:  361:/// of the three other components. Let's take an example with a 10x10
+        -:  362:/// pixels sprite. By default, the sprite is positioned/rotated/scaled
+        -:  363:/// relatively to its top-left corner, because it is the local point
+        -:  364:/// (0, 0). But if we change the origin to be (5, 5), the sprite will
+        -:  365:/// be positioned/rotated/scaled around its center instead. And if
+        -:  366:/// we set the origin to (10, 10), it will be transformed around its
+        -:  367:/// bottom-right corner.
+        -:  368:///
+        -:  369:/// To keep the sf::Transformable class simple, there's only one
+        -:  370:/// origin for all the components. You cannot position the sprite
+        -:  371:/// relatively to its top-left corner while rotating it around its
+        -:  372:/// center, for example. To do such things, use sf::Transform directly.
+        -:  373:///
+        -:  374:/// sf::Transformable can be used as a base class. It is often
+        -:  375:/// combined with sf::Drawable -- that's what SFML's sprites,
+        -:  376:/// texts and shapes do.
+        -:  377:/// \code
+        -:  378:/// class MyEntity : public sf::Transformable, public sf::Drawable
+        -:  379:/// {
+        -:  380:///     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
+        -:  381:///     {
+        -:  382:///         states.transform *= getTransform();
+        -:  383:///         target.draw(..., states);
+        -:  384:///     }
+        -:  385:/// };
+        -:  386:///
+        -:  387:/// MyEntity entity;
+        -:  388:/// entity.setPosition(10, 20);
+        -:  389:/// entity.setRotation(45);
+        -:  390:/// window.draw(entity);
+        -:  391:/// \endcode
+        -:  392:///
+        -:  393:/// It can also be used as a member, if you don't want to use
+        -:  394:/// its API directly (because you don't need all its functions,
+        -:  395:/// or you have different naming conventions for example).
+        -:  396:/// \code
+        -:  397:/// class MyEntity
+        -:  398:/// {
+        -:  399:/// public:
+        -:  400:///     void SetPosition(const MyVector& v)
+        -:  401:///     {
+        -:  402:///         myTransform.setPosition(v.x(), v.y());
+        -:  403:///     }
+        -:  404:///
+        -:  405:///     void Draw(sf::RenderTarget& target) const
+        -:  406:///     {
+        -:  407:///         target.draw(..., myTransform.getTransform());
+        -:  408:///     }
+        -:  409:///
+        -:  410:/// private:
+        -:  411:///     sf::Transformable myTransform;
+        -:  412:/// };
+        -:  413:/// \endcode
+        -:  414:///
+        -:  415:/// A note on coordinates and undistorted rendering: \n
+        -:  416:/// By default, SFML (or more exactly, OpenGL) may interpolate drawable objects
+        -:  417:/// such as sprites or texts when rendering. While this allows transitions
+        -:  418:/// like slow movements or rotations to appear smoothly, it can lead to
+        -:  419:/// unwanted results in some cases, for example blurred or distorted objects.
+        -:  420:/// In order to render a sf::Drawable object pixel-perfectly, make sure
+        -:  421:/// the involved coordinates allow a 1:1 mapping of pixels in the window
+        -:  422:/// to texels (pixels in the texture). More specifically, this means:
+        -:  423:/// * The object's position, origin and scale have no fractional part
+        -:  424:/// * The object's and the view's rotation are a multiple of 90 degrees
+        -:  425:/// * The view's center and size have no fractional part
+        -:  426:///
+        -:  427:/// \see sf::Transform
+        -:  428:///
+        -:  429:////////////////////////////////////////////////////////////

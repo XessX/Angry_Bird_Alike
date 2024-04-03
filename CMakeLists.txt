@@ -42,3 +42,16 @@ target_include_directories(test_run PRIVATE ${PROJECT_SOURCE_DIR}/include)
 include(CTest)
 include(Catch)
 catch_discover_tests(test_run)
+
+option(ENABLE_COVERAGE "Enable coverage reporting" OFF)
+
+if(ENABLE_COVERAGE)
+    add_compile_options(--coverage)
+    link_libraries(--coverage)
+endif()
+
+if(CMAKE_BUILD_TYPE STREQUAL "Coverage")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fprofile-arcs -ftest-coverage")
+endif()
+

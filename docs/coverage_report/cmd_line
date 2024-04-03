@@ -1,0 +1,1 @@
+genhtml filtered_coverage.info --output-directory coverage_report --ignore-errors unmapped

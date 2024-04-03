@@ -1,0 +1,59 @@
+        -:    0:Source:/Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk/usr/include/c++/v1/__utility/swap.h
+        -:    0:Graph:./CMakeFiles/test_run.dir/src/Game.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/src/Game.cpp.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1://===----------------------------------------------------------------------===//
+        -:    2://
+        -:    3:// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
+        -:    4:// See https://llvm.org/LICENSE.txt for license information.
+        -:    5:// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+        -:    6://
+        -:    7://===----------------------------------------------------------------------===//
+        -:    8:
+        -:    9:#ifndef _LIBCPP___UTILITY_SWAP_H
+        -:   10:#define _LIBCPP___UTILITY_SWAP_H
+        -:   11:
+        -:   12:#include <__config>
+        -:   13:#include <__type_traits/is_move_assignable.h>
+        -:   14:#include <__type_traits/is_move_constructible.h>
+        -:   15:#include <__type_traits/is_nothrow_move_assignable.h>
+        -:   16:#include <__type_traits/is_nothrow_move_constructible.h>
+        -:   17:#include <__type_traits/is_swappable.h>
+        -:   18:#include <__utility/declval.h>
+        -:   19:#include <__utility/move.h>
+        -:   20:#include <cstddef>
+        -:   21:
+        -:   22:#if !defined(_LIBCPP_HAS_NO_PRAGMA_SYSTEM_HEADER)
+        -:   23:#  pragma GCC system_header
+        -:   24:#endif
+        -:   25:
+        -:   26:_LIBCPP_BEGIN_NAMESPACE_STD
+        -:   27:
+        -:   28:#ifndef _LIBCPP_CXX03_LANG
+        -:   29:template <class _Tp>
+        -:   30:using __swap_result_t = typename enable_if<is_move_constructible<_Tp>::value && is_move_assignable<_Tp>::value>::type;
+        -:   31:#else
+        -:   32:template <class>
+        -:   33:using __swap_result_t = void;
+        -:   34:#endif
+        -:   35:
+        -:   36:template <class _Tp>
+       12:   37:inline _LIBCPP_INLINE_VISIBILITY __swap_result_t<_Tp> _LIBCPP_CONSTEXPR_SINCE_CXX20 swap(_Tp& __x, _Tp& __y)
+        -:   38:    _NOEXCEPT_(is_nothrow_move_constructible<_Tp>::value&& is_nothrow_move_assignable<_Tp>::value) {
+       12:   39:  _Tp __t(_VSTD::move(__x));
+       12:   40:  __x = _VSTD::move(__y);
+       12:   41:  __y = _VSTD::move(__t);
+       12:   42:}
+        -:   43:
+        -:   44:template <class _Tp, size_t _Np>
+        -:   45:inline _LIBCPP_INLINE_VISIBILITY _LIBCPP_CONSTEXPR_SINCE_CXX20 typename enable_if<__is_swappable<_Tp>::value>::type
+        -:   46:swap(_Tp (&__a)[_Np], _Tp (&__b)[_Np]) _NOEXCEPT_(__is_nothrow_swappable<_Tp>::value) {
+        -:   47:  for (size_t __i = 0; __i != _Np; ++__i) {
+        -:   48:    swap(__a[__i], __b[__i]);
+        -:   49:  }
+        -:   50:}
+        -:   51:
+        -:   52:_LIBCPP_END_NAMESPACE_STD
+        -:   53:
+        -:   54:#endif // _LIBCPP___UTILITY_SWAP_H

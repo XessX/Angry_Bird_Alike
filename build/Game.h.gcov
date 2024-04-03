@@ -1,0 +1,146 @@
+        -:    0:Source:/Users/jubair/CLionProjects/untitled/include/Game.h
+        -:    0:Graph:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcda
+        -:    0:Runs:2
+        -:    0:Programs:1
+        -:    1:/**
+        -:    2: * @file Game.h
+        -:    3: * @brief Main game interface for handling game logic and rendering.
+        -:    4: *
+        -:    5: * This file defines the Game class, which is responsible for managing the game loop,
+        -:    6: * handling user input, simulating physics, and rendering entities and other game elements.
+        -:    7: */
+        -:    8:
+        -:    9://
+        -:   10:// Created by Jubair on 2024-03-25.
+        -:   11://
+        -:   12:
+        -:   13:#ifndef UNTITLED_GAME_H
+        -:   14:#define UNTITLED_GAME_H
+        -:   15:
+        -:   16:#ifndef GAME_HPP
+        -:   17:#define GAME_HPP
+        -:   18:
+        -:   19:#include <SFML/Graphics.hpp>
+        -:   20:#include "/Users/jubair/CLionProjects/untitled/include/Entity.h"
+        -:   21:#include <boost/numeric/odeint.hpp>
+        -:   22:#include <vector>
+        -:   23:#include <thread>
+        -:   24:
+        -:   25:/**
+        -:   26: * @brief Defines the state of an entity within the game.
+        -:   27: *
+        -:   28: * This type is used to represent the position and velocity of entities.
+        -:   29: */
+        -:   30:using State = std::array<double, 4>; // Replace with the actual line 29 content.
+        -:   31:
+        -:   32:/**
+        -:   33: * @brief Represents the numerical stepper used for physics integration within the game.
+        -:   34: *
+        -:   35: * This stepper is utilized to advance the state of entities based on the physics simulation.
+        -:   36: */
+        -:   37:using Stepper = boost::numeric::odeint::runge_kutta4<State>; // Replace with the actual line 35 content.
+        -:   38:
+        -:   39:/**
+        -:   40: * @class Game
+        -:   41: * @brief Manages the game logic, user input, and rendering.
+        -:   42: *
+        -:   43: * This class is responsible for initializing the game, handling user input,
+        -:   44: * updating game state, and rendering graphics to the screen.
+        -:   45: */
+        -:   46:class Game {
+        -:   47:public:
+        -:   48:
+        -:   49:/**
+        -:   50: * @brief Constructs a new Game instance.
+        -:   51: */
+        -:   52:    Game();
+        -:   53:/**
+        -:   54: * @brief Constructs a new Game instance with specified settings.
+        -:   55: * @param maxBirdResets The maximum number of times the bird can be reset in the game.
+        -:   56: */
+        -:   57:    Game(const int maxBirdResets);
+        -:   58:    /**
+        -:   59: * Runs the main game loop.
+        -:   60: */
+        -:   61:    void run();
+        -:   62:    /**
+        -:   63: * Handles key press events within the game.
+        -:   64: *
+        -:   65: * @param key The key that was pressed.
+        -:   66: */
+        -:   67:    void handleKeyPress(sf::Keyboard::Key key);
+        -:   68:
+        -:   69:    /**
+        -:   70:     * Updates the game logic.
+        -:   71:     */
+        -:   72:    void update();
+        -:   73:    /**
+        -:   74:  * Checks for collision between two entities.
+        -:   75:  *
+        -:   76:  * @param a Reference to the first entity.
+        -:   77:  * @param b Reference to the second entity.
+        -:   78:  * @return True if a collision is detected, false otherwise.
+        -:   79:  */
+        -:   80:    static bool checkCollision(const Entity& a, const Entity& b);
+        -:   81:    /**
+        -:   82: * Simulates the trajectory of the projectile based on the current force and angle.
+        -:   83: *
+        -:   84: * @param degrees The launch angle in degrees.
+        -:   85: * @param speed The launch speed.
+        -:   86: */
+        -:   87:    void simulateTrajectory(float degrees, float speed);
+        -:   88:    /**
+        -:   89: * Updates the orientation and size of the launch arrow based on the launch angle and force.
+        -:   90: *
+        -:   91: * @param angleDegrees The launch angle in degrees.
+        -:   92: * @param force The force magnitude.
+        -:   93: */
+        -:   94:    void updateLaunchArrow(float angleDegrees, float force);
+        -:   95:    /**
+        -:   96: * Renders all game elements to the window.
+        -:   97: */
+        -:   98:    void render();
+        -:   99:    /**
+        -:  100: * Resets the game to its initial state.
+        -:  101: */
+        -:  102:    void resetGame();
+        -:  103:    /**
+        -:  104:   * Resets the position of the bird to its initial state.
+        -:  105:   */
+        -:  106:    void resetBirdPosition();
+        -:  107:    /**
+        -:  108: * Checks if an entity is out of the window bounds.
+        -:  109: *
+        -:  110: * @param entity The entity to check.
+        -:  111: * @return True if the entity is out of bounds, false otherwise.
+        -:  112: */
+        -:  113:    static bool isOutOfWindow(const Entity& entity);
+        -:  114:    /**
+        -:  115: * Prints the velocities of two entities, typically before and after a collision.
+        -:  116: *
+        -:  117: * @param phase Describes the phase of collision (e.g., "Before", "After").
+        -:  118: * @param a The first entity.
+        -:  119: * @param b The second entity.
+        -:  120: */
+        -:  121:    static void printVelocities(const std::string& phase, const Entity& a, const Entity& b);
+        -:  122:
+        -:  123:    static float launchAngleDegrees;
+        -:  124:    static float force;
+        -:  125:
+        -:  126:    sf::RenderWindow window; ///< The main window where the game is rendered.
+        -:  127:    Entity projectile; ///< The projectile entity (e.g., bird in a slingshot game).
+        -:  128:    std::vector<Entity> targets; ///< Targets that the projectile can hit.
+        -:  129:    Stepper stepper; ///< Numerical stepper for physics integration.
+        -:  130:    sf::VertexArray trajectoryLine; ///< Visual representation of the projectile's trajectory.
+        -:  131:    sf::RectangleShape launchArrow; ///< Visual representation of the launch direction and force.
+        -:  132:    sf::Clock clock; ///< Clock for measuring time between frames.
+        -:  133:    int birdResetCounter = 0; ///< Counts how many times the bird has been reset.
+        -:  134:    const int maxBirdResets=2; ///< Maximum number of times the bird can be reset.
+        -:  135:
+        -:  136:};
+        -:  137:
+        -:  138:#endif // GAME_HPP
+        -:  139:
+        -:  140:
+        -:  141:#endif //UNTITLED_GAME_H

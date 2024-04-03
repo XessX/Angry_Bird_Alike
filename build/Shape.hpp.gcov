@@ -1,0 +1,360 @@
+        -:    0:Source:/opt/homebrew/include/SFML/Graphics/Shape.hpp
+        -:    0:Graph:./CMakeFiles/test_run.dir/src/Game.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/src/Game.cpp.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:////////////////////////////////////////////////////////////
+        -:    2://
+        -:    3:// SFML - Simple and Fast Multimedia Library
+        -:    4:// Copyright (C) 2007-2023 Laurent Gomila (laurent@sfml-dev.org)
+        -:    5://
+        -:    6:// This software is provided 'as-is', without any express or implied warranty.
+        -:    7:// In no event will the authors be held liable for any damages arising from the use of this software.
+        -:    8://
+        -:    9:// Permission is granted to anyone to use this software for any purpose,
+        -:   10:// including commercial applications, and to alter it and redistribute it freely,
+        -:   11:// subject to the following restrictions:
+        -:   12://
+        -:   13:// 1. The origin of this software must not be misrepresented;
+        -:   14://    you must not claim that you wrote the original software.
+        -:   15://    If you use this software in a product, an acknowledgment
+        -:   16://    in the product documentation would be appreciated but is not required.
+        -:   17://
+        -:   18:// 2. Altered source versions must be plainly marked as such,
+        -:   19://    and must not be misrepresented as being the original software.
+        -:   20://
+        -:   21:// 3. This notice may not be removed or altered from any source distribution.
+        -:   22://
+        -:   23:////////////////////////////////////////////////////////////
+        -:   24:
+        -:   25:#ifndef SFML_SHAPE_HPP
+        -:   26:#define SFML_SHAPE_HPP
+        -:   27:
+        -:   28:////////////////////////////////////////////////////////////
+        -:   29:// Headers
+        -:   30:////////////////////////////////////////////////////////////
+        -:   31:#include <SFML/Graphics/Export.hpp>
+        -:   32:#include <SFML/Graphics/Drawable.hpp>
+        -:   33:#include <SFML/Graphics/Transformable.hpp>
+        -:   34:#include <SFML/Graphics/VertexArray.hpp>
+        -:   35:#include <SFML/System/Vector2.hpp>
+        -:   36:
+        -:   37:
+        -:   38:namespace sf
+        -:   39:{
+        -:   40:////////////////////////////////////////////////////////////
+        -:   41:/// \brief Base class for textured shapes with outline
+        -:   42:///
+        -:   43:////////////////////////////////////////////////////////////
+        7:   44:class SFML_GRAPHICS_API Shape : public Drawable, public Transformable
+        -:   45:{
+        -:   46:public:
+        -:   47:
+        -:   48:    ////////////////////////////////////////////////////////////
+        -:   49:    /// \brief Virtual destructor
+        -:   50:    ///
+        -:   51:    ////////////////////////////////////////////////////////////
+        -:   52:    virtual ~Shape();
+        -:   53:
+        -:   54:    ////////////////////////////////////////////////////////////
+        -:   55:    /// \brief Change the source texture of the shape
+        -:   56:    ///
+        -:   57:    /// The \a texture argument refers to a texture that must
+        -:   58:    /// exist as long as the shape uses it. Indeed, the shape
+        -:   59:    /// doesn't store its own copy of the texture, but rather keeps
+        -:   60:    /// a pointer to the one that you passed to this function.
+        -:   61:    /// If the source texture is destroyed and the shape tries to
+        -:   62:    /// use it, the behavior is undefined.
+        -:   63:    /// \a texture can be NULL to disable texturing.
+        -:   64:    /// If \a resetRect is true, the TextureRect property of
+        -:   65:    /// the shape is automatically adjusted to the size of the new
+        -:   66:    /// texture. If it is false, the texture rect is left unchanged.
+        -:   67:    ///
+        -:   68:    /// \param texture   New texture
+        -:   69:    /// \param resetRect Should the texture rect be reset to the size of the new texture?
+        -:   70:    ///
+        -:   71:    /// \see getTexture, setTextureRect
+        -:   72:    ///
+        -:   73:    ////////////////////////////////////////////////////////////
+        -:   74:    void setTexture(const Texture* texture, bool resetRect = false);
+        -:   75:
+        -:   76:    ////////////////////////////////////////////////////////////
+        -:   77:    /// \brief Set the sub-rectangle of the texture that the shape will display
+        -:   78:    ///
+        -:   79:    /// The texture rect is useful when you don't want to display
+        -:   80:    /// the whole texture, but rather a part of it.
+        -:   81:    /// By default, the texture rect covers the entire texture.
+        -:   82:    ///
+        -:   83:    /// \param rect Rectangle defining the region of the texture to display
+        -:   84:    ///
+        -:   85:    /// \see getTextureRect, setTexture
+        -:   86:    ///
+        -:   87:    ////////////////////////////////////////////////////////////
+        -:   88:    void setTextureRect(const IntRect& rect);
+        -:   89:
+        -:   90:    ////////////////////////////////////////////////////////////
+        -:   91:    /// \brief Set the fill color of the shape
+        -:   92:    ///
+        -:   93:    /// This color is modulated (multiplied) with the shape's
+        -:   94:    /// texture if any. It can be used to colorize the shape,
+        -:   95:    /// or change its global opacity.
+        -:   96:    /// You can use sf::Color::Transparent to make the inside of
+        -:   97:    /// the shape transparent, and have the outline alone.
+        -:   98:    /// By default, the shape's fill color is opaque white.
+        -:   99:    ///
+        -:  100:    /// \param color New color of the shape
+        -:  101:    ///
+        -:  102:    /// \see getFillColor, setOutlineColor
+        -:  103:    ///
+        -:  104:    ////////////////////////////////////////////////////////////
+        -:  105:    void setFillColor(const Color& color);
+        -:  106:
+        -:  107:    ////////////////////////////////////////////////////////////
+        -:  108:    /// \brief Set the outline color of the shape
+        -:  109:    ///
+        -:  110:    /// By default, the shape's outline color is opaque white.
+        -:  111:    ///
+        -:  112:    /// \param color New outline color of the shape
+        -:  113:    ///
+        -:  114:    /// \see getOutlineColor, setFillColor
+        -:  115:    ///
+        -:  116:    ////////////////////////////////////////////////////////////
+        -:  117:    void setOutlineColor(const Color& color);
+        -:  118:
+        -:  119:    ////////////////////////////////////////////////////////////
+        -:  120:    /// \brief Set the thickness of the shape's outline
+        -:  121:    ///
+        -:  122:    /// Note that negative values are allowed (so that the outline
+        -:  123:    /// expands towards the center of the shape), and using zero
+        -:  124:    /// disables the outline.
+        -:  125:    /// By default, the outline thickness is 0.
+        -:  126:    ///
+        -:  127:    /// \param thickness New outline thickness
+        -:  128:    ///
+        -:  129:    /// \see getOutlineThickness
+        -:  130:    ///
+        -:  131:    ////////////////////////////////////////////////////////////
+        -:  132:    void setOutlineThickness(float thickness);
+        -:  133:
+        -:  134:    ////////////////////////////////////////////////////////////
+        -:  135:    /// \brief Get the source texture of the shape
+        -:  136:    ///
+        -:  137:    /// If the shape has no source texture, a NULL pointer is returned.
+        -:  138:    /// The returned pointer is const, which means that you can't
+        -:  139:    /// modify the texture when you retrieve it with this function.
+        -:  140:    ///
+        -:  141:    /// \return Pointer to the shape's texture
+        -:  142:    ///
+        -:  143:    /// \see setTexture
+        -:  144:    ///
+        -:  145:    ////////////////////////////////////////////////////////////
+        -:  146:    const Texture* getTexture() const;
+        -:  147:
+        -:  148:    ////////////////////////////////////////////////////////////
+        -:  149:    /// \brief Get the sub-rectangle of the texture displayed by the shape
+        -:  150:    ///
+        -:  151:    /// \return Texture rectangle of the shape
+        -:  152:    ///
+        -:  153:    /// \see setTextureRect
+        -:  154:    ///
+        -:  155:    ////////////////////////////////////////////////////////////
+        -:  156:    const IntRect& getTextureRect() const;
+        -:  157:
+        -:  158:    ////////////////////////////////////////////////////////////
+        -:  159:    /// \brief Get the fill color of the shape
+        -:  160:    ///
+        -:  161:    /// \return Fill color of the shape
+        -:  162:    ///
+        -:  163:    /// \see setFillColor
+        -:  164:    ///
+        -:  165:    ////////////////////////////////////////////////////////////
+        -:  166:    const Color& getFillColor() const;
+        -:  167:
+        -:  168:    ////////////////////////////////////////////////////////////
+        -:  169:    /// \brief Get the outline color of the shape
+        -:  170:    ///
+        -:  171:    /// \return Outline color of the shape
+        -:  172:    ///
+        -:  173:    /// \see setOutlineColor
+        -:  174:    ///
+        -:  175:    ////////////////////////////////////////////////////////////
+        -:  176:    const Color& getOutlineColor() const;
+        -:  177:
+        -:  178:    ////////////////////////////////////////////////////////////
+        -:  179:    /// \brief Get the outline thickness of the shape
+        -:  180:    ///
+        -:  181:    /// \return Outline thickness of the shape
+        -:  182:    ///
+        -:  183:    /// \see setOutlineThickness
+        -:  184:    ///
+        -:  185:    ////////////////////////////////////////////////////////////
+        -:  186:    float getOutlineThickness() const;
+        -:  187:
+        -:  188:    ////////////////////////////////////////////////////////////
+        -:  189:    /// \brief Get the total number of points of the shape
+        -:  190:    ///
+        -:  191:    /// \return Number of points of the shape
+        -:  192:    ///
+        -:  193:    /// \see getPoint
+        -:  194:    ///
+        -:  195:    ////////////////////////////////////////////////////////////
+        -:  196:    virtual std::size_t getPointCount() const = 0;
+        -:  197:
+        -:  198:    ////////////////////////////////////////////////////////////
+        -:  199:    /// \brief Get a point of the shape
+        -:  200:    ///
+        -:  201:    /// The returned point is in local coordinates, that is,
+        -:  202:    /// the shape's transforms (position, rotation, scale) are
+        -:  203:    /// not taken into account.
+        -:  204:    /// The result is undefined if \a index is out of the valid range.
+        -:  205:    ///
+        -:  206:    /// \param index Index of the point to get, in range [0 .. getPointCount() - 1]
+        -:  207:    ///
+        -:  208:    /// \return index-th point of the shape
+        -:  209:    ///
+        -:  210:    /// \see getPointCount
+        -:  211:    ///
+        -:  212:    ////////////////////////////////////////////////////////////
+        -:  213:    virtual Vector2f getPoint(std::size_t index) const = 0;
+        -:  214:
+        -:  215:    ////////////////////////////////////////////////////////////
+        -:  216:    /// \brief Get the local bounding rectangle of the entity
+        -:  217:    ///
+        -:  218:    /// The returned rectangle is in local coordinates, which means
+        -:  219:    /// that it ignores the transformations (translation, rotation,
+        -:  220:    /// scale, ...) that are applied to the entity.
+        -:  221:    /// In other words, this function returns the bounds of the
+        -:  222:    /// entity in the entity's coordinate system.
+        -:  223:    ///
+        -:  224:    /// \return Local bounding rectangle of the entity
+        -:  225:    ///
+        -:  226:    ////////////////////////////////////////////////////////////
+        -:  227:    FloatRect getLocalBounds() const;
+        -:  228:
+        -:  229:    ////////////////////////////////////////////////////////////
+        -:  230:    /// \brief Get the global (non-minimal) bounding rectangle of the entity
+        -:  231:    ///
+        -:  232:    /// The returned rectangle is in global coordinates, which means
+        -:  233:    /// that it takes into account the transformations (translation,
+        -:  234:    /// rotation, scale, ...) that are applied to the entity.
+        -:  235:    /// In other words, this function returns the bounds of the
+        -:  236:    /// shape in the global 2D world's coordinate system.
+        -:  237:    ///
+        -:  238:    /// This function does not necessarily return the \a minimal
+        -:  239:    /// bounding rectangle. It merely ensures that the returned
+        -:  240:    /// rectangle covers all the vertices (but possibly more).
+        -:  241:    /// This allows for a fast approximation of the bounds as a
+        -:  242:    /// first check; you may want to use more precise checks
+        -:  243:    /// on top of that.
+        -:  244:    ///
+        -:  245:    /// \return Global bounding rectangle of the entity
+        -:  246:    ///
+        -:  247:    ////////////////////////////////////////////////////////////
+        -:  248:    FloatRect getGlobalBounds() const;
+        -:  249:
+        -:  250:protected:
+        -:  251:
+        -:  252:    ////////////////////////////////////////////////////////////
+        -:  253:    /// \brief Default constructor
+        -:  254:    ///
+        -:  255:    ////////////////////////////////////////////////////////////
+        -:  256:    Shape();
+        -:  257:
+        -:  258:    ////////////////////////////////////////////////////////////
+        -:  259:    /// \brief Recompute the internal geometry of the shape
+        -:  260:    ///
+        -:  261:    /// This function must be called by the derived class everytime
+        -:  262:    /// the shape's points change (i.e. the result of either
+        -:  263:    /// getPointCount or getPoint is different).
+        -:  264:    ///
+        -:  265:    ////////////////////////////////////////////////////////////
+        -:  266:    void update();
+        -:  267:
+        -:  268:private:
+        -:  269:
+        -:  270:    ////////////////////////////////////////////////////////////
+        -:  271:    /// \brief Draw the shape to a render target
+        -:  272:    ///
+        -:  273:    /// \param target Render target to draw to
+        -:  274:    /// \param states Current render states
+        -:  275:    ///
+        -:  276:    ////////////////////////////////////////////////////////////
+        -:  277:    virtual void draw(RenderTarget& target, RenderStates states) const;
+        -:  278:
+        -:  279:    ////////////////////////////////////////////////////////////
+        -:  280:    /// \brief Update the fill vertices' color
+        -:  281:    ///
+        -:  282:    ////////////////////////////////////////////////////////////
+        -:  283:    void updateFillColors();
+        -:  284:
+        -:  285:    ////////////////////////////////////////////////////////////
+        -:  286:    /// \brief Update the fill vertices' texture coordinates
+        -:  287:    ///
+        -:  288:    ////////////////////////////////////////////////////////////
+        -:  289:    void updateTexCoords();
+        -:  290:
+        -:  291:    ////////////////////////////////////////////////////////////
+        -:  292:    /// \brief Update the outline vertices' position
+        -:  293:    ///
+        -:  294:    ////////////////////////////////////////////////////////////
+        -:  295:    void updateOutline();
+        -:  296:
+        -:  297:    ////////////////////////////////////////////////////////////
+        -:  298:    /// \brief Update the outline vertices' color
+        -:  299:    ///
+        -:  300:    ////////////////////////////////////////////////////////////
+        -:  301:    void updateOutlineColors();
+        -:  302:
+        -:  303:private:
+        -:  304:
+        -:  305:    ////////////////////////////////////////////////////////////
+        -:  306:    // Member data
+        -:  307:    ////////////////////////////////////////////////////////////
+        -:  308:    const Texture* m_texture;          //!< Texture of the shape
+        -:  309:    IntRect        m_textureRect;      //!< Rectangle defining the area of the source texture to display
+        -:  310:    Color          m_fillColor;        //!< Fill color
+        -:  311:    Color          m_outlineColor;     //!< Outline color
+        -:  312:    float          m_outlineThickness; //!< Thickness of the shape's outline
+        -:  313:    VertexArray    m_vertices;         //!< Vertex array containing the fill geometry
+        -:  314:    VertexArray    m_outlineVertices;  //!< Vertex array containing the outline geometry
+        -:  315:    FloatRect      m_insideBounds;     //!< Bounding rectangle of the inside (fill)
+        -:  316:    FloatRect      m_bounds;           //!< Bounding rectangle of the whole shape (outline + fill)
+        -:  317:};
+        -:  318:
+        -:  319:} // namespace sf
+        -:  320:
+        -:  321:
+        -:  322:#endif // SFML_SHAPE_HPP
+        -:  323:
+        -:  324:
+        -:  325:////////////////////////////////////////////////////////////
+        -:  326:/// \class sf::Shape
+        -:  327:/// \ingroup graphics
+        -:  328:///
+        -:  329:/// sf::Shape is a drawable class that allows to define and
+        -:  330:/// display a custom convex shape on a render target.
+        -:  331:/// It's only an abstract base, it needs to be specialized for
+        -:  332:/// concrete types of shapes (circle, rectangle, convex polygon,
+        -:  333:/// star, ...).
+        -:  334:///
+        -:  335:/// In addition to the attributes provided by the specialized
+        -:  336:/// shape classes, a shape always has the following attributes:
+        -:  337:/// \li a texture
+        -:  338:/// \li a texture rectangle
+        -:  339:/// \li a fill color
+        -:  340:/// \li an outline color
+        -:  341:/// \li an outline thickness
+        -:  342:///
+        -:  343:/// Each feature is optional, and can be disabled easily:
+        -:  344:/// \li the texture can be null
+        -:  345:/// \li the fill/outline colors can be sf::Color::Transparent
+        -:  346:/// \li the outline thickness can be zero
+        -:  347:///
+        -:  348:/// You can write your own derived shape class, there are only
+        -:  349:/// two virtual functions to override:
+        -:  350:/// \li getPointCount must return the number of points of the shape
+        -:  351:/// \li getPoint must return the points of the shape
+        -:  352:///
+        -:  353:/// \see sf::RectangleShape, sf::CircleShape, sf::ConvexShape, sf::Transformable
+        -:  354:///
+        -:  355:////////////////////////////////////////////////////////////

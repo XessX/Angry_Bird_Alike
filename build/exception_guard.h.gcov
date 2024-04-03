@@ -1,0 +1,144 @@
+        -:    0:Source:/Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk/usr/include/c++/v1/__utility/exception_guard.h
+        -:    0:Graph:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcda
+        -:    0:Runs:2
+        -:    0:Programs:1
+        -:    1://===----------------------------------------------------------------------===//
+        -:    2://
+        -:    3:// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
+        -:    4:// See https://llvm.org/LICENSE.txt for license information.
+        -:    5:// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+        -:    6://
+        -:    7://===----------------------------------------------------------------------===//
+        -:    8:
+        -:    9:#ifndef _LIBCPP___UTILITY_TRANSACTION_H
+        -:   10:#define _LIBCPP___UTILITY_TRANSACTION_H
+        -:   11:
+        -:   12:#include <__assert>
+        -:   13:#include <__config>
+        -:   14:#include <__type_traits/is_nothrow_move_constructible.h>
+        -:   15:#include <__utility/exchange.h>
+        -:   16:#include <__utility/move.h>
+        -:   17:
+        -:   18:#if !defined(_LIBCPP_HAS_NO_PRAGMA_SYSTEM_HEADER)
+        -:   19:#  pragma GCC system_header
+        -:   20:#endif
+        -:   21:
+        -:   22:_LIBCPP_BEGIN_NAMESPACE_STD
+        -:   23:
+        -:   24:// __exception_guard is a helper class for writing code with the strong exception guarantee.
+        -:   25://
+        -:   26:// When writing code that can throw an exception, one can store rollback instructions in an
+        -:   27:// exception guard so that if an exception is thrown at any point during the lifetime of the
+        -:   28:// exception guard, it will be rolled back automatically. When the exception guard is done, one
+        -:   29:// must mark it as being complete so it isn't rolled back when the exception guard is destroyed.
+        -:   30://
+        -:   31:// Exception guards are not default constructible, they can't be copied or assigned to, but
+        -:   32:// they can be moved around for convenience.
+        -:   33://
+        -:   34:// __exception_guard is a no-op in -fno-exceptions mode to produce better code-gen. This means
+        -:   35:// that we don't provide the strong exception guarantees. However, Clang doesn't generate cleanup
+        -:   36:// code with exceptions disabled, so even if we wanted to provide the strong exception guarantees
+        -:   37:// we couldn't. This is also only relevant for constructs with a stack of
+        -:   38:// -fexceptions > -fno-exceptions > -fexceptions code, since the exception can't be caught where
+        -:   39:// exceptions are disabled. While -fexceptions > -fno-exceptions is quite common
+        -:   40:// (e.g. libc++.dylib > -fno-exceptions), having another layer with exceptions enabled seems a lot
+        -:   41:// less common, especially one that tries to catch an exception through -fno-exceptions code.
+        -:   42://
+        -:   43:// __exception_guard can help greatly simplify code that would normally be cluttered by
+        -:   44:// `#if _LIBCPP_NO_EXCEPTIONS`. For example:
+        -:   45://
+        -:   46://    template <class Iterator, class Size, class OutputIterator>
+        -:   47://    Iterator uninitialized_copy_n(Iterator iter, Size n, OutputIterator out) {
+        -:   48://        typedef typename iterator_traits<Iterator>::value_type value_type;
+        -:   49://        __exception_guard guard([start=out, &out] {
+        -:   50://            std::destroy(start, out);
+        -:   51://        });
+        -:   52://
+        -:   53://        for (; n > 0; ++iter, ++out, --n) {
+        -:   54://            ::new ((void*)std::addressof(*out)) value_type(*iter);
+        -:   55://        }
+        -:   56://        guard.__complete();
+        -:   57://        return out;
+        -:   58://    }
+        -:   59://
+        -:   60:
+        -:   61:#ifndef _LIBCPP_NO_EXCEPTIONS
+        -:   62:template <class _Rollback>
+        -:   63:struct __exception_guard_exceptions {
+        -:   64:  __exception_guard_exceptions() = delete;
+        -:   65:
+        6:   66:  _LIBCPP_HIDE_FROM_ABI _LIBCPP_CONSTEXPR_SINCE_CXX20 explicit __exception_guard_exceptions(_Rollback __rollback)
+        6:   67:      : __rollback_(std::move(__rollback)), __completed_(false) {}
+        -:   68:
+        -:   69:  _LIBCPP_HIDE_FROM_ABI _LIBCPP_CONSTEXPR_SINCE_CXX20
+        -:   70:  __exception_guard_exceptions(__exception_guard_exceptions&& __other)
+        -:   71:      _NOEXCEPT_(is_nothrow_move_constructible<_Rollback>::value)
+        -:   72:      : __rollback_(std::move(__other.__rollback_)), __completed_(__other.__completed_) {
+        -:   73:    __other.__completed_ = true;
+        -:   74:  }
+        -:   75:
+        -:   76:  __exception_guard_exceptions(__exception_guard_exceptions const&)            = delete;
+        -:   77:  __exception_guard_exceptions& operator=(__exception_guard_exceptions const&) = delete;
+        -:   78:  __exception_guard_exceptions& operator=(__exception_guard_exceptions&&)      = delete;
+        -:   79:
+        3:   80:  _LIBCPP_HIDE_FROM_ABI _LIBCPP_CONSTEXPR_SINCE_CXX20 void __complete() _NOEXCEPT { __completed_ = true; }
+        -:   81:
+        6:   82:  _LIBCPP_HIDE_FROM_ABI _LIBCPP_CONSTEXPR_SINCE_CXX20 ~__exception_guard_exceptions() {
+        3:   83:    if (!__completed_)
+    #####:   84:      __rollback_();
+        6:   85:  }
+        -:   86:
+        -:   87:private:
+        -:   88:  _Rollback __rollback_;
+        -:   89:  bool __completed_;
+        -:   90:};
+        -:   91:
+        -:   92:_LIBCPP_CTAD_SUPPORTED_FOR_TYPE(__exception_guard_exceptions);
+        -:   93:
+        -:   94:template <class _Rollback>
+        -:   95:using __exception_guard = __exception_guard_exceptions<_Rollback>;
+        -:   96:#else  // _LIBCPP_NO_EXCEPTIONS
+        -:   97:template <class _Rollback>
+        -:   98:struct __exception_guard_noexceptions {
+        -:   99:  __exception_guard_noexceptions() = delete;
+        -:  100:  _LIBCPP_HIDE_FROM_ABI _LIBCPP_CONSTEXPR_SINCE_CXX20
+        -:  101:      _LIBCPP_NODEBUG explicit __exception_guard_noexceptions(_Rollback) {}
+        -:  102:
+        -:  103:  _LIBCPP_HIDE_FROM_ABI _LIBCPP_CONSTEXPR_SINCE_CXX20 _LIBCPP_NODEBUG
+        -:  104:  __exception_guard_noexceptions(__exception_guard_noexceptions&& __other)
+        -:  105:      _NOEXCEPT_(is_nothrow_move_constructible<_Rollback>::value)
+        -:  106:      : __completed_(__other.__completed_) {
+        -:  107:    __other.__completed_ = true;
+        -:  108:  }
+        -:  109:
+        -:  110:  __exception_guard_noexceptions(__exception_guard_noexceptions const&)            = delete;
+        -:  111:  __exception_guard_noexceptions& operator=(__exception_guard_noexceptions const&) = delete;
+        -:  112:  __exception_guard_noexceptions& operator=(__exception_guard_noexceptions&&)      = delete;
+        -:  113:
+        -:  114:  _LIBCPP_HIDE_FROM_ABI _LIBCPP_CONSTEXPR_SINCE_CXX20 _LIBCPP_NODEBUG void __complete() _NOEXCEPT {
+        -:  115:    __completed_ = true;
+        -:  116:  }
+        -:  117:
+        -:  118:  _LIBCPP_HIDE_FROM_ABI _LIBCPP_CONSTEXPR_SINCE_CXX20 _LIBCPP_NODEBUG ~__exception_guard_noexceptions() {
+        -:  119:    _LIBCPP_ASSERT(__completed_, "__exception_guard not completed with exceptions disabled");
+        -:  120:  }
+        -:  121:
+        -:  122:private:
+        -:  123:  bool __completed_ = false;
+        -:  124:};
+        -:  125:
+        -:  126:_LIBCPP_CTAD_SUPPORTED_FOR_TYPE(__exception_guard_noexceptions);
+        -:  127:
+        -:  128:template <class _Rollback>
+        -:  129:using __exception_guard = __exception_guard_noexceptions<_Rollback>;
+        -:  130:#endif // _LIBCPP_NO_EXCEPTIONS
+        -:  131:
+        -:  132:template <class _Rollback>
+        3:  133:_LIBCPP_HIDE_FROM_ABI _LIBCPP_CONSTEXPR __exception_guard<_Rollback> __make_exception_guard(_Rollback __rollback) {
+        3:  134:  return __exception_guard<_Rollback>(std::move(__rollback));
+        -:  135:}
+        -:  136:
+        -:  137:_LIBCPP_END_NAMESPACE_STD
+        -:  138:
+        -:  139:#endif // _LIBCPP___UTILITY_TRANSACTION_H

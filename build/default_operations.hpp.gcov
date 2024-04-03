@@ -1,0 +1,604 @@
+        -:    0:Source:/opt/homebrew/include/boost/numeric/odeint/algebra/default_operations.hpp
+        -:    0:Graph:./CMakeFiles/test_run.dir/src/Game.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/src/Game.cpp.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:/*
+        -:    2: [auto_generated]
+        -:    3: boost/numeric/odeint/algebra/default_operations.hpp
+        -:    4:
+        -:    5: [begin_description]
+        -:    6: Default operations. They work with the default numerical types, like float, double, complex< double> ...
+        -:    7: [end_description]
+        -:    8:
+        -:    9: Copyright 2010-2012 Karsten Ahnert
+        -:   10: Copyright 2010-2013 Mario Mulansky
+        -:   11:
+        -:   12: Distributed under the Boost Software License, Version 1.0.
+        -:   13: (See accompanying file LICENSE_1_0.txt or
+        -:   14: copy at http://www.boost.org/LICENSE_1_0.txt)
+        -:   15: */
+        -:   16:
+        -:   17:
+        -:   18:#ifndef BOOST_NUMERIC_ODEINT_ALGEBRA_DEFAULT_OPERATIONS_HPP_INCLUDED
+        -:   19:#define BOOST_NUMERIC_ODEINT_ALGEBRA_DEFAULT_OPERATIONS_HPP_INCLUDED
+        -:   20:
+        -:   21:#include <algorithm>
+        -:   22:
+        -:   23:#include <boost/config.hpp>
+        -:   24:#include <boost/array.hpp>
+        -:   25:
+        -:   26:#include <boost/numeric/odeint/util/unit_helper.hpp>
+        -:   27:
+        -:   28:
+        -:   29:namespace boost {
+        -:   30:namespace numeric {
+        -:   31:namespace odeint {
+        -:   32:
+        -:   33:
+        -:   34:
+        -:   35:/*
+        -:   36: * Notes:
+        -:   37: *
+        -:   38: * * the results structs are needed in order to work with fusion_algebra
+        -:   39: */
+        -:   40:struct default_operations
+        -:   41:{
+        -:   42:
+        -:   43:    template< class Fac1 = double >
+        -:   44:    struct scale
+        -:   45:    {
+        -:   46:        const Fac1 m_alpha1;
+        -:   47:
+        -:   48:        scale( Fac1 alpha1 ) : m_alpha1( alpha1 ) { }
+        -:   49:
+        -:   50:        template< class T1 >
+        -:   51:        void operator()( T1 &t1 ) const
+        -:   52:        {
+        -:   53:            t1 *= m_alpha1;
+        -:   54:        }
+        -:   55:
+        -:   56:        typedef void result_type;
+        -:   57:    };
+        -:   58:
+        -:   59:    template< class Fac1 = double >
+        -:   60:    struct scale_sum1
+        -:   61:    {
+        -:   62:        const Fac1 m_alpha1;
+        -:   63:
+        -:   64:        scale_sum1( Fac1 alpha1 ) : m_alpha1( alpha1 ) { }
+        -:   65:
+        -:   66:        template< class T1 , class T2 >
+        -:   67:        void operator()( T1 &t1 , const T2 &t2 ) const
+        -:   68:        {
+        -:   69:            t1 = m_alpha1 * t2;
+        -:   70:        }
+        -:   71:
+        -:   72:        typedef void result_type;
+        -:   73:    };
+        -:   74:
+        -:   75:
+        -:   76:    template< class Fac1 = double , class Fac2 = Fac1 >
+        -:   77:    struct scale_sum2
+        -:   78:    {
+        -:   79:        const Fac1 m_alpha1;
+        -:   80:        const Fac2 m_alpha2;
+        -:   81:
+    #####:   82:        scale_sum2( Fac1 alpha1 , Fac2 alpha2 ) : m_alpha1( alpha1 ) , m_alpha2( alpha2 ) { }
+        -:   83:
+        -:   84:        template< class T1 , class T2 , class T3 >
+    #####:   85:        void operator()( T1 &t1 , const T2 &t2 , const T3 &t3) const
+        -:   86:        {
+    #####:   87:            t1 = m_alpha1 * t2 + m_alpha2 * t3;
+    #####:   88:        }
+        -:   89:
+        -:   90:        typedef void result_type;
+        -:   91:    };
+        -:   92:
+        -:   93:
+        -:   94:    template< class Fac1 = double , class Fac2 = Fac1 , class Fac3 = Fac2 >
+        -:   95:    struct scale_sum3
+        -:   96:    {
+        -:   97:        const Fac1 m_alpha1;
+        -:   98:        const Fac2 m_alpha2;
+        -:   99:        const Fac3 m_alpha3;
+        -:  100:
+    #####:  101:        scale_sum3( Fac1 alpha1 , Fac2 alpha2 , Fac3 alpha3 )
+    #####:  102:        : m_alpha1( alpha1 ) , m_alpha2( alpha2 ) , m_alpha3( alpha3 ) { }
+        -:  103:
+        -:  104:        template< class T1 , class T2 , class T3 , class T4 >
+    #####:  105:        void operator()( T1 &t1 , const T2 &t2 , const T3 &t3 , const T4 &t4 ) const
+        -:  106:        {
+    #####:  107:            t1 = m_alpha1 * t2 + m_alpha2 * t3 + m_alpha3 * t4;
+    #####:  108:        }
+        -:  109:
+        -:  110:        typedef void result_type;
+        -:  111:    };
+        -:  112:
+        -:  113:
+        -:  114:    template< class Fac1 = double , class Fac2 = Fac1 , class Fac3 = Fac2 , class Fac4 = Fac3 >
+        -:  115:    struct scale_sum4
+        -:  116:    {
+        -:  117:        const Fac1 m_alpha1;
+        -:  118:        const Fac2 m_alpha2;
+        -:  119:        const Fac3 m_alpha3;
+        -:  120:        const Fac4 m_alpha4;
+        -:  121:
+    #####:  122:        scale_sum4( Fac1 alpha1 , Fac2 alpha2 , Fac3 alpha3 , Fac4 alpha4 )
+    #####:  123:        : m_alpha1( alpha1 ) , m_alpha2( alpha2 ) , m_alpha3( alpha3 ) , m_alpha4( alpha4 ) { }
+        -:  124:
+        -:  125:        template< class T1 , class T2 , class T3 , class T4 , class T5 >
+    #####:  126:        void operator()( T1 &t1 , const T2 &t2 , const T3 &t3 , const T4 &t4 , const T5 &t5) const
+        -:  127:        {
+    #####:  128:            t1 = m_alpha1 * t2 + m_alpha2 * t3 + m_alpha3 * t4 + m_alpha4 * t5;
+    #####:  129:        }
+        -:  130:
+        -:  131:        typedef void result_type;
+        -:  132:    };
+        -:  133:
+        -:  134:
+        -:  135:    template< class Fac1 = double , class Fac2 = Fac1 , class Fac3 = Fac2 , class Fac4 = Fac3 , class Fac5 = Fac4 >
+        -:  136:    struct scale_sum5
+        -:  137:    {
+        -:  138:        const Fac1 m_alpha1;
+        -:  139:        const Fac2 m_alpha2;
+        -:  140:        const Fac3 m_alpha3;
+        -:  141:        const Fac4 m_alpha4;
+        -:  142:        const Fac5 m_alpha5;
+        -:  143:
+    #####:  144:        scale_sum5( Fac1 alpha1 , Fac2 alpha2 , Fac3 alpha3 , Fac4 alpha4 , Fac5 alpha5 )
+    #####:  145:        : m_alpha1( alpha1 ) , m_alpha2( alpha2 ) , m_alpha3( alpha3 ) , m_alpha4( alpha4 ) , m_alpha5( alpha5 ) { }
+        -:  146:
+        -:  147:        template< class T1 , class T2 , class T3 , class T4 , class T5 , class T6 >
+    #####:  148:        void operator()( T1 &t1 , const T2 &t2 , const T3 &t3 , const T4 &t4 , const T5 &t5 , const T6 &t6) const
+        -:  149:        {
+    #####:  150:            t1 = m_alpha1 * t2 + m_alpha2 * t3 + m_alpha3 * t4 + m_alpha4 * t5 + m_alpha5 * t6;
+    #####:  151:        }
+        -:  152:
+        -:  153:        typedef void result_type;
+        -:  154:    };
+        -:  155:
+        -:  156:
+        -:  157:    template< class Fac1 = double , class Fac2 = Fac1 , class Fac3 = Fac2 , class Fac4 = Fac3 , class Fac5 = Fac4 , class Fac6 = Fac5 >
+        -:  158:    struct scale_sum6
+        -:  159:    {
+        -:  160:        const Fac1 m_alpha1;
+        -:  161:        const Fac2 m_alpha2;
+        -:  162:        const Fac3 m_alpha3;
+        -:  163:        const Fac4 m_alpha4;
+        -:  164:        const Fac5 m_alpha5;
+        -:  165:        const Fac6 m_alpha6;
+        -:  166:
+        -:  167:        scale_sum6( Fac1 alpha1 , Fac2 alpha2 , Fac3 alpha3 , Fac4 alpha4 , Fac5 alpha5 , Fac6 alpha6 )
+        -:  168:        : m_alpha1( alpha1 ) , m_alpha2( alpha2 ) , m_alpha3( alpha3 ) , m_alpha4( alpha4 ) , m_alpha5( alpha5 ) , m_alpha6( alpha6 ){ }
+        -:  169:
+        -:  170:        template< class T1 , class T2 , class T3 , class T4 , class T5 , class T6 , class T7 >
+        -:  171:        void operator()( T1 &t1 , const T2 &t2 , const T3 &t3 , const T4 &t4 , const T5 &t5 , const T6 &t6 ,const T7 &t7) const
+        -:  172:        {
+        -:  173:            t1 = m_alpha1 * t2 + m_alpha2 * t3 + m_alpha3 * t4 + m_alpha4 * t5 + m_alpha5 * t6 + m_alpha6 * t7;
+        -:  174:        }
+        -:  175:
+        -:  176:        typedef void result_type;
+        -:  177:    };
+        -:  178:
+        -:  179:
+        -:  180:    template< class Fac1 = double , class Fac2 = Fac1 , class Fac3 = Fac2 , class Fac4 = Fac3 , class Fac5 = Fac4 , class Fac6 = Fac5 , class Fac7 = Fac6 >
+        -:  181:    struct scale_sum7
+        -:  182:    {
+        -:  183:        const Fac1 m_alpha1;
+        -:  184:        const Fac2 m_alpha2;
+        -:  185:        const Fac3 m_alpha3;
+        -:  186:        const Fac4 m_alpha4;
+        -:  187:        const Fac5 m_alpha5;
+        -:  188:        const Fac6 m_alpha6;
+        -:  189:        const Fac7 m_alpha7;
+        -:  190:
+        -:  191:        scale_sum7( Fac1 alpha1 , Fac2 alpha2 , Fac3 alpha3 , Fac4 alpha4 ,
+        -:  192:                Fac5 alpha5 , Fac6 alpha6 , Fac7 alpha7 )
+        -:  193:        : m_alpha1( alpha1 ) , m_alpha2( alpha2 ) , m_alpha3( alpha3 ) , m_alpha4( alpha4 ) , m_alpha5( alpha5 ) , m_alpha6( alpha6 ) , m_alpha7( alpha7 ) { }
+        -:  194:
+        -:  195:        template< class T1 , class T2 , class T3 , class T4 , class T5 , class T6 , class T7 , class T8 >
+        -:  196:        void operator()( T1 &t1 , const T2 &t2 , const T3 &t3 , const T4 &t4 , const T5 &t5 , const T6 &t6 , const T7 &t7 , const T8 &t8 ) const
+        -:  197:        {
+        -:  198:            t1 = m_alpha1 * t2 + m_alpha2 * t3 + m_alpha3 * t4 + m_alpha4 * t5 + m_alpha5 * t6 + m_alpha6 * t7 + m_alpha7 * t8;
+        -:  199:        }
+        -:  200:
+        -:  201:        typedef void result_type;
+        -:  202:    };
+        -:  203:
+        -:  204:
+        -:  205:    template< class Fac1 = double , class Fac2 = Fac1 , class Fac3 = Fac2 , class Fac4 = Fac3 , class Fac5 = Fac4 , class Fac6 = Fac5 , class Fac7 = Fac6 , class Fac8 = Fac7 >
+        -:  206:    struct scale_sum8
+        -:  207:    {
+        -:  208:        const Fac1 m_alpha1;
+        -:  209:        const Fac2 m_alpha2;
+        -:  210:        const Fac3 m_alpha3;
+        -:  211:        const Fac4 m_alpha4;
+        -:  212:        const Fac5 m_alpha5;
+        -:  213:        const Fac6 m_alpha6;
+        -:  214:        const Fac7 m_alpha7;
+        -:  215:        const Fac8 m_alpha8;
+        -:  216:
+        -:  217:        scale_sum8( Fac1 alpha1 , Fac2 alpha2 , Fac3 alpha3 , Fac4 alpha4 ,
+        -:  218:                Fac5 alpha5 , Fac6 alpha6 , Fac7 alpha7 , Fac8 alpha8 )
+        -:  219:        : m_alpha1( alpha1 ) , m_alpha2( alpha2 ) , m_alpha3( alpha3 ) , m_alpha4( alpha4 ) , m_alpha5( alpha5 ) , m_alpha6( alpha6 ) , m_alpha7( alpha7 ) , m_alpha8( alpha8 ) { }
+        -:  220:
+        -:  221:        template< class T1 , class T2 , class T3 , class T4 , class T5 , class T6 , class T7 , class T8 , class T9 >
+        -:  222:        void operator()( T1 &t1 , const T2 &t2 , const T3 &t3 , const T4 &t4 , const T5 &t5 , const T6 &t6 , const T7 &t7 , const T8 &t8 , const T9 &t9 ) const
+        -:  223:        {
+        -:  224:            t1 = m_alpha1 * t2 + m_alpha2 * t3 + m_alpha3 * t4 + m_alpha4 * t5 + m_alpha5 * t6 + m_alpha6 * t7 + m_alpha7 * t8 + m_alpha8 * t9;
+        -:  225:        }
+        -:  226:
+        -:  227:        typedef void result_type;
+        -:  228:    };
+        -:  229:
+        -:  230:    template< class Fac1 = double , class Fac2 = Fac1 , class Fac3 = Fac2 , class Fac4 = Fac3 , class Fac5 = Fac4 , class Fac6 = Fac5 , class Fac7 = Fac6 , class Fac8 = Fac7 , class Fac9 = Fac8 >
+        -:  231:    struct scale_sum9
+        -:  232:    {
+        -:  233:        const Fac1 m_alpha1;
+        -:  234:        const Fac2 m_alpha2;
+        -:  235:        const Fac3 m_alpha3;
+        -:  236:        const Fac4 m_alpha4;
+        -:  237:        const Fac5 m_alpha5;
+        -:  238:        const Fac6 m_alpha6;
+        -:  239:        const Fac7 m_alpha7;
+        -:  240:        const Fac8 m_alpha8;
+        -:  241:        const Fac9 m_alpha9;
+        -:  242:
+        -:  243:        scale_sum9( Fac1 alpha1 , Fac2 alpha2 , Fac3 alpha3 , Fac4 alpha4 ,
+        -:  244:                Fac5 alpha5 , Fac6 alpha6 , Fac7 alpha7 , Fac8 alpha8 , Fac9 alpha9 )
+        -:  245:        : m_alpha1( alpha1 ) , m_alpha2( alpha2 ) , m_alpha3( alpha3 ) , m_alpha4( alpha4 ) , m_alpha5( alpha5 ) , m_alpha6( alpha6 ) , m_alpha7( alpha7 ) , m_alpha8( alpha8 ) , m_alpha9( alpha9 ) { }
+        -:  246:
+        -:  247:        template< class T1 , class T2 , class T3 , class T4 , class T5 , class T6 , class T7 , class T8 , class T9 , class T10 >
+        -:  248:        void operator()( T1 &t1 , const T2 &t2 , const T3 &t3 , const T4 &t4 , const T5 &t5 , const T6 &t6 , const T7 &t7 , const T8 &t8 , const T9 &t9 , const T10 &t10 ) const
+        -:  249:        {
+        -:  250:            t1 = m_alpha1 * t2 + m_alpha2 * t3 + m_alpha3 * t4 + m_alpha4 * t5 + m_alpha5 * t6 + m_alpha6 * t7 + m_alpha7 * t8 + m_alpha8 * t9 + m_alpha9 * t10;
+        -:  251:        }
+        -:  252:
+        -:  253:        typedef void result_type;
+        -:  254:    };
+        -:  255:
+        -:  256:    template< class Fac1 = double , class Fac2 = Fac1 , class Fac3 = Fac2 , class Fac4 = Fac3 , class Fac5 = Fac4 , class Fac6 = Fac5 , class Fac7 = Fac6 , class Fac8 = Fac7 , class Fac9 = Fac8 , class Fac10 = Fac9 >
+        -:  257:    struct scale_sum10
+        -:  258:    {
+        -:  259:        const Fac1 m_alpha1;
+        -:  260:        const Fac2 m_alpha2;
+        -:  261:        const Fac3 m_alpha3;
+        -:  262:        const Fac4 m_alpha4;
+        -:  263:        const Fac5 m_alpha5;
+        -:  264:        const Fac6 m_alpha6;
+        -:  265:        const Fac7 m_alpha7;
+        -:  266:        const Fac8 m_alpha8;
+        -:  267:        const Fac9 m_alpha9;
+        -:  268:        const Fac10 m_alpha10;
+        -:  269:
+        -:  270:        scale_sum10( Fac1 alpha1 , Fac2 alpha2 , Fac3 alpha3 , Fac4 alpha4 ,
+        -:  271:                Fac5 alpha5 , Fac6 alpha6 , Fac7 alpha7 , Fac8 alpha8 , Fac9 alpha9 , Fac10 alpha10 )
+        -:  272:        : m_alpha1( alpha1 ) , m_alpha2( alpha2 ) , m_alpha3( alpha3 ) , m_alpha4( alpha4 ) , m_alpha5( alpha5 ) , m_alpha6( alpha6 ) , m_alpha7( alpha7 ) , m_alpha8( alpha8 ) , m_alpha9( alpha9 ) , m_alpha10( alpha10 ) { }
+        -:  273:
+        -:  274:        template< class T1 , class T2 , class T3 , class T4 , class T5 , class T6 , class T7 , class T8 , class T9 , class T10 , class T11 >
+        -:  275:        void operator()( T1 &t1 , const T2 &t2 , const T3 &t3 , const T4 &t4 , const T5 &t5 , const T6 &t6 , const T7 &t7 , const T8 &t8 , const T9 &t9 , const T10 &t10 , const T11 &t11 ) const
+        -:  276:        {
+        -:  277:            t1 = m_alpha1 * t2 + m_alpha2 * t3 + m_alpha3 * t4 + m_alpha4 * t5 + m_alpha5 * t6 + m_alpha6 * t7 + m_alpha7 * t8 + m_alpha8 * t9 + m_alpha9 * t10 + m_alpha10 * t11;
+        -:  278:        }
+        -:  279:
+        -:  280:        typedef void result_type;
+        -:  281:    };
+        -:  282:
+        -:  283:
+        -:  284:    template< class Fac1 = double , class Fac2 = Fac1 , class Fac3 = Fac2 , class Fac4 = Fac3 , class Fac5 = Fac4 , class Fac6 = Fac5 , class Fac7 = Fac6 , class Fac8 = Fac7 , class Fac9 = Fac8 , class Fac10 = Fac9 , class Fac11 = Fac10 >
+        -:  285:    struct scale_sum11
+        -:  286:    {
+        -:  287:        const Fac1 m_alpha1;
+        -:  288:        const Fac2 m_alpha2;
+        -:  289:        const Fac3 m_alpha3;
+        -:  290:        const Fac4 m_alpha4;
+        -:  291:        const Fac5 m_alpha5;
+        -:  292:        const Fac6 m_alpha6;
+        -:  293:        const Fac7 m_alpha7;
+        -:  294:        const Fac8 m_alpha8;
+        -:  295:        const Fac9 m_alpha9;
+        -:  296:        const Fac10 m_alpha10;
+        -:  297:        const Fac11 m_alpha11;
+        -:  298:
+        -:  299:        scale_sum11( Fac1 alpha1 , Fac2 alpha2 , Fac3 alpha3 , Fac4 alpha4 ,
+        -:  300:                Fac5 alpha5 , Fac6 alpha6 , Fac7 alpha7 , Fac8 alpha8 , Fac9 alpha9 ,
+        -:  301:                Fac10 alpha10 , Fac11 alpha11 )
+        -:  302:        : m_alpha1( alpha1 ) , m_alpha2( alpha2 ) , m_alpha3( alpha3 ) , m_alpha4( alpha4 ) , m_alpha5( alpha5 ) , m_alpha6( alpha6 ) , m_alpha7( alpha7 ) , m_alpha8( alpha8 ) , m_alpha9( alpha9 ) , m_alpha10( alpha10 ) , m_alpha11( alpha11 ) { }
+        -:  303:
+        -:  304:        template< class T1 , class T2 , class T3 , class T4 , class T5 , class T6 , class T7 , class T8 , class T9 , class T10 , class T11 , class T12 >
+        -:  305:        void operator()( T1 &t1 , const T2 &t2 , const T3 &t3 , const T4 &t4 , const T5 &t5 , const T6 &t6 , const T7 &t7 , const T8 &t8 , const T9 &t9 , const T10 &t10 , const T11 &t11 , const T12 &t12 ) const
+        -:  306:        {
+        -:  307:            t1 = m_alpha1 * t2 + m_alpha2 * t3 + m_alpha3 * t4 + m_alpha4 * t5 + m_alpha5 * t6 + m_alpha6 * t7 + m_alpha7 * t8 + m_alpha8 * t9 + m_alpha9 * t10 + m_alpha10 * t11 + m_alpha11 * t12;
+        -:  308:        }
+        -:  309:
+        -:  310:        typedef void result_type;
+        -:  311:    };
+        -:  312:
+        -:  313:    template< class Fac1 = double , class Fac2 = Fac1 , class Fac3 = Fac2 , class Fac4 = Fac3 , class Fac5 = Fac4 , class Fac6 = Fac5 , class Fac7 = Fac6 , class Fac8 = Fac7 , class Fac9 = Fac8 , class Fac10 = Fac9 , class Fac11 = Fac10 , class Fac12 = Fac11 >
+        -:  314:    struct scale_sum12
+        -:  315:    {
+        -:  316:        const Fac1 m_alpha1;
+        -:  317:        const Fac2 m_alpha2;
+        -:  318:        const Fac3 m_alpha3;
+        -:  319:        const Fac4 m_alpha4;
+        -:  320:        const Fac5 m_alpha5;
+        -:  321:        const Fac6 m_alpha6;
+        -:  322:        const Fac7 m_alpha7;
+        -:  323:        const Fac8 m_alpha8;
+        -:  324:        const Fac9 m_alpha9;
+        -:  325:        const Fac10 m_alpha10;
+        -:  326:        const Fac11 m_alpha11;
+        -:  327:        const Fac12 m_alpha12;
+        -:  328:
+        -:  329:        scale_sum12( Fac1 alpha1 , Fac2 alpha2 , Fac3 alpha3 , Fac4 alpha4 ,
+        -:  330:                Fac5 alpha5 , Fac6 alpha6 , Fac7 alpha7 , Fac8 alpha8 , Fac9 alpha9 ,
+        -:  331:                Fac10 alpha10 , Fac11 alpha11 , Fac12 alpha12 )
+        -:  332:        : m_alpha1( alpha1 ) , m_alpha2( alpha2 ) , m_alpha3( alpha3 ) , m_alpha4( alpha4 ) , m_alpha5( alpha5 ) , m_alpha6( alpha6 ) , m_alpha7( alpha7 ) , m_alpha8( alpha8 ) , m_alpha9( alpha9 ) , m_alpha10( alpha10 ) , m_alpha11( alpha11 ) , m_alpha12( alpha12 ) { }
+        -:  333:
+        -:  334:        template< class T1 , class T2 , class T3 , class T4 , class T5 , class T6 , class T7 , class T8 , class T9 , class T10 , class T11 , class T12 , class T13 >
+        -:  335:        void operator()( T1 &t1 , const T2 &t2 , const T3 &t3 , const T4 &t4 , const T5 &t5 , const T6 &t6 , const T7 &t7 , const T8 &t8 , const T9 &t9 , const T10 &t10 , const T11 &t11 , const T12 &t12 , const T13 &t13 ) const
+        -:  336:        {
+        -:  337:            t1 = m_alpha1 * t2 + m_alpha2 * t3 + m_alpha3 * t4 + m_alpha4 * t5 + m_alpha5 * t6 + m_alpha6 * t7 + m_alpha7 * t8 + m_alpha8 * t9 + m_alpha9 * t10 + m_alpha10 * t11 + m_alpha11 * t12 + m_alpha12 * t13;
+        -:  338:        }
+        -:  339:
+        -:  340:        typedef void result_type;
+        -:  341:    };
+        -:  342:
+        -:  343:    template< class Fac1 = double , class Fac2 = Fac1 , class Fac3 = Fac2 , class Fac4 = Fac3 , class Fac5 = Fac4 , class Fac6 = Fac5 , class Fac7 = Fac6 , class Fac8 = Fac7 , class Fac9 = Fac8 , class Fac10 = Fac9 , class Fac11 = Fac10 , class Fac12 = Fac11 , class Fac13 = Fac12 >
+        -:  344:    struct scale_sum13
+        -:  345:    {
+        -:  346:        const Fac1 m_alpha1;
+        -:  347:        const Fac2 m_alpha2;
+        -:  348:        const Fac3 m_alpha3;
+        -:  349:        const Fac4 m_alpha4;
+        -:  350:        const Fac5 m_alpha5;
+        -:  351:        const Fac6 m_alpha6;
+        -:  352:        const Fac7 m_alpha7;
+        -:  353:        const Fac8 m_alpha8;
+        -:  354:        const Fac9 m_alpha9;
+        -:  355:        const Fac10 m_alpha10;
+        -:  356:        const Fac11 m_alpha11;
+        -:  357:        const Fac12 m_alpha12;
+        -:  358:        const Fac13 m_alpha13;
+        -:  359:
+        -:  360:        scale_sum13( Fac1 alpha1 , Fac2 alpha2 , Fac3 alpha3 , Fac4 alpha4 ,
+        -:  361:                Fac5 alpha5 , Fac6 alpha6 , Fac7 alpha7 , Fac8 alpha8 , Fac9 alpha9 ,
+        -:  362:                Fac10 alpha10 , Fac11 alpha11 , Fac12 alpha12 , Fac13 alpha13 )
+        -:  363:        : m_alpha1( alpha1 ) , m_alpha2( alpha2 ) , m_alpha3( alpha3 ) , m_alpha4( alpha4 ) , m_alpha5( alpha5 ) , m_alpha6( alpha6 ) , m_alpha7( alpha7 ) , m_alpha8( alpha8 ) , m_alpha9( alpha9 ) , m_alpha10( alpha10 ) , m_alpha11( alpha11 ) , m_alpha12( alpha12 ) , m_alpha13( alpha13 ) { }
+        -:  364:
+        -:  365:        template< class T1 , class T2 , class T3 , class T4 , class T5 , class T6 , class T7 , class T8 , class T9 , class T10 , class T11 , class T12 , class T13 , class T14 >
+        -:  366:        void operator()( T1 &t1 , const T2 &t2 , const T3 &t3 , const T4 &t4 , const T5 &t5 , const T6 &t6 , const T7 &t7 , const T8 &t8 , const T9 &t9 , const T10 &t10 , const T11 &t11 , const T12 &t12 , const T13 &t13 , const T14 &t14 ) const
+        -:  367:        {
+        -:  368:            t1 = m_alpha1 * t2 + m_alpha2 * t3 + m_alpha3 * t4 + m_alpha4 * t5 + m_alpha5 * t6 + m_alpha6 * t7 + m_alpha7 * t8 + m_alpha8 * t9 + m_alpha9 * t10 + m_alpha10 * t11 + m_alpha11 * t12 + m_alpha12 * t13 + m_alpha13 * t14;
+        -:  369:        }
+        -:  370:
+        -:  371:        typedef void result_type;
+        -:  372:    };
+        -:  373:
+        -:  374:    template< class Fac1 = double , class Fac2 = Fac1 , class Fac3 = Fac2 , class Fac4 = Fac3 , class Fac5 = Fac4 , class Fac6 = Fac5 , class Fac7 = Fac6 , class Fac8 = Fac7 , class Fac9 = Fac8 , class Fac10 = Fac9 , class Fac11 = Fac10 , class Fac12 = Fac11 , class Fac13 = Fac12 , class Fac14 = Fac13 >
+        -:  375:    struct scale_sum14
+        -:  376:    {
+        -:  377:        const Fac1 m_alpha1;
+        -:  378:        const Fac2 m_alpha2;
+        -:  379:        const Fac3 m_alpha3;
+        -:  380:        const Fac4 m_alpha4;
+        -:  381:        const Fac5 m_alpha5;
+        -:  382:        const Fac6 m_alpha6;
+        -:  383:        const Fac7 m_alpha7;
+        -:  384:        const Fac8 m_alpha8;
+        -:  385:        const Fac9 m_alpha9;
+        -:  386:        const Fac10 m_alpha10;
+        -:  387:        const Fac11 m_alpha11;
+        -:  388:        const Fac12 m_alpha12;
+        -:  389:        const Fac13 m_alpha13;
+        -:  390:        const Fac14 m_alpha14;
+        -:  391:
+        -:  392:        scale_sum14( Fac1 alpha1 , Fac2 alpha2 , Fac3 alpha3 , Fac4 alpha4 ,
+        -:  393:                Fac5 alpha5 , Fac6 alpha6 , Fac7 alpha7 , Fac8 alpha8 , Fac9 alpha9 ,
+        -:  394:                Fac10 alpha10 , Fac11 alpha11 , Fac12 alpha12 , Fac13 alpha13 , Fac14 alpha14 )
+        -:  395:        : m_alpha1( alpha1 ) , m_alpha2( alpha2 ) , m_alpha3( alpha3 ) , m_alpha4( alpha4 ) , m_alpha5( alpha5 ) , m_alpha6( alpha6 ) , m_alpha7( alpha7 ) , m_alpha8( alpha8 ) , m_alpha9( alpha9 ) , m_alpha10( alpha10 ) , m_alpha11( alpha11 ) , m_alpha12( alpha12 ) , m_alpha13( alpha13 ) , m_alpha14( alpha14 ) { }
+        -:  396:
+        -:  397:        template< class T1 , class T2 , class T3 , class T4 , class T5 , class T6 , class T7 , class T8 , class T9 , class T10 , class T11 , class T12 , class T13 , class T14 , class T15 >
+        -:  398:        void operator()( T1 &t1 , const T2 &t2 , const T3 &t3 , const T4 &t4 , const T5 &t5 , const T6 &t6 , const T7 &t7 , const T8 &t8 , const T9 &t9 , const T10 &t10 , const T11 &t11 , const T12 &t12 , const T13 &t13 , const T14 &t14 , const T15 &t15 ) const
+        -:  399:        {
+        -:  400:            t1 = m_alpha1 * t2 + m_alpha2 * t3 + m_alpha3 * t4 + m_alpha4 * t5 + m_alpha5 * t6 + m_alpha6 * t7 + m_alpha7 * t8 + m_alpha8 * t9 + m_alpha9 * t10 + m_alpha10 * t11 + m_alpha11 * t12 + m_alpha12 * t13 + m_alpha13 * t14 + m_alpha14 * t15;
+        -:  401:        }
+        -:  402:
+        -:  403:        typedef void result_type;
+        -:  404:    };
+        -:  405:
+        -:  406:    template< class Fac1 = double , class Fac2 = Fac1 >
+        -:  407:    struct scale_sum_swap2
+        -:  408:    {
+        -:  409:        const Fac1 m_alpha1;
+        -:  410:        const Fac2 m_alpha2;
+        -:  411:
+        -:  412:        scale_sum_swap2( Fac1 alpha1 , Fac2 alpha2 ) : m_alpha1( alpha1 ) , m_alpha2( alpha2 ) { }
+        -:  413:
+        -:  414:        template< class T1 , class T2 , class T3 >
+        -:  415:        void operator()( T1 &t1 , T2 &t2 , const T3 &t3) const
+        -:  416:        {
+        -:  417:            const T1 tmp( t1 );
+        -:  418:            t1 = m_alpha1 * t2 + m_alpha2 * t3;
+        -:  419:            t2 = tmp;
+        -:  420:        }
+        -:  421:
+        -:  422:        typedef void result_type;
+        -:  423:    };
+        -:  424:
+        -:  425:    /*
+        -:  426:     * for usage in for_each2
+        -:  427:     *
+        -:  428:     * Works with boost::units by eliminating the unit
+        -:  429:     */
+        -:  430:    template< class Fac1 = double >
+        -:  431:    struct rel_error
+        -:  432:    {
+        -:  433:        const Fac1 m_eps_abs , m_eps_rel , m_a_x , m_a_dxdt;
+        -:  434:
+        -:  435:        rel_error( Fac1 eps_abs , Fac1 eps_rel , Fac1 a_x , Fac1 a_dxdt )
+        -:  436:        : m_eps_abs( eps_abs ) , m_eps_rel( eps_rel ) , m_a_x( a_x ) , m_a_dxdt( a_dxdt ) { }
+        -:  437:
+        -:  438:
+        -:  439:        template< class T1 , class T2 , class T3 >
+        -:  440:        void operator()( T3 &t3 , const T1 &t1 , const T2 &t2 ) const
+        -:  441:        {
+        -:  442:            using std::abs;
+        -:  443:            set_unit_value( t3 , abs( get_unit_value( t3 ) ) / ( m_eps_abs + m_eps_rel * ( m_a_x * abs( get_unit_value( t1 ) ) + m_a_dxdt * abs( get_unit_value( t2 ) ) ) ) );
+        -:  444:        }
+        -:  445:
+        -:  446:        typedef void result_type;
+        -:  447:    };
+        -:  448:
+        -:  449:
+        -:  450:    /*
+        -:  451:     * for usage in for_each3
+        -:  452:     *
+        -:  453:     * used in the controller for the rosenbrock4 method
+        -:  454:     *
+        -:  455:     * Works with boost::units by eliminating the unit
+        -:  456:     */
+        -:  457:    template< class Fac1 = double >
+        -:  458:    struct default_rel_error
+        -:  459:    {
+        -:  460:        const Fac1 m_eps_abs , m_eps_rel ;
+        -:  461:
+        -:  462:        default_rel_error( Fac1 eps_abs , Fac1 eps_rel )
+        -:  463:        : m_eps_abs( eps_abs ) , m_eps_rel( eps_rel ) { }
+        -:  464:
+        -:  465:
+        -:  466:        /*
+        -:  467:         * xerr = xerr / ( eps_abs + eps_rel * max( x , x_old ) )
+        -:  468:         */
+        -:  469:        template< class T1 , class T2 , class T3 >
+        -:  470:        void operator()( T3 &t3 , const T1 &t1 , const T2 &t2 ) const
+        -:  471:        {
+        -:  472:            BOOST_USING_STD_MAX();
+        -:  473:            using std::abs;
+        -:  474:            Fac1 x1 = abs( get_unit_value( t1 ) ) , x2 = abs( get_unit_value( t2 ) );
+        -:  475:            set_unit_value( t3 , abs( get_unit_value( t3 ) ) / ( m_eps_abs + m_eps_rel * max BOOST_PREVENT_MACRO_SUBSTITUTION ( x1 , x2 ) ) );
+        -:  476:        }
+        -:  477:
+        -:  478:        typedef void result_type;
+        -:  479:    };
+        -:  480:
+        -:  481:
+        -:  482:
+        -:  483:    /*
+        -:  484:     * for usage in reduce
+        -:  485:     */
+        -:  486:
+        -:  487:    template< class Value >
+        -:  488:    struct maximum
+        -:  489:    {
+        -:  490:        template< class Fac1 , class Fac2 >
+        -:  491:        Value operator()( Fac1 t1 , const Fac2 t2 ) const
+        -:  492:        {
+        -:  493:            using std::abs;
+        -:  494:            Value a1 = abs( get_unit_value( t1 ) ) , a2 = abs( get_unit_value( t2 ) );
+        -:  495:            return ( a1 < a2 ) ? a2 : a1 ;
+        -:  496:        }
+        -:  497:
+        -:  498:        typedef Value result_type;
+        -:  499:    };
+        -:  500:
+        -:  501:
+        -:  502:    template< class Fac1 = double >
+        -:  503:    struct rel_error_max
+        -:  504:    {
+        -:  505:        const Fac1 m_eps_abs , m_eps_rel;
+        -:  506:
+        -:  507:        rel_error_max( Fac1 eps_abs , Fac1 eps_rel )
+        -:  508:        : m_eps_abs( eps_abs ) , m_eps_rel( eps_rel )
+        -:  509:        { }
+        -:  510:
+        -:  511:        template< class Res , class T1 , class T2 , class T3 >
+        -:  512:        Res operator()( Res r , const T1 &x_old , const T2 &x , const T3 &x_err )
+        -:  513:        {
+        -:  514:            BOOST_USING_STD_MAX();
+        -:  515:            using std::abs;
+        -:  516:            Res tmp = abs( get_unit_value( x_err ) ) / ( m_eps_abs + m_eps_rel * max BOOST_PREVENT_MACRO_SUBSTITUTION ( abs( x_old ) , abs( x ) ) );
+        -:  517:            return max BOOST_PREVENT_MACRO_SUBSTITUTION ( r , tmp );
+        -:  518:        }
+        -:  519:    };
+        -:  520:
+        -:  521:
+        -:  522:    template< class Fac1 = double >
+        -:  523:    struct rel_error_max2
+        -:  524:    {
+        -:  525:        const Fac1 m_eps_abs , m_eps_rel , m_a_x , m_a_dxdt;
+        -:  526:
+        -:  527:        rel_error_max2( Fac1 eps_abs , Fac1 eps_rel , Fac1 a_x , Fac1 a_dxdt )
+        -:  528:        : m_eps_abs( eps_abs ) , m_eps_rel( eps_rel ) , m_a_x( a_x ) , m_a_dxdt( a_dxdt )
+        -:  529:        { }
+        -:  530:
+        -:  531:        template< class Res , class T1 , class T2 , class T3 , class T4 >
+        -:  532:        Res operator()( Res r , const T1 &x_old , const T2 &/*x*/ , const T3 &dxdt_old , const T4 &x_err )
+        -:  533:        {
+        -:  534:            BOOST_USING_STD_MAX();
+        -:  535:            using std::abs;
+        -:  536:            Res tmp = abs( get_unit_value( x_err ) ) /
+        -:  537:                    ( m_eps_abs + m_eps_rel * ( m_a_x * abs( get_unit_value( x_old ) ) + m_a_dxdt * abs( get_unit_value( dxdt_old ) ) ) );
+        -:  538:            return max BOOST_PREVENT_MACRO_SUBSTITUTION ( r , tmp );
+        -:  539:        }
+        -:  540:    };
+        -:  541:
+        -:  542:
+        -:  543:
+        -:  544:
+        -:  545:    template< class Fac1 = double >
+        -:  546:    struct rel_error_l2
+        -:  547:    {
+        -:  548:        const Fac1 m_eps_abs , m_eps_rel;
+        -:  549:
+        -:  550:        rel_error_l2( Fac1 eps_abs , Fac1 eps_rel )
+        -:  551:        : m_eps_abs( eps_abs ) , m_eps_rel( eps_rel )
+        -:  552:        { }
+        -:  553:
+        -:  554:        template< class Res , class T1 , class T2 , class T3 >
+        -:  555:        Res operator()( Res r , const T1 &x_old , const T2 &x , const T3 &x_err )
+        -:  556:        {
+        -:  557:            BOOST_USING_STD_MAX();
+        -:  558:            using std::abs;
+        -:  559:            Res tmp = abs( get_unit_value( x_err ) ) / ( m_eps_abs + m_eps_rel * max BOOST_PREVENT_MACRO_SUBSTITUTION ( abs( x_old ) , abs( x ) ) );
+        -:  560:            return r + tmp * tmp;
+        -:  561:        }
+        -:  562:    };
+        -:  563:
+        -:  564:
+        -:  565:
+        -:  566:
+        -:  567:    template< class Fac1 = double >
+        -:  568:    struct rel_error_l2_2
+        -:  569:    {
+        -:  570:        const Fac1 m_eps_abs , m_eps_rel , m_a_x , m_a_dxdt;
+        -:  571:
+        -:  572:        rel_error_l2_2( Fac1 eps_abs , Fac1 eps_rel , Fac1 a_x , Fac1 a_dxdt )
+        -:  573:        : m_eps_abs( eps_abs ) , m_eps_rel( eps_rel ) , m_a_x( a_x ) , m_a_dxdt( a_dxdt )
+        -:  574:        { }
+        -:  575:
+        -:  576:        template< class Res , class T1 , class T2 , class T3 , class T4 >
+        -:  577:        Res operator()( Res r , const T1 &x_old , const T2 &/*x*/ , const T3 &dxdt_old , const T4 &x_err )
+        -:  578:        {
+        -:  579:            using std::abs;
+        -:  580:            Res tmp = abs( get_unit_value( x_err ) ) /
+        -:  581:                    ( m_eps_abs + m_eps_rel * ( m_a_x * abs( get_unit_value( x_old ) ) + m_a_dxdt * abs( get_unit_value( dxdt_old ) ) ) );
+        -:  582:            return r + tmp * tmp;
+        -:  583:        }
+        -:  584:    };
+        -:  585:
+        -:  586:
+        -:  587:
+        -:  588:
+        -:  589:
+        -:  590:
+        -:  591:};
+        -:  592:
+        -:  593:
+        -:  594:} // odeint
+        -:  595:} // numeric
+        -:  596:} // boost
+        -:  597:
+        -:  598:
+        -:  599:#endif // BOOST_NUMERIC_ODEINT_ALGEBRA_DEFAULT_OPERATIONS_HPP_INCLUDED

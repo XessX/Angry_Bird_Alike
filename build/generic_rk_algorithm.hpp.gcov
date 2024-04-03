@@ -1,0 +1,252 @@
+        -:    0:Source:/opt/homebrew/include/boost/numeric/odeint/stepper/detail/generic_rk_algorithm.hpp
+        -:    0:Graph:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcda
+        -:    0:Runs:2
+        -:    0:Programs:1
+        -:    1:/*
+        -:    2: [auto_generated]
+        -:    3: boost/numeric/odeint/stepper/detail/generic_rk_algorithm.hpp
+        -:    4:
+        -:    5: [begin_description]
+        -:    6: Implementation of the generic Runge-Kutta method.
+        -:    7: [end_description]
+        -:    8:
+        -:    9: Copyright 2011-2013 Mario Mulansky
+        -:   10: Copyright 2011-2012 Karsten Ahnert
+        -:   11: Copyright 2012 Christoph Koke
+        -:   12:
+        -:   13: Distributed under the Boost Software License, Version 1.0.
+        -:   14: (See accompanying file LICENSE_1_0.txt or
+        -:   15: copy at http://www.boost.org/LICENSE_1_0.txt)
+        -:   16: */
+        -:   17:
+        -:   18:
+        -:   19:#ifndef BOOST_NUMERIC_ODEINT_STEPPER_DETAIL_GENERIC_RK_ALGORITHM_HPP_INCLUDED
+        -:   20:#define BOOST_NUMERIC_ODEINT_STEPPER_DETAIL_GENERIC_RK_ALGORITHM_HPP_INCLUDED
+        -:   21:
+        -:   22:#include <boost/static_assert.hpp>
+        -:   23:
+        -:   24:#include <boost/mpl/vector.hpp>
+        -:   25:#include <boost/mpl/push_back.hpp>
+        -:   26:#include <boost/mpl/for_each.hpp>
+        -:   27:#include <boost/mpl/range_c.hpp>
+        -:   28:#include <boost/mpl/copy.hpp>
+        -:   29:#include <boost/mpl/size_t.hpp>
+        -:   30:
+        -:   31:#include <boost/fusion/algorithm.hpp>
+        -:   32:#include <boost/fusion/iterator.hpp>
+        -:   33:#include <boost/fusion/mpl.hpp>
+        -:   34:#include <boost/fusion/sequence.hpp>
+        -:   35:
+        -:   36:#include <boost/array.hpp>
+        -:   37:
+        -:   38:#include <boost/numeric/odeint/algebra/range_algebra.hpp>
+        -:   39:#include <boost/numeric/odeint/algebra/default_operations.hpp>
+        -:   40:#include <boost/numeric/odeint/stepper/detail/generic_rk_call_algebra.hpp>
+        -:   41:#include <boost/numeric/odeint/stepper/detail/generic_rk_operations.hpp>
+        -:   42:#include <boost/numeric/odeint/util/bind.hpp>
+        -:   43:
+        -:   44:namespace boost {
+        -:   45:namespace numeric {
+        -:   46:namespace odeint {
+        -:   47:namespace detail {
+        -:   48:
+        -:   49:template< class T , class Constant >
+        -:   50:struct array_wrapper
+        -:   51:{
+        -:   52:    typedef const typename boost::array< T , Constant::value > type;
+        -:   53:};
+        -:   54:
+        -:   55:template< class T , size_t i >
+        -:   56:struct stage
+        -:   57:{
+        -:   58:    T c;
+        -:   59:    boost::array< T , i > a;
+        -:   60:};
+        -:   61:
+        -:   62:
+        -:   63:template< class T , class Constant >
+        -:   64:struct stage_wrapper
+        -:   65:{
+        -:   66:    typedef stage< T , Constant::value > type;
+        -:   67:};
+        -:   68:
+        -:   69:
+        -:   70:template<
+        -:   71:size_t StageCount,
+        -:   72:class Value ,
+        -:   73:class Algebra ,
+        -:   74:class Operations
+        -:   75:>
+        -:   76:class generic_rk_algorithm {
+        -:   77:
+        -:   78:public:
+        -:   79:    typedef mpl::range_c< size_t , 1 , StageCount > stage_indices;
+        -:   80:
+        -:   81:    typedef typename boost::fusion::result_of::as_vector
+        -:   82:            <
+        -:   83:            typename boost::mpl::copy
+        -:   84:            <
+        -:   85:            stage_indices ,
+        -:   86:            boost::mpl::inserter
+        -:   87:            <
+        -:   88:            boost::mpl::vector0< > ,
+        -:   89:            boost::mpl::push_back< boost::mpl::_1 , array_wrapper< Value , boost::mpl::_2 > >
+        -:   90:    >
+        -:   91:    >::type
+        -:   92:    >::type coef_a_type;
+        -:   93:
+        -:   94:    typedef boost::array< Value , StageCount > coef_b_type;
+        -:   95:    typedef boost::array< Value , StageCount > coef_c_type;
+        -:   96:
+        -:   97:    typedef typename boost::fusion::result_of::as_vector
+        -:   98:            <
+        -:   99:            typename boost::mpl::push_back
+        -:  100:            <
+        -:  101:            typename boost::mpl::copy
+        -:  102:            <
+        -:  103:            stage_indices,
+        -:  104:            boost::mpl::inserter
+        -:  105:            <
+        -:  106:            boost::mpl::vector0<> ,
+        -:  107:            boost::mpl::push_back< boost::mpl::_1 , stage_wrapper< Value , boost::mpl::_2 > >
+        -:  108:    >
+        -:  109:    >::type ,
+        -:  110:    stage< Value , StageCount >
+        -:  111:    >::type
+        -:  112:    >::type stage_vector_base;
+        -:  113:
+        -:  114:
+        -:  115:    struct stage_vector : public stage_vector_base
+        -:  116:    {
+        -:  117:        struct do_insertion
+        -:  118:        {
+        -:  119:            stage_vector_base &m_base;
+        -:  120:            const coef_a_type &m_a;
+        -:  121:            const coef_c_type &m_c;
+        -:  122:
+        4:  123:            do_insertion( stage_vector_base &base , const coef_a_type &a , const coef_c_type &c )
+        4:  124:            : m_base( base ) , m_a( a ) , m_c( c ) { }
+        -:  125:
+        -:  126:            template< class Index >
+        6:  127:            void operator()( Index ) const
+        -:  128:            {
+        -:  129:                //boost::fusion::at< Index >( m_base ) = stage< double , Index::value+1 , intermediate_stage >( m_c[ Index::value ] , boost::fusion::at< Index >( m_a ) );
+        6:  130:                boost::fusion::at< Index >( m_base ).c  = m_c[ Index::value ];
+        6:  131:                boost::fusion::at< Index >( m_base ).a = boost::fusion::at< Index >( m_a );
+        6:  132:            }
+        -:  133:        };
+        -:  134:
+        -:  135:        struct print_butcher
+        -:  136:        {
+        -:  137:            const stage_vector_base &m_base;
+        -:  138:            std::ostream &m_os;
+        -:  139:
+        -:  140:            print_butcher( const stage_vector_base &base , std::ostream &os )
+        -:  141:            : m_base( base ) , m_os( os )
+        -:  142:            { }
+        -:  143:
+        -:  144:            template<class Index>
+        -:  145:            void operator()(Index) const {
+        -:  146:                m_os << boost::fusion::at<Index>(m_base).c << " | ";
+        -:  147:                for( size_t i=0 ; i<Index::value ; ++i )
+        -:  148:                    m_os << boost::fusion::at<Index>(m_base).a[i] << " ";
+        -:  149:                m_os << std::endl;
+        -:  150:            }
+        -:  151:        };
+        -:  152:
+        -:  153:
+        4:  154:        stage_vector( const coef_a_type &a , const coef_b_type &b , const coef_c_type &c )
+        2:  155:        {
+        -:  156:            typedef boost::mpl::range_c< size_t , 0 , StageCount-1 > indices;
+        2:  157:            boost::mpl::for_each< indices >( do_insertion( *this , a , c ) );
+        2:  158:            boost::fusion::at_c< StageCount - 1 >( *this ).c = c[ StageCount - 1 ];
+        2:  159:            boost::fusion::at_c< StageCount - 1 >( *this ).a = b;
+        4:  160:        }
+        -:  161:
+        -:  162:        void print( std::ostream &os ) const
+        -:  163:        {
+        -:  164:            typedef boost::mpl::range_c< size_t , 0 , StageCount > indices;
+        -:  165:            boost::mpl::for_each< indices >( print_butcher( *this , os ) );
+        -:  166:        }
+        -:  167:    };
+        -:  168:
+        -:  169:
+        -:  170:
+        -:  171:    template< class System , class StateIn , class StateTemp , class DerivIn , class Deriv ,
+        -:  172:    class StateOut , class Time >
+        -:  173:    struct calculate_stage
+        -:  174:    {
+        -:  175:        Algebra &algebra;
+        -:  176:        System &system;
+        -:  177:        const StateIn &x;
+        -:  178:        StateTemp &x_tmp;
+        -:  179:        StateOut &x_out;
+        -:  180:        const DerivIn &dxdt;
+        -:  181:        Deriv *F;
+        -:  182:        Time t;
+        -:  183:        Time dt;
+        -:  184:
+        -:  185:        calculate_stage( Algebra &_algebra , System &_system , const StateIn &_x , const DerivIn &_dxdt , StateOut &_out ,
+        -:  186:                StateTemp &_x_tmp , Deriv *_F , Time _t , Time _dt )
+        -:  187:        : algebra( _algebra ) , system( _system ) , x( _x ) , x_tmp( _x_tmp ) , x_out( _out) , dxdt( _dxdt ) , F( _F ) , t( _t ) , dt( _dt )
+        -:  188:        {}
+        -:  189:
+        -:  190:
+        -:  191:        template< typename T , size_t stage_number >
+        -:  192:        void inline operator()( stage< T , stage_number > const &stage ) const
+        -:  193:        //typename stage_fusion_wrapper< T , mpl::size_t< stage_number > , intermediate_stage >::type const &stage ) const
+        -:  194:        {
+        -:  195:            if( stage_number > 1 )
+        -:  196:            {
+        -:  197:#ifdef BOOST_MSVC
+        -:  198:#pragma warning( disable : 4307 34 )
+        -:  199:#endif
+        -:  200:                system( x_tmp , F[stage_number-2].m_v , t + stage.c * dt );
+        -:  201:#ifdef BOOST_MSVC
+        -:  202:#pragma warning( default : 4307 34 )
+        -:  203:#endif
+        -:  204:            }
+        -:  205:            //std::cout << stage_number-2 << ", t': " << t + stage.c * dt << std::endl;
+        -:  206:
+        -:  207:            if( stage_number < StageCount )
+        -:  208:                detail::template generic_rk_call_algebra< stage_number , Algebra >()( algebra , x_tmp , x , dxdt , F ,
+        -:  209:                        detail::generic_rk_scale_sum< stage_number , Operations , Value , Time >( stage.a , dt) );
+        -:  210:            //                  algebra_type::template for_eachn<stage_number>( x_tmp , x , dxdt , F ,
+        -:  211:            //                          typename operations_type::template scale_sumn< stage_number , time_type >( stage.a , dt ) );
+        -:  212:            else
+        -:  213:                detail::template generic_rk_call_algebra< stage_number , Algebra >()( algebra , x_out , x , dxdt , F ,
+        -:  214:                        detail::generic_rk_scale_sum< stage_number , Operations , Value , Time >( stage.a , dt ) );
+        -:  215:            //                algebra_type::template for_eachn<stage_number>( x_out , x , dxdt , F ,
+        -:  216:            //                            typename operations_type::template scale_sumn< stage_number , time_type >( stage.a , dt ) );
+        -:  217:        }
+        -:  218:
+        -:  219:    };
+        -:  220:
+        4:  221:    generic_rk_algorithm( const coef_a_type &a , const coef_b_type &b , const coef_c_type &c )
+        2:  222:    : m_stages( a , b , c )
+        4:  223:    { }
+        -:  224:
+        -:  225:    template< class System , class StateIn , class DerivIn , class Time , class StateOut , class StateTemp , class Deriv >
+        -:  226:    void inline do_step( Algebra &algebra , System system , const StateIn &in , const DerivIn &dxdt ,
+        -:  227:            Time t , StateOut &out , Time dt ,
+        -:  228:            StateTemp &x_tmp , Deriv F[StageCount-1] ) const
+        -:  229:    {
+        -:  230:        typedef typename odeint::unwrap_reference< System >::type unwrapped_system_type;
+        -:  231:        unwrapped_system_type &sys = system;
+        -:  232:        boost::fusion::for_each( m_stages , calculate_stage<
+        -:  233:                unwrapped_system_type , StateIn , StateTemp , DerivIn , Deriv , StateOut , Time >
+        -:  234:        ( algebra , sys , in , dxdt , out , x_tmp , F , t , dt ) );
+        -:  235:    }
+        -:  236:
+        -:  237:private:
+        -:  238:    stage_vector m_stages;
+        -:  239:};
+        -:  240:
+        -:  241:
+        -:  242:}
+        -:  243:}
+        -:  244:}
+        -:  245:}
+        -:  246:
+        -:  247:#endif // BOOST_NUMERIC_ODEINT_STEPPER_DETAIL_GENERIC_RK_ALGORITHM_HPP_INCLUDED

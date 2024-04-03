@@ -1,0 +1,159 @@
+        -:    0:Source:/opt/homebrew/include/SFML/Graphics/CircleShape.hpp
+        -:    0:Graph:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcda
+        -:    0:Runs:2
+        -:    0:Programs:1
+        -:    1:////////////////////////////////////////////////////////////
+        -:    2://
+        -:    3:// SFML - Simple and Fast Multimedia Library
+        -:    4:// Copyright (C) 2007-2023 Laurent Gomila (laurent@sfml-dev.org)
+        -:    5://
+        -:    6:// This software is provided 'as-is', without any express or implied warranty.
+        -:    7:// In no event will the authors be held liable for any damages arising from the use of this software.
+        -:    8://
+        -:    9:// Permission is granted to anyone to use this software for any purpose,
+        -:   10:// including commercial applications, and to alter it and redistribute it freely,
+        -:   11:// subject to the following restrictions:
+        -:   12://
+        -:   13:// 1. The origin of this software must not be misrepresented;
+        -:   14://    you must not claim that you wrote the original software.
+        -:   15://    If you use this software in a product, an acknowledgment
+        -:   16://    in the product documentation would be appreciated but is not required.
+        -:   17://
+        -:   18:// 2. Altered source versions must be plainly marked as such,
+        -:   19://    and must not be misrepresented as being the original software.
+        -:   20://
+        -:   21:// 3. This notice may not be removed or altered from any source distribution.
+        -:   22://
+        -:   23:////////////////////////////////////////////////////////////
+        -:   24:
+        -:   25:#ifndef SFML_CIRCLESHAPE_HPP
+        -:   26:#define SFML_CIRCLESHAPE_HPP
+        -:   27:
+        -:   28:////////////////////////////////////////////////////////////
+        -:   29:// Headers
+        -:   30:////////////////////////////////////////////////////////////
+        -:   31:#include <SFML/Graphics/Export.hpp>
+        -:   32:#include <SFML/Graphics/Shape.hpp>
+        -:   33:
+        -:   34:
+        -:   35:namespace sf
+        -:   36:{
+        -:   37:////////////////////////////////////////////////////////////
+        -:   38:/// \brief Specialized shape representing a circle
+        -:   39:///
+        -:   40:////////////////////////////////////////////////////////////
+        -:   41:class SFML_GRAPHICS_API CircleShape : public Shape
+        -:   42:{
+        -:   43:public:
+        -:   44:
+        -:   45:    ////////////////////////////////////////////////////////////
+        -:   46:    /// \brief Default constructor
+        -:   47:    ///
+        -:   48:    /// \param radius     Radius of the circle
+        -:   49:    /// \param pointCount Number of points composing the circle
+        -:   50:    ///
+        -:   51:    ////////////////////////////////////////////////////////////
+        -:   52:    explicit CircleShape(float radius = 0, std::size_t pointCount = 30);
+        -:   53:
+        -:   54:    ////////////////////////////////////////////////////////////
+        -:   55:    /// \brief Set the radius of the circle
+        -:   56:    ///
+        -:   57:    /// \param radius New radius of the circle
+        -:   58:    ///
+        -:   59:    /// \see getRadius
+        -:   60:    ///
+        -:   61:    ////////////////////////////////////////////////////////////
+        -:   62:    void setRadius(float radius);
+        -:   63:
+        -:   64:    ////////////////////////////////////////////////////////////
+        -:   65:    /// \brief Get the radius of the circle
+        -:   66:    ///
+        -:   67:    /// \return Radius of the circle
+        -:   68:    ///
+        -:   69:    /// \see setRadius
+        -:   70:    ///
+        -:   71:    ////////////////////////////////////////////////////////////
+        -:   72:    float getRadius() const;
+        -:   73:
+        -:   74:    ////////////////////////////////////////////////////////////
+        -:   75:    /// \brief Set the number of points of the circle
+        -:   76:    ///
+        -:   77:    /// \param count New number of points of the circle
+        -:   78:    ///
+        -:   79:    /// \see getPointCount
+        -:   80:    ///
+        -:   81:    ////////////////////////////////////////////////////////////
+        -:   82:    void setPointCount(std::size_t count);
+        -:   83:
+        -:   84:    ////////////////////////////////////////////////////////////
+        -:   85:    /// \brief Get the number of points of the circle
+        -:   86:    ///
+        -:   87:    /// \return Number of points of the circle
+        -:   88:    ///
+        -:   89:    /// \see setPointCount
+        -:   90:    ///
+        -:   91:    ////////////////////////////////////////////////////////////
+        -:   92:    virtual std::size_t getPointCount() const;
+        -:   93:
+        -:   94:    ////////////////////////////////////////////////////////////
+        -:   95:    /// \brief Get a point of the circle
+        -:   96:    ///
+        -:   97:    /// The returned point is in local coordinates, that is,
+        -:   98:    /// the shape's transforms (position, rotation, scale) are
+        -:   99:    /// not taken into account.
+        -:  100:    /// The result is undefined if \a index is out of the valid range.
+        -:  101:    ///
+        -:  102:    /// \param index Index of the point to get, in range [0 .. getPointCount() - 1]
+        -:  103:    ///
+        -:  104:    /// \return index-th point of the shape
+        -:  105:    ///
+        -:  106:    ////////////////////////////////////////////////////////////
+        -:  107:    virtual Vector2f getPoint(std::size_t index) const;
+        -:  108:
+        -:  109:private:
+        -:  110:
+        -:  111:    ////////////////////////////////////////////////////////////
+        -:  112:    // Member data
+        -:  113:    ////////////////////////////////////////////////////////////
+        -:  114:    float       m_radius;     //!< Radius of the circle
+        -:  115:    std::size_t m_pointCount; //!< Number of points composing the circle
+        -:  116:};
+        -:  117:
+        -:  118:} // namespace sf
+        -:  119:
+        -:  120:
+        -:  121:#endif // SFML_CIRCLESHAPE_HPP
+        -:  122:
+        -:  123:
+        -:  124:////////////////////////////////////////////////////////////
+        -:  125:/// \class sf::CircleShape
+        -:  126:/// \ingroup graphics
+        -:  127:///
+        -:  128:/// This class inherits all the functions of sf::Transformable
+        -:  129:/// (position, rotation, scale, bounds, ...) as well as the
+        -:  130:/// functions of sf::Shape (outline, color, texture, ...).
+        -:  131:///
+        -:  132:/// Usage example:
+        -:  133:/// \code
+        -:  134:/// sf::CircleShape circle;
+        -:  135:/// circle.setRadius(150);
+        -:  136:/// circle.setOutlineColor(sf::Color::Red);
+        -:  137:/// circle.setOutlineThickness(5);
+        -:  138:/// circle.setPosition(10, 20);
+        -:  139:/// ...
+        -:  140:/// window.draw(circle);
+        -:  141:/// \endcode
+        -:  142:///
+        -:  143:/// Since the graphics card can't draw perfect circles, we have to
+        -:  144:/// fake them with multiple triangles connected to each other. The
+        -:  145:/// "points count" property of sf::CircleShape defines how many of these
+        -:  146:/// triangles to use, and therefore defines the quality of the circle.
+        -:  147:///
+        -:  148:/// The number of points can also be used for another purpose; with
+        -:  149:/// small numbers you can create any regular polygon shape:
+        -:  150:/// equilateral triangle, square, pentagon, hexagon, ...
+        -:  151:///
+        -:  152:/// \see sf::Shape, sf::RectangleShape, sf::ConvexShape
+        -:  153:///
+        -:  154:////////////////////////////////////////////////////////////

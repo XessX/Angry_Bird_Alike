@@ -1,0 +1,298 @@
+        -:    0:Source:/opt/homebrew/include/boost/numeric/odeint/algebra/array_algebra.hpp
+        -:    0:Graph:./CMakeFiles/test_run.dir/src/Game.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/src/Game.cpp.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:/*
+        -:    2: [auto_generated]
+        -:    3: boost/numeric/odeint/algebra/array_algebra.hpp
+        -:    4:
+        -:    5: [begin_description]
+        -:    6: Algebra for Arrays. Highly specialized for odeint. Const arguments are
+        -:    7: introduce to work with odeint.
+        -:    8: The Array algebra can be used for Array structures with two template
+        -:    9: parameters: 
+        -:   10: Array<T, N>
+        -:   11: [end_description]
+        -:   12:
+        -:   13: Copyright 2011-2013 Mario Mulansky
+        -:   14: Copyright 2011-2012 Karsten Ahnert
+        -:   15:
+        -:   16: Distributed under the Boost Software License, Version 1.0.
+        -:   17: (See accompanying file LICENSE_1_0.txt or
+        -:   18: copy at http://www.boost.org/LICENSE_1_0.txt)
+        -:   19: */
+        -:   20:
+        -:   21:
+        -:   22:#ifndef BOOST_NUMERIC_ODEINT_ALGEBRA_ARRAY_ALGEBRA_HPP_INCLUDED
+        -:   23:#define BOOST_NUMERIC_ODEINT_ALGEBRA_ARRAY_ALGEBRA_HPP_INCLUDED
+        -:   24:
+        -:   25:#include <algorithm>
+        -:   26:#include <boost/array.hpp>
+        -:   27:
+        -:   28:#include <boost/numeric/odeint/algebra/norm_result_type.hpp>
+        -:   29:
+        -:   30:namespace boost {
+        -:   31:namespace numeric {
+        -:   32:namespace odeint {
+        -:   33:
+        -:   34:struct array_algebra
+        -:   35:{
+        -:   36:    //template< typename T , size_t dim , class Op >
+        -:   37:    template < template < typename, size_t > class Array, typename T,
+        -:   38:               size_t dim, class Op >
+        -:   39:    static void for_each1( Array< T, dim > &s1, Op op )
+        -:   40:    {
+        -:   41:        for( size_t i=0 ; i<dim ; ++i )
+        -:   42:            op( s1[i] );
+        -:   43:    }
+        -:   44:
+        -:   45:    template < template < typename, size_t > class Array, typename T,
+        -:   46:               size_t dim, class Op >
+        -:   47:    static void for_each2( Array< T, dim > &s1, const Array< T, dim > &s2,
+        -:   48:                           Op op )
+        -:   49:    {
+        -:   50:        for( size_t i=0 ; i<dim ; ++i )
+        -:   51:            op( s1[i] , s2[i] );
+        -:   52:    }
+        -:   53:
+        -:   54:    template < template < typename, size_t > class Array, typename T,
+        -:   55:               size_t dim, class Op >
+    #####:   56:    static void for_each3( Array< T , dim > &s1 ,
+        -:   57:            const Array< T , dim > &s2 ,
+        -:   58:            const Array< T , dim > &s3 , Op op )
+        -:   59:    {
+    #####:   60:        for( size_t i=0 ; i<dim ; ++i )
+    #####:   61:            op( s1[i] , s2[i] , s3[i] );
+    #####:   62:    }
+        -:   63:
+        -:   64:    /* different const signature - required for the scale_sum_swap2 operation */
+        -:   65:    template < template < typename, size_t > class Array, typename T,
+        -:   66:               size_t dim, class Op >
+        -:   67:    static void for_each3( Array< T , dim > &s1 ,
+        -:   68:            Array< T , dim > &s2 ,
+        -:   69:            const Array< T , dim > &s3 , Op op )
+        -:   70:    {
+        -:   71:        for( size_t i=0 ; i<dim ; ++i )
+        -:   72:            op( s1[i] , s2[i] , s3[i] );
+        -:   73:    }
+        -:   74:
+        -:   75:    template < template < typename, size_t > class Array, typename T,
+        -:   76:               size_t dim, class Op >
+    #####:   77:    static void for_each4( Array< T , dim > &s1 ,
+        -:   78:            const Array< T , dim > &s2 ,
+        -:   79:            const Array< T , dim > &s3 ,
+        -:   80:            const Array< T , dim > &s4 , Op op )
+        -:   81:    {
+    #####:   82:        for( size_t i=0 ; i<dim ; ++i )
+    #####:   83:            op( s1[i] , s2[i] , s3[i] , s4[i] );
+    #####:   84:    }
+        -:   85:
+        -:   86:    template < template < typename, size_t > class Array, typename T,
+        -:   87:               size_t dim, class Op >
+    #####:   88:    static void for_each5( Array< T , dim > &s1 ,
+        -:   89:            const Array< T , dim > &s2 ,
+        -:   90:            const Array< T , dim > &s3 ,
+        -:   91:            const Array< T , dim > &s4 ,
+        -:   92:            const Array< T , dim > &s5 , Op op )
+        -:   93:    {
+    #####:   94:        for( size_t i=0 ; i<dim ; ++i )
+    #####:   95:            op( s1[i] , s2[i] , s3[i] , s4[i] , s5[i] );
+    #####:   96:    }
+        -:   97:
+        -:   98:    template < template < typename, size_t > class Array, typename T,
+        -:   99:               size_t dim, class Op >
+    #####:  100:    static void for_each6( Array< T , dim > &s1 ,
+        -:  101:            const Array< T , dim > &s2 ,
+        -:  102:            const Array< T , dim > &s3 ,
+        -:  103:            const Array< T , dim > &s4 ,
+        -:  104:            const Array< T , dim > &s5 ,
+        -:  105:            const Array< T , dim > &s6 , Op op )
+        -:  106:    {
+    #####:  107:        for( size_t i=0 ; i<dim ; ++i )
+    #####:  108:            op( s1[i] , s2[i] , s3[i] , s4[i] , s5[i] , s6[i] );
+    #####:  109:    }
+        -:  110:
+        -:  111:    template < template < typename, size_t > class Array, typename T,
+        -:  112:               size_t dim, class Op >
+        -:  113:    static void for_each7( Array< T , dim > &s1 ,
+        -:  114:            const Array< T , dim > &s2 ,
+        -:  115:            const Array< T , dim > &s3 ,
+        -:  116:            const Array< T , dim > &s4 ,
+        -:  117:            const Array< T , dim > &s5 ,
+        -:  118:            const Array< T , dim > &s6 ,
+        -:  119:            const Array< T , dim > &s7 , Op op )
+        -:  120:    {
+        -:  121:        for( size_t i=0 ; i<dim ; ++i )
+        -:  122:            op( s1[i] , s2[i] , s3[i] , s4[i] , s5[i] , s6[i] , s7[i] );
+        -:  123:    }
+        -:  124:
+        -:  125:    template < template < typename, size_t > class Array, typename T,
+        -:  126:               size_t dim, class Op >
+        -:  127:    static void for_each8( Array< T , dim > &s1 ,
+        -:  128:            const Array< T , dim > &s2 ,
+        -:  129:            const Array< T , dim > &s3 ,
+        -:  130:            const Array< T , dim > &s4 ,
+        -:  131:            const Array< T , dim > &s5 ,
+        -:  132:            const Array< T , dim > &s6 ,
+        -:  133:            const Array< T , dim > &s7 ,
+        -:  134:            const Array< T , dim > &s8 , Op op )
+        -:  135:    {
+        -:  136:        for( size_t i=0 ; i<dim ; ++i )
+        -:  137:            op( s1[i] , s2[i] , s3[i] , s4[i] , s5[i] , s6[i] , s7[i] , s8[i] );
+        -:  138:    }
+        -:  139:
+        -:  140:    template < template < typename, size_t > class Array, typename T,
+        -:  141:               size_t dim, class Op >
+        -:  142:    static void for_each9( Array< T , dim > &s1 ,
+        -:  143:            const Array< T , dim > &s2 ,
+        -:  144:            const Array< T , dim > &s3 ,
+        -:  145:            const Array< T , dim > &s4 ,
+        -:  146:            const Array< T , dim > &s5 ,
+        -:  147:            const Array< T , dim > &s6 ,
+        -:  148:            const Array< T , dim > &s7 ,
+        -:  149:            const Array< T , dim > &s8 ,
+        -:  150:            const Array< T , dim > &s9 , Op op )
+        -:  151:    {
+        -:  152:        for( size_t i=0 ; i<dim ; ++i )
+        -:  153:            op( s1[i] , s2[i] , s3[i] , s4[i] , s5[i] , s6[i] , s7[i] , s8[i] , s9[i] );
+        -:  154:    }
+        -:  155:
+        -:  156:    template < template < typename, size_t > class Array, typename T,
+        -:  157:               size_t dim, class Op >
+        -:  158:    static void for_each10( Array< T , dim > &s1 ,
+        -:  159:            const Array< T , dim > &s2 ,
+        -:  160:            const Array< T , dim > &s3 ,
+        -:  161:            const Array< T , dim > &s4 ,
+        -:  162:            const Array< T , dim > &s5 ,
+        -:  163:            const Array< T , dim > &s6 ,
+        -:  164:            const Array< T , dim > &s7 ,
+        -:  165:            const Array< T , dim > &s8 ,
+        -:  166:            const Array< T , dim > &s9 ,
+        -:  167:            const Array< T , dim > &s10 , Op op )
+        -:  168:    {
+        -:  169:        for( size_t i=0 ; i<dim ; ++i )
+        -:  170:            op( s1[i] , s2[i] , s3[i] , s4[i] , s5[i] , s6[i] , s7[i] , s8[i] , s9[i] , s10[i] );
+        -:  171:    }
+        -:  172:
+        -:  173:    template < template < typename, size_t > class Array, typename T,
+        -:  174:               size_t dim, class Op >
+        -:  175:    static void for_each11( Array< T , dim > &s1 ,
+        -:  176:            const Array< T , dim > &s2 ,
+        -:  177:            const Array< T , dim > &s3 ,
+        -:  178:            const Array< T , dim > &s4 ,
+        -:  179:            const Array< T , dim > &s5 ,
+        -:  180:            const Array< T , dim > &s6 ,
+        -:  181:            const Array< T , dim > &s7 ,
+        -:  182:            const Array< T , dim > &s8 ,
+        -:  183:            const Array< T , dim > &s9 ,
+        -:  184:            const Array< T , dim > &s10 ,
+        -:  185:            const Array< T , dim > &s11 , Op op )
+        -:  186:    {
+        -:  187:        for( size_t i=0 ; i<dim ; ++i )
+        -:  188:            op( s1[i] , s2[i] , s3[i] , s4[i] , s5[i] , s6[i] , s7[i] , s8[i] , s9[i] , s10[i] , s11[i] );
+        -:  189:    }
+        -:  190:
+        -:  191:    template < template < typename, size_t > class Array, typename T,
+        -:  192:               size_t dim, class Op >
+        -:  193:    static void for_each12( Array< T , dim > &s1 ,
+        -:  194:            const Array< T , dim > &s2 ,
+        -:  195:            const Array< T , dim > &s3 ,
+        -:  196:            const Array< T , dim > &s4 ,
+        -:  197:            const Array< T , dim > &s5 ,
+        -:  198:            const Array< T , dim > &s6 ,
+        -:  199:            const Array< T , dim > &s7 ,
+        -:  200:            const Array< T , dim > &s8 ,
+        -:  201:            const Array< T , dim > &s9 ,
+        -:  202:            const Array< T , dim > &s10 ,
+        -:  203:            const Array< T , dim > &s11 ,
+        -:  204:            const Array< T , dim > &s12 , Op op )
+        -:  205:    {
+        -:  206:        for( size_t i=0 ; i<dim ; ++i )
+        -:  207:            op( s1[i] , s2[i] , s3[i] , s4[i] , s5[i] , s6[i] , s7[i] , s8[i] , s9[i] , s10[i] , s11[i] , s12[i] );
+        -:  208:    }
+        -:  209:
+        -:  210:    template < template < typename, size_t > class Array, typename T,
+        -:  211:               size_t dim, class Op >
+        -:  212:    static void for_each13( Array< T , dim > &s1 ,
+        -:  213:            const Array< T , dim > &s2 ,
+        -:  214:            const Array< T , dim > &s3 ,
+        -:  215:            const Array< T , dim > &s4 ,
+        -:  216:            const Array< T , dim > &s5 ,
+        -:  217:            const Array< T , dim > &s6 ,
+        -:  218:            const Array< T , dim > &s7 ,
+        -:  219:            const Array< T , dim > &s8 ,
+        -:  220:            const Array< T , dim > &s9 ,
+        -:  221:            const Array< T , dim > &s10 ,
+        -:  222:            const Array< T , dim > &s11 ,
+        -:  223:            const Array< T , dim > &s12 ,
+        -:  224:            const Array< T , dim > &s13 , Op op )
+        -:  225:    {
+        -:  226:        for( size_t i=0 ; i<dim ; ++i )
+        -:  227:            op( s1[i] , s2[i] , s3[i] , s4[i] , s5[i] , s6[i] , s7[i] , s8[i] , s9[i] , s10[i] , s11[i] , s12[i] , s13[i] );
+        -:  228:    }
+        -:  229:
+        -:  230:    template < template < typename, size_t > class Array, typename T,
+        -:  231:               size_t dim, class Op >
+        -:  232:    static void for_each14( Array< T , dim > &s1 ,
+        -:  233:            const Array< T , dim > &s2 ,
+        -:  234:            const Array< T , dim > &s3 ,
+        -:  235:            const Array< T , dim > &s4 ,
+        -:  236:            const Array< T , dim > &s5 ,
+        -:  237:            const Array< T , dim > &s6 ,
+        -:  238:            const Array< T , dim > &s7 ,
+        -:  239:            const Array< T , dim > &s8 ,
+        -:  240:            const Array< T , dim > &s9 ,
+        -:  241:            const Array< T , dim > &s10 ,
+        -:  242:            const Array< T , dim > &s11 ,
+        -:  243:            const Array< T , dim > &s12 ,
+        -:  244:            const Array< T , dim > &s13 ,
+        -:  245:            const Array< T , dim > &s14 , Op op )
+        -:  246:    {
+        -:  247:        for( size_t i=0 ; i<dim ; ++i )
+        -:  248:            op( s1[i] , s2[i] , s3[i] , s4[i] , s5[i] , s6[i] , s7[i] , s8[i] , s9[i] , s10[i] , s11[i] , s12[i] , s13[i] , s14[i] );
+        -:  249:    }
+        -:  250:
+        -:  251:    template < template < typename, size_t > class Array, typename T,
+        -:  252:               size_t dim, class Op >
+        -:  253:    static void for_each15( Array< T , dim > &s1 ,
+        -:  254:            const Array< T , dim > &s2 ,
+        -:  255:            const Array< T , dim > &s3 ,
+        -:  256:            const Array< T , dim > &s4 ,
+        -:  257:            const Array< T , dim > &s5 ,
+        -:  258:            const Array< T , dim > &s6 ,
+        -:  259:            const Array< T , dim > &s7 ,
+        -:  260:            const Array< T , dim > &s8 ,
+        -:  261:            const Array< T , dim > &s9 ,
+        -:  262:            const Array< T , dim > &s10 ,
+        -:  263:            const Array< T , dim > &s11 ,
+        -:  264:            const Array< T , dim > &s12 ,
+        -:  265:            const Array< T , dim > &s13 ,
+        -:  266:            const Array< T , dim > &s14 ,
+        -:  267:            const Array< T , dim > &s15 , Op op )
+        -:  268:    {
+        -:  269:        for( size_t i=0 ; i<dim ; ++i )
+        -:  270:            op( s1[i] , s2[i] , s3[i] , s4[i] , s5[i] , s6[i] , s7[i] , s8[i] , s9[i] , s10[i] , s11[i] , s12[i] , s13[i] , s14[i] , s15[i] );
+        -:  271:    }
+        -:  272:
+        -:  273:
+        -:  274:    template < template < typename, size_t > class Array, typename T,
+        -:  275:               size_t dim>
+        -:  276:    static typename norm_result_type< Array< T , dim > >::type norm_inf( const Array< T , dim > &s )
+        -:  277:    {
+        -:  278:        BOOST_USING_STD_MAX();
+        -:  279:        using std::abs;
+        -:  280:        typedef typename norm_result_type< Array< T , dim > >::type result_type;
+        -:  281:        result_type init = static_cast< result_type >( 0 );
+        -:  282:        for( size_t i=0 ; i<dim ; ++i )
+        -:  283:            init = max BOOST_PREVENT_MACRO_SUBSTITUTION ( init , static_cast< result_type >(abs(s[i])) );
+        -:  284:        return init;
+        -:  285:    }
+        -:  286:
+        -:  287:};
+        -:  288:
+        -:  289:}
+        -:  290:}
+        -:  291:}
+        -:  292:
+        -:  293:#endif // BOOST_NUMERIC_ODEINT_ALGEBRA_ARRAY_ALGEBRA_HPP_INCLUDED

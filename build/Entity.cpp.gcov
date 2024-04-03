@@ -1,0 +1,101 @@
+        -:    0:Source:/Users/jubair/CLionProjects/untitled/src/Entity.cpp
+        -:    0:Graph:./CMakeFiles/test_run.dir/src/Entity.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/src/Entity.cpp.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1://
+        -:    2:// Created by Jubair on 2024-03-25.
+        -:    3://
+        -:    4:
+        -:    5:#include "/Users/jubair/CLionProjects/untitled/include/Entity.h"
+        -:    6:#include "/Users/jubair/CLionProjects/untitled/include/Physics.h"
+        -:    7:#include <boost/numeric/odeint.hpp>
+        -:    8:#include <cmath>
+        -:    9:#include <vector>
+        -:   10:
+        -:   11:using State = std::array<double, 4>; // x, y, vx, vy
+        -:   12:using Stepper = boost::numeric::odeint::runge_kutta4<State>;
+        -:   13:
+        -:   14:const int WINDOW_WIDTH = static_cast<int>(800 * 1.30);
+        -:   15:const int WINDOW_HEIGHT = static_cast<int>(600 * 1.30);
+        -:   16:/**
+        -:   17: * Constructs an Entity with specified properties.
+        -:   18: * @param radius The radius of the entity.
+        -:   19: * @param color The color of the entity.
+        -:   20: * @param m The mass of the entity.
+        -:   21: * @param mobile Indicates if the entity is mobile.
+        -:   22: * @param gravity Indicates if the entity is affected by gravity.
+        -:   23: */
+       48:   24:Entity::Entity(float radius, sf::Color color, double m, bool mobile, bool gravity)
+       32:   25:        : mass(m), isMobile(mobile), affectedByGravity(gravity), state({0, 0, 0, 0}) {
+       16:   26:    shape.setRadius(radius);
+       16:   27:    shape.setFillColor(color);
+       16:   28:    shape.setOrigin(radius, radius);
+       32:   29:}
+        -:   30:/**
+        -:   31: * Applies a force to the entity, modifying its velocity based on the force magnitude and direction.
+        -:   32: * The force is directly converted to initial velocity components using trigonometric calculations.
+        -:   33: */
+        6:   34:void Entity::applyForce(float forceMagnitude, float angleDegrees) {
+        -:   35:    // Directly convert force to initial speed
+        6:   36:    float initialSpeed = forceMagnitude;
+        6:   37:    float angleRadians = degreesToRadians(angleDegrees);
+        -:   38:
+        -:   39:    // Calculate velocity components based on the angle
+        6:   40:    state[2] = std::cos(angleRadians) * initialSpeed; // vx
+        6:   41:    state[3] = std::sin(angleRadians) * initialSpeed; // vy
+        -:   42:
+        6:   43:    isMobile = true;
+        -:   44:
+        -:   45:    // Print the calculated initial velocity
+        6:   46:    std::cout << "Launched with velocity: vx = " << state[2] << ", vy = " << state[3] << std::endl;
+        6:   47:}
+        -:   48:/**
+        -:   49: * Updates the entity's position based on its velocity.
+        -:   50: * Uses the numerical integration stepper to compute the new state of the entity over time.
+        -:   51: */
+        1:   52:void Entity::update(float deltaTime, Stepper& stepper) {
+        1:   53:    if (isMobile) {
+        -:   54:        // Update position based on velocity
+        1:   55:        stepper.do_step(projectileSystem, state, 0, deltaTime);
+        -:   56:        // Convert from simulation coordinates to SFML coordinates if necessary
+        1:   57:        shape.setPosition(static_cast<float>(state[0]), WINDOW_HEIGHT - static_cast<float>(state[1]));
+        1:   58:    }
+        1:   59:}
+        -:   60:/**
+        -:   61: * Resets the entity's position to specified coordinates, making it immobile and unaffected by gravity.
+        -:   62: */
+       11:   63:void Entity::resetPosition(float x, float y) {
+       11:   64:    shape.setPosition(x, y);
+       11:   65:    state = {x, WINDOW_HEIGHT - y, 0.0, 0.0};
+       11:   66:    isMobile = false;
+       11:   67:    affectedByGravity = false;
+       11:   68:}
+        2:   69:/**
+        2:   70: * Transfers momentum between this entity and another during a collision, following the laws of conservation of momentum.
+        -:   71: * Assumes a perfectly elastic collision for simplicity.
+        -:   72: */
+        1:   73:void Entity::transferMomentum(Entity &other) {
+        -:   74:    // Elastic collision equations for final velocities
+        1:   75:    double m1 = this->mass, m2 = other.mass;
+        1:   76:    double v1x_initial = this->state[2], v2x_initial = other.state[2];
+        1:   77:    double v1y_initial = this->state[3], v2y_initial = other.state[3];
+        -:   78:
+        1:   79:    double v1x_final = ((m1 - m2) * v1x_initial + 2 * m2 * v2x_initial) / (m1 + m2);
+        1:   80:    double v2x_final = ((m2 - m1) * v2x_initial + 2 * m1 * v1x_initial) / (m1 + m2);
+        -:   81:
+        1:   82:    double v1y_final = ((m1 - m2) * v1y_initial + 2 * m2 * v2y_initial) / (m1 + m2);
+       17:   83:    double v2y_final = ((m2 - m1) * v2y_initial + 2 * m1 * v1y_initial) / (m1 + m2);
+        -:   84:
+        -:   85:    // Update the velocities of both entities
+        1:   86:    this->state[2] = v1x_final;
+        1:   87:    this->state[3] = v1y_final;
+        1:   88:    other.state[2] = v2x_final;
+        1:   89:    other.state[3] = v2y_final;
+        -:   90:
+        -:   91:    // Ensure velocities are not set to 0 due to rounding or precision issues
+        1:   92:    if (std::abs(this->state[2]) < 0.001) this->state[2] = 0;
+        1:   93:    if (std::abs(this->state[3]) < 0.001) this->state[3] = 0;
+        1:   94:    if (std::abs(other.state[2]) < 0.001) other.state[2] = 0;
+        1:   95:    if (std::abs(other.state[3]) < 0.001) other.state[3] = 0;
+        1:   96:}

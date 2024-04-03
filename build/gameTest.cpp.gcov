@@ -1,0 +1,102 @@
+        -:    0:Source:/Users/jubair/CLionProjects/untitled/test/gameTest.cpp
+        -:    0:Graph:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcda
+        -:    0:Runs:2
+        -:    0:Programs:1
+        -:    1:#define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
+        -:    2:#include </Users/jubair/CLionProjects/untitled/test/catch.hh>
+        -:    3:#include "/Users/jubair/CLionProjects/untitled/include/Entity.h"
+        -:    4:#include "/Users/jubair/CLionProjects/untitled/include/Game.h"
+        -:    5:#include "/Users/jubair/CLionProjects/untitled/include/State.h"
+        -:    6:#include <SFML/Graphics.hpp>
+        -:    7:
+        -:    8:
+        -:    9:
+        3:   10:TEST_CASE("Degrees to Radians Conversion", "[utility]") {
+        1:   11:    REQUIRE(Entity::degreesToRadians(180) == Catch::Approx(3.14159).epsilon(0.01));
+        1:   12:    REQUIRE(Entity::degreesToRadians(90) == Catch::Approx(1.5708).epsilon(0.01));
+        1:   13:}
+        -:   14:
+        3:   15:TEST_CASE("Apply Force Changes Velocity", "[physics]") {
+        1:   16:    Entity entity(10.0f, sf::Color::Red, 1.0, true, true);
+        1:   17:    entity.applyForce(100.0f, 45.0f);
+        1:   18:    REQUIRE(entity.state[2] == Catch::Approx(70.71).epsilon(0.01));
+        1:   19:    REQUIRE(entity.state[3] == Catch::Approx(70.71).epsilon(0.01));
+        1:   20:}
+        3:   21:TEST_CASE("Collision Detection", "[game]") {
+        1:   22:    Entity entityA(10.0f, sf::Color::Red, 1.0, true, true);
+        1:   23:    entityA.resetPosition(100.0f, 300.0f); // Position entity A
+        1:   24:    Entity entityB(10.0f, sf::Color::Blue, 1.0, true, true);
+        1:   25:    entityB.resetPosition(110.0f, 300.0f); // Position entity B close enough to collide
+        -:   26:
+        1:   27:    REQUIRE(Game::checkCollision(entityA, entityB) == true);
+        -:   28:
+        1:   29:    entityB.resetPosition(300.0f, 300.0f); // Move entity B far away
+        1:   30:    REQUIRE(Game::checkCollision(entityA, entityB) == false);
+        1:   31:}
+        3:   32:TEST_CASE("Momentum Transfer", "[physics]") {
+        1:   33:    Entity entityA(10.0f, sf::Color::Red, 1.0, true, true);
+        1:   34:    entityA.state = {0, 0, 10, 0}; // Moving right
+        1:   35:    Entity entityB(10.0f, sf::Color::Blue, 1.0, true, true);
+        1:   36:    entityB.state = {0, 0, -5, 0}; // Moving left
+        -:   37:
+        1:   38:    entityA.transferMomentum(entityB);
+        -:   39:
+        -:   40:    // Assuming a simple elastic collision with equal masses
+        1:   41:    REQUIRE(entityA.state[2] == Catch::Approx(-5).epsilon(0.01));
+        1:   42:    REQUIRE(entityB.state[2] == Catch::Approx(10).epsilon(0.01));
+        1:   43:}
+        3:   44:TEST_CASE("Game Reset", "[game]") {
+        1:   45:    Game game;
+        1:   46:    game.projectile.applyForce(100.0f, 45.0f); // Apply initial force
+        1:   47:    game.resetGame(); // Reset the game
+        -:   48:
+        1:   49:    REQUIRE(game.projectile.state[2] == Catch::Approx(0).epsilon(0.01)); // Velocity x should be reset
+        1:   50:    REQUIRE(game.projectile.state[3] == Catch::Approx(0).epsilon(0.01)); // Velocity y should be reset
+        1:   51:    REQUIRE(game.projectile.shape.getPosition().x == Catch::Approx(60.0f).epsilon(0.01)); // Check reset position x
+        1:   52:    REQUIRE(game.projectile.shape.getPosition().y == Catch::Approx(800 - 220.0f).epsilon(0.01)); // Check reset position y
+        1:   53:}
+        -:   54:
+        3:   55:TEST_CASE("Projectile Launch at Various Angles", "[physics]") {
+        1:   56:    Entity projectile(10.0f, sf::Color::Red, 1.0, true, true);
+        1:   57:    std::vector<float> angles = {0, 45, 90};
+        4:   58:    std::vector<std::pair<float, float>> expectedVelocities = {
+        1:   59:            {100.0f, 0.0f}, // 0 degrees, purely horizontal
+        1:   60:            {70.71f, 70.71f}, // 45 degrees, equal x and y components
+        1:   61:            {0.0f, 100.0f}  // 90 degrees, purely vertical
+        -:   62:    };
+        -:   63:
+        3:   64:    for(size_t i = 0; i < angles.size(); ++i) {
+        3:   65:        projectile.applyForce(100.0f, angles[i]);
+        4:   66:        REQUIRE(projectile.state[2] == Catch::Approx(expectedVelocities[i].first).epsilon(0.01));
+        2:   67:        REQUIRE(projectile.state[3] == Catch::Approx(expectedVelocities[i].second).epsilon(0.01));
+        2:   68:    }
+        4:   69:}
+        2:   70:
+        3:   71:TEST_CASE("Entity Immobility After Collision", "[game]") {
+        1:   72:    Entity entityA(10.0f, sf::Color::Red, 1.0, true, true);
+        1:   73:    Entity entityB(10.0f, sf::Color::Blue, 1.0, true, true);
+        -:   74:
+        -:   75:    // Initial state: both entities are mobile
+        1:   76:    entityA.state = {0, 0, 5, 0};
+        1:   77:    entityB.state = {15, 0, -5, 0}; // Placed to "collide" with entityA based on their velocities
+        -:   78:
+        -:   79:    // Simulate a collision handler that makes entities immobile after a collision
+        1:   80:    entityA.isMobile = false;
+        1:   81:    entityB.isMobile = false;
+        -:   82:
+        1:   83:    REQUIRE_FALSE(entityA.isMobile);
+        1:   84:    REQUIRE_FALSE(entityB.isMobile);
+        1:   85:}
+        3:   86:TEST_CASE("Entity Gravity Effect", "[physics]") {
+        1:   87:    Entity projectile(10.0f, sf::Color::Red, 1.0, true, true);
+        1:   88:    projectile.applyForce(50.0f, 90.0f); // Launched vertically upwards
+        -:   89:
+        -:   90:    // Assuming gravity is applied correctly, the y-velocity should decrease
+        1:   91:    float initialYVelocity = projectile.state[3];
+        -:   92:    // Simulate a time step
+        1:   93:    Stepper stepper;
+        1:   94:    projectile.update(1.0, stepper); // Assuming deltaTime is 1.0 for simplicity
+        -:   95:
+        1:   96:    REQUIRE(projectile.state[3] < initialYVelocity);
+        1:   97:}

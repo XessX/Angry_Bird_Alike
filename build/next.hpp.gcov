@@ -1,0 +1,70 @@
+        -:    0:Source:/opt/homebrew/include/boost/fusion/iterator/next.hpp
+        -:    0:Graph:./CMakeFiles/test_run.dir/src/Game.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/src/Game.cpp.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:/*=============================================================================
+        -:    2:    Copyright (c) 2001-2011 Joel de Guzman
+        -:    3:
+        -:    4:    Distributed under the Boost Software License, Version 1.0. (See accompanying 
+        -:    5:    file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+        -:    6:==============================================================================*/
+        -:    7:#if !defined(FUSION_NEXT_05042005_1101)
+        -:    8:#define FUSION_NEXT_05042005_1101
+        -:    9:
+        -:   10:#include <boost/fusion/support/config.hpp>
+        -:   11:#include <boost/fusion/support/tag_of.hpp>
+        -:   12:
+        -:   13:namespace boost { namespace fusion
+        -:   14:{
+        -:   15:    // Special tags:
+        -:   16:    struct iterator_facade_tag; // iterator facade tag
+        -:   17:    struct boost_array_iterator_tag; // boost::array iterator tag
+        -:   18:    struct mpl_iterator_tag; // mpl sequence iterator tag
+        -:   19:    struct std_pair_iterator_tag; // std::pair iterator tag
+        -:   20:
+        -:   21:    namespace extension
+        -:   22:    {
+        -:   23:        template <typename Tag>
+        -:   24:        struct next_impl
+        -:   25:        {
+        -:   26:            template <typename Iterator>
+        -:   27:            struct apply {};
+        -:   28:        };
+        -:   29:
+        -:   30:        template <>
+        -:   31:        struct next_impl<iterator_facade_tag>
+        -:   32:        {
+        -:   33:            template <typename Iterator>
+        -:   34:            struct apply : Iterator::template next<Iterator> {};
+        -:   35:        };
+        -:   36:
+        -:   37:        template <>
+        -:   38:        struct next_impl<boost_array_iterator_tag>;
+        -:   39:
+        -:   40:        template <>
+        -:   41:        struct next_impl<mpl_iterator_tag>;
+        -:   42:
+        -:   43:        template <>
+        -:   44:        struct next_impl<std_pair_iterator_tag>;
+        -:   45:    }
+        -:   46:
+        -:   47:    namespace result_of
+        -:   48:    {
+        -:   49:        template <typename Iterator>
+        -:   50:        struct next
+        -:   51:            : extension::next_impl<typename detail::tag_of<Iterator>::type>::
+        -:   52:                template apply<Iterator>
+        -:   53:        {};
+        -:   54:    }
+        -:   55:
+        -:   56:    template <typename Iterator>
+        -:   57:    BOOST_CONSTEXPR BOOST_FUSION_GPU_ENABLED
+        -:   58:    inline typename result_of::next<Iterator>::type const
+    #####:   59:    next(Iterator const& i)
+        -:   60:    {
+    #####:   61:        return result_of::next<Iterator>::call(i);
+        -:   62:    }
+        -:   63:}}
+        -:   64:
+        -:   65:#endif

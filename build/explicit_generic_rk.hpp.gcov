@@ -1,0 +1,251 @@
+        -:    0:Source:/opt/homebrew/include/boost/numeric/odeint/stepper/explicit_generic_rk.hpp
+        -:    0:Graph:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcda
+        -:    0:Runs:2
+        -:    0:Programs:1
+        -:    1:/*
+        -:    2: [auto_generated]
+        -:    3: boost/numeric/odeint/stepper/explicit_generic_rk.hpp
+        -:    4:
+        -:    5: [begin_description]
+        -:    6: Implementation of the generic Runge-Kutta steppers. This is the base class for many Runge-Kutta steppers.
+        -:    7: [end_description]
+        -:    8:
+        -:    9: Copyright 2011-2013 Mario Mulansky
+        -:   10: Copyright 2011-2013 Karsten Ahnert
+        -:   11: Copyright 2012 Christoph Koke
+        -:   12:
+        -:   13: Distributed under the Boost Software License, Version 1.0.
+        -:   14: (See accompanying file LICENSE_1_0.txt or
+        -:   15: copy at http://www.boost.org/LICENSE_1_0.txt)
+        -:   16: */
+        -:   17:
+        -:   18:
+        -:   19:#ifndef BOOST_NUMERIC_ODEINT_STEPPER_EXPLICIT_GENERIC_RK_HPP_INCLUDED
+        -:   20:#define BOOST_NUMERIC_ODEINT_STEPPER_EXPLICIT_GENERIC_RK_HPP_INCLUDED
+        -:   21:
+        -:   22:
+        -:   23:#include <boost/array.hpp>
+        -:   24:
+        -:   25:
+        -:   26:#include <boost/numeric/odeint/stepper/base/explicit_stepper_base.hpp>
+        -:   27:#include <boost/numeric/odeint/algebra/range_algebra.hpp>
+        -:   28:#include <boost/numeric/odeint/algebra/default_operations.hpp>
+        -:   29:#include <boost/numeric/odeint/algebra/algebra_dispatcher.hpp>
+        -:   30:#include <boost/numeric/odeint/algebra/operations_dispatcher.hpp>
+        -:   31:#include <boost/numeric/odeint/stepper/detail/generic_rk_algorithm.hpp>
+        -:   32:
+        -:   33:#include <boost/numeric/odeint/util/state_wrapper.hpp>
+        -:   34:#include <boost/numeric/odeint/util/is_resizeable.hpp>
+        -:   35:#include <boost/numeric/odeint/util/resizer.hpp>
+        -:   36:
+        -:   37:namespace boost {
+        -:   38:namespace numeric {
+        -:   39:namespace odeint {
+        -:   40:
+        -:   41://forward declarations
+        -:   42:
+        -:   43:#ifndef DOXYGEN_SKIP
+        -:   44:template<
+        -:   45:size_t StageCount,
+        -:   46:size_t Order,
+        -:   47:class State ,
+        -:   48:class Value = double ,
+        -:   49:class Deriv = State ,
+        -:   50:class Time = Value ,
+        -:   51:class Algebra = typename algebra_dispatcher< State >::algebra_type ,
+        -:   52:class Operations = typename operations_dispatcher< State >::operations_type ,
+        -:   53:class Resizer = initially_resizer
+        -:   54:>
+        -:   55:class explicit_generic_rk;
+        -:   56:
+        -:   57:
+        -:   58:struct stage_vector;
+        -:   59:
+        -:   60:template< class T , class Constant >
+        -:   61:struct array_wrapper
+        -:   62:{
+        -:   63:    typedef const typename boost::array< T , Constant::value > type;
+        -:   64:};
+        -:   65:
+        -:   66:template< class T , size_t i >
+        -:   67:struct stage
+        -:   68:{
+        -:   69:    T c;
+        -:   70:    boost::array< T , i > a;
+        -:   71:};
+        -:   72:
+        -:   73:
+        -:   74:template< class T , class Constant >
+        -:   75:struct stage_wrapper
+        -:   76:{
+        -:   77:    typedef stage< T , Constant::value > type;
+        -:   78:};
+        -:   79:#endif
+        -:   80:
+        -:   81:
+        -:   82:template<
+        -:   83:size_t StageCount,
+        -:   84:size_t Order,
+        -:   85:class State ,
+        -:   86:class Value ,
+        -:   87:class Deriv ,
+        -:   88:class Time ,
+        -:   89:class Algebra ,
+        -:   90:class Operations ,
+        -:   91:class Resizer
+        -:   92:>
+        -:   93:#ifndef DOXYGEN_SKIP
+        -:   94:class explicit_generic_rk : public explicit_stepper_base<
+        -:   95:explicit_generic_rk< StageCount , Order , State , Value , Deriv , Time , Algebra , Operations , Resizer > ,
+        -:   96:Order , State , Value , Deriv , Time , Algebra , Operations , Resizer >
+        -:   97:#else
+        -:   98:class explicit_generic_rk : public explicit_stepper_base
+        -:   99:#endif
+        -:  100:{
+        -:  101:
+        -:  102:public:
+        -:  103:
+        -:  104:    #ifndef DOXYGEN_SKIP
+        -:  105:    typedef explicit_stepper_base<
+        -:  106:            explicit_generic_rk< StageCount , Order , State , Value , Deriv ,Time , Algebra , Operations , Resizer > ,
+        -:  107:            Order , State , Value , Deriv , Time , Algebra ,
+        -:  108:            Operations , Resizer > stepper_base_type;
+        -:  109:    #else
+        -:  110:    typedef explicit_stepper_base< ... > stepper_base_type;
+        -:  111:    #endif
+        -:  112:
+        -:  113:    typedef typename stepper_base_type::state_type state_type;
+        -:  114:    typedef typename stepper_base_type::wrapped_state_type wrapped_state_type;
+        -:  115:    typedef typename stepper_base_type::value_type value_type;
+        -:  116:    typedef typename stepper_base_type::deriv_type deriv_type;
+        -:  117:    typedef typename stepper_base_type::wrapped_deriv_type wrapped_deriv_type;
+        -:  118:    typedef typename stepper_base_type::time_type time_type;
+        -:  119:    typedef typename stepper_base_type::algebra_type algebra_type;
+        -:  120:    typedef typename stepper_base_type::operations_type operations_type;
+        -:  121:    typedef typename stepper_base_type::resizer_type resizer_type;
+        -:  122:
+        -:  123:    #ifndef DOXYGEN_SKIP
+        -:  124:    typedef explicit_generic_rk< StageCount , Order , State , Value , Deriv ,Time , Algebra , Operations , Resizer > stepper_type;
+        -:  125:    #endif 
+        -:  126:
+        -:  127:    typedef detail::generic_rk_algorithm< StageCount , Value , Algebra , Operations > rk_algorithm_type;
+        -:  128:
+        -:  129:    typedef typename rk_algorithm_type::coef_a_type coef_a_type;
+        -:  130:    typedef typename rk_algorithm_type::coef_b_type coef_b_type;
+        -:  131:    typedef typename rk_algorithm_type::coef_c_type coef_c_type;
+        -:  132:
+        -:  133:    #ifndef DOXYGEN_SKIP
+        -:  134:    static const size_t stage_count = StageCount;
+        -:  135:    #endif
+        -:  136:
+        -:  137:public:
+        -:  138:
+        4:  139:    explicit_generic_rk( const coef_a_type &a , const coef_b_type &b , const coef_c_type &c ,
+        -:  140:            const algebra_type &algebra = algebra_type() )
+        2:  141:    : stepper_base_type( algebra ) , m_rk_algorithm( a , b , c )
+        2:  142:    { }
+        -:  143:
+        -:  144:
+        -:  145:    template< class System , class StateIn , class DerivIn , class StateOut >
+        -:  146:    void do_step_impl( System system , const StateIn &in , const DerivIn &dxdt ,
+        -:  147:            time_type t , StateOut &out , time_type dt )
+        -:  148:    {
+        -:  149:        m_resizer.adjust_size( in , detail::bind( &stepper_type::template resize_impl< StateIn > , detail::ref( *this ) , detail::_1 ) );
+        -:  150:
+        -:  151:        // actual calculation done in generic_rk.hpp
+        -:  152:        m_rk_algorithm.do_step( stepper_base_type::m_algebra , system , in , dxdt , t , out , dt , m_x_tmp.m_v , m_F );
+        -:  153:    }
+        -:  154:
+        -:  155:    template< class StateIn >
+        -:  156:    void adjust_size( const StateIn &x )
+        -:  157:    {
+        -:  158:        resize_impl( x );
+        -:  159:        stepper_base_type::adjust_size( x );
+        -:  160:    }
+        -:  161:
+        -:  162:private:
+        -:  163:
+        -:  164:    template< class StateIn >
+        -:  165:    bool resize_impl( const StateIn &x )
+        -:  166:    {
+        -:  167:        bool resized( false );
+        -:  168:        resized |= adjust_size_by_resizeability( m_x_tmp , x , typename is_resizeable<state_type>::type() );
+        -:  169:        for( size_t i = 0 ; i < StageCount-1 ; ++i )
+        -:  170:        {
+        -:  171:            resized |= adjust_size_by_resizeability( m_F[i] , x , typename is_resizeable<deriv_type>::type() );
+        -:  172:        }
+        -:  173:        return resized;
+        -:  174:    }
+        -:  175:
+        -:  176:
+        -:  177:    rk_algorithm_type m_rk_algorithm;
+        -:  178:
+        -:  179:    resizer_type m_resizer;
+        -:  180:
+        -:  181:    wrapped_state_type m_x_tmp;
+        -:  182:    wrapped_deriv_type m_F[StageCount-1];
+        -:  183:
+        -:  184:};
+        -:  185:
+        -:  186:
+        -:  187:
+        -:  188:/*********** DOXYGEN *************/
+        -:  189:
+        -:  190:/**
+        -:  191: * \class explicit_generic_rk
+        -:  192: * \brief A generic implementation of explicit Runge-Kutta algorithms. This class is as a base class
+        -:  193: * for all explicit Runge-Kutta steppers.
+        -:  194: *
+        -:  195: * This class implements the explicit Runge-Kutta algorithms without error estimation in a generic way.
+        -:  196: * The Butcher tableau is passed to the stepper which constructs the stepper scheme with the help of a
+        -:  197: * template-metaprogramming algorithm. ToDo : Add example!
+        -:  198: * 
+        -:  199: * This class derives explicit_stepper_base which provides the stepper interface.
+        -:  200: *
+        -:  201: * \tparam StageCount The number of stages of the Runge-Kutta algorithm.
+        -:  202: * \tparam Order The order of the stepper.
+        -:  203: * \tparam State The type representing the state of the ODE.
+        -:  204: * \tparam Value The floating point type which is used in the computations.
+        -:  205: * \tparam Time The type representing the independent variable - the time - of the ODE.
+        -:  206: * \tparam Algebra The algebra type.
+        -:  207: * \tparam Operations The operations type.
+        -:  208: * \tparam Resizer The resizer policy type.
+        -:  209: */
+        -:  210:
+        -:  211:    /**
+        -:  212:     * \fn explicit_generic_rk::explicit_generic_rk( const coef_a_type &a , const coef_b_type &b , const coef_c_type &c , const algebra_type &algebra )
+        -:  213:     * \brief Constructs the explicit_generic_rk class. See examples section for details on the coefficients.
+        -:  214:     * \param a Triangular matrix of parameters b in the Butcher tableau.
+        -:  215:     * \param b Last row of the butcher tableau.
+        -:  216:     * \param c Parameters to calculate the time points in the Butcher tableau.
+        -:  217:     * \param algebra A copy of algebra is made and stored inside explicit_stepper_base.
+        -:  218:     */
+        -:  219:    
+        -:  220:    /**
+        -:  221:     * \fn explicit_generic_rk::do_step_impl( System system , const StateIn &in , const DerivIn &dxdt , time_type t , StateOut &out , time_type dt )
+        -:  222:     * \brief This method performs one step. The derivative `dxdt` of `in` at the time `t` is passed to the method.
+        -:  223:     * The result is updated out of place, hence the input is in `in` and the output in `out`.
+        -:  224:     * Access to this step functionality is provided by explicit_stepper_base and 
+        -:  225:     * `do_step_impl` should not be called directly.
+        -:  226:     *
+        -:  227:     * \param system The system function to solve, hence the r.h.s. of the ODE. It must fulfill the
+        -:  228:     *               Simple System concept.
+        -:  229:     * \param in The state of the ODE which should be solved. in is not modified in this method
+        -:  230:     * \param dxdt The derivative of x at t.
+        -:  231:     * \param t The value of the time, at which the step should be performed.
+        -:  232:     * \param out The result of the step is written in out.
+        -:  233:     * \param dt The step size.
+        -:  234:     */
+        -:  235:
+        -:  236:
+        -:  237:    /**
+        -:  238:     * \fn explicit_generic_rk::adjust_size( const StateIn &x )
+        -:  239:     * \brief Adjust the size of all temporaries in the stepper manually.
+        -:  240:     * \param x A state from which the size of the temporaries to be resized is deduced.
+        -:  241:     */
+        -:  242:
+        -:  243:}
+        -:  244:}
+        -:  245:}
+        -:  246:#endif // BOOST_NUMERIC_ODEINT_STEPPER_EXPLICIT_GENERIC_RK_HPP_INCLUDED

@@ -1,0 +1,54 @@
+        -:    0:Source:/opt/homebrew/include/boost/multi_array/extent_range.hpp
+        -:    0:Graph:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcda
+        -:    0:Runs:2
+        -:    0:Programs:1
+        -:    1:// Copyright 2002 The Trustees of Indiana University.
+        -:    2:
+        -:    3:// Use, modification and distribution is subject to the Boost Software 
+        -:    4:// License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+        -:    5:// http://www.boost.org/LICENSE_1_0.txt)
+        -:    6:
+        -:    7://  Boost.MultiArray Library
+        -:    8://  Authors: Ronald Garcia
+        -:    9://           Jeremy Siek
+        -:   10://           Andrew Lumsdaine
+        -:   11://  See http://www.boost.org/libs/multi_array for documentation.
+        -:   12:
+        -:   13:#ifndef BOOST_MULTI_ARRAY_EXTENT_RANGE_HPP
+        -:   14:#define BOOST_MULTI_ARRAY_EXTENT_RANGE_HPP
+        -:   15:
+        -:   16:#include <utility>
+        -:   17:
+        -:   18:namespace boost {
+        -:   19:namespace detail {
+        -:   20:namespace multi_array {
+        -:   21:
+        -:   22:template <typename Extent, typename SizeType>
+        -:   23:class extent_range : private std::pair<Extent,Extent> {
+        -:   24:  typedef std::pair<Extent,Extent> super_type;
+        -:   25:public:
+        -:   26:  typedef Extent index;
+        -:   27:  typedef SizeType size_type;
+        -:   28:
+        -:   29:  extent_range(index start, index finish) :
+        -:   30:    super_type(start,finish) { }
+        -:   31:
+        -:   32:  extent_range(index finish) :
+        -:   33:    super_type(0,finish) { }
+        -:   34:
+       16:   35:  extent_range() : super_type(0,0) { }
+        -:   36:
+        -:   37:  index start() const { return super_type::first; }
+        -:   38:
+        -:   39:  index finish() const { return super_type::second; }
+        -:   40:
+        -:   41:  size_type size() const { return super_type::second - super_type::first; }
+        -:   42:};
+        -:   43:
+        -:   44:} // namespace multi_array
+        -:   45:} // namespace detail 
+        -:   46:} // namespace boost
+        -:   47:
+        -:   48:
+        -:   49:#endif

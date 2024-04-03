@@ -1,0 +1,80 @@
+        -:    0:Source:/opt/homebrew/include/boost/fusion/iterator/deref.hpp
+        -:    0:Graph:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcda
+        -:    0:Runs:2
+        -:    0:Programs:1
+        -:    1:/*=============================================================================
+        -:    2:    Copyright (c) 2001-2011 Joel de Guzman
+        -:    3:
+        -:    4:    Distributed under the Boost Software License, Version 1.0. (See accompanying 
+        -:    5:    file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+        -:    6:==============================================================================*/
+        -:    7:#if !defined(FUSION_DEREF_05042005_1019)
+        -:    8:#define FUSION_DEREF_05042005_1019
+        -:    9:
+        -:   10:#include <boost/fusion/support/config.hpp>
+        -:   11:#include <boost/fusion/support/iterator_base.hpp>
+        -:   12:#include <boost/fusion/support/tag_of.hpp>
+        -:   13:
+        -:   14:namespace boost { namespace fusion
+        -:   15:{
+        -:   16:    // Special tags:
+        -:   17:    struct iterator_facade_tag; // iterator facade tag
+        -:   18:    struct boost_array_iterator_tag; // boost::array iterator tag
+        -:   19:    struct mpl_iterator_tag; // mpl sequence iterator tag
+        -:   20:    struct std_pair_iterator_tag; // std::pair iterator tag
+        -:   21:
+        -:   22:    namespace extension
+        -:   23:    {
+        -:   24:        template <typename Tag>
+        -:   25:        struct deref_impl
+        -:   26:        {
+        -:   27:            template <typename Iterator>
+        -:   28:            struct apply {};
+        -:   29:        };
+        -:   30:
+        -:   31:        template <>
+        -:   32:        struct deref_impl<iterator_facade_tag>
+        -:   33:        {
+        -:   34:            template <typename Iterator>
+        -:   35:            struct apply : Iterator::template deref<Iterator> {};
+        -:   36:       };
+        -:   37:
+        -:   38:        template <>
+        -:   39:        struct deref_impl<boost_array_iterator_tag>;
+        -:   40:
+        -:   41:        template <>
+        -:   42:        struct deref_impl<mpl_iterator_tag>;
+        -:   43:
+        -:   44:        template <>
+        -:   45:        struct deref_impl<std_pair_iterator_tag>;
+        -:   46:    }
+        -:   47:
+        -:   48:    namespace result_of
+        -:   49:    {
+        -:   50:        template <typename Iterator>
+        -:   51:        struct deref
+        -:   52:            : extension::deref_impl<typename detail::tag_of<Iterator>::type>::
+        -:   53:                template apply<Iterator>
+        -:   54:        {};
+        -:   55:    }
+        -:   56:
+        -:   57:    template <typename Iterator>
+        -:   58:    BOOST_CONSTEXPR BOOST_FUSION_GPU_ENABLED
+        -:   59:    inline typename result_of::deref<Iterator>::type
+        6:   60:    deref(Iterator const& i)
+        -:   61:    {
+        -:   62:        typedef result_of::deref<Iterator> deref_meta;
+        6:   63:        return deref_meta::call(i);
+        -:   64:    }
+        -:   65:
+        -:   66:    template <typename Iterator>
+        -:   67:    BOOST_CONSTEXPR BOOST_FUSION_GPU_ENABLED
+        -:   68:    inline typename result_of::deref<Iterator>::type
+        6:   69:    operator*(iterator_base<Iterator> const& i)
+        -:   70:    {
+        6:   71:        return fusion::deref(i.cast());
+        -:   72:    }
+        -:   73:}}
+        -:   74:
+        -:   75:#endif

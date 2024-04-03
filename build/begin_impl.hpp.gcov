@@ -1,0 +1,46 @@
+        -:    0:Source:/opt/homebrew/include/boost/fusion/container/vector/detail/begin_impl.hpp
+        -:    0:Graph:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcda
+        -:    0:Runs:2
+        -:    0:Programs:1
+        -:    1:/*=============================================================================
+        -:    2:    Copyright (c) 2001-2011 Joel de Guzman
+        -:    3:
+        -:    4:    Distributed under the Boost Software License, Version 1.0. (See accompanying 
+        -:    5:    file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+        -:    6:==============================================================================*/
+        -:    7:#if !defined(FUSION_BEGIN_IMPL_05042005_1136)
+        -:    8:#define FUSION_BEGIN_IMPL_05042005_1136
+        -:    9:
+        -:   10:#include <boost/fusion/support/config.hpp>
+        -:   11:#include <boost/fusion/container/vector/vector_iterator.hpp>
+        -:   12:
+        -:   13:namespace boost { namespace fusion
+        -:   14:{
+        -:   15:    struct vector_tag;
+        -:   16:
+        -:   17:    namespace extension
+        -:   18:    {
+        -:   19:        template <typename Tag>
+        -:   20:        struct begin_impl;
+        -:   21:
+        -:   22:        template <>
+        -:   23:        struct begin_impl<vector_tag>
+        -:   24:        {
+        -:   25:            template <typename Sequence>
+        -:   26:            struct apply
+        -:   27:            {
+        -:   28:                typedef vector_iterator<Sequence, 0> type;
+        -:   29:
+        -:   30:                BOOST_CONSTEXPR BOOST_FUSION_GPU_ENABLED
+        -:   31:                static type
+        6:   32:                call(Sequence& v)
+        -:   33:                {
+        6:   34:                    return type(v);
+        -:   35:                }
+        -:   36:            };
+        -:   37:        };
+        -:   38:    }
+        -:   39:}}
+        -:   40:
+        -:   41:#endif

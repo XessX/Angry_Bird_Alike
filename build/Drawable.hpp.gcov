@@ -1,0 +1,131 @@
+        -:    0:Source:/opt/homebrew/include/SFML/Graphics/Drawable.hpp
+        -:    0:Graph:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcda
+        -:    0:Runs:2
+        -:    0:Programs:1
+        -:    1:////////////////////////////////////////////////////////////
+        -:    2://
+        -:    3:// SFML - Simple and Fast Multimedia Library
+        -:    4:// Copyright (C) 2007-2023 Laurent Gomila (laurent@sfml-dev.org)
+        -:    5://
+        -:    6:// This software is provided 'as-is', without any express or implied warranty.
+        -:    7:// In no event will the authors be held liable for any damages arising from the use of this software.
+        -:    8://
+        -:    9:// Permission is granted to anyone to use this software for any purpose,
+        -:   10:// including commercial applications, and to alter it and redistribute it freely,
+        -:   11:// subject to the following restrictions:
+        -:   12://
+        -:   13:// 1. The origin of this software must not be misrepresented;
+        -:   14://    you must not claim that you wrote the original software.
+        -:   15://    If you use this software in a product, an acknowledgment
+        -:   16://    in the product documentation would be appreciated but is not required.
+        -:   17://
+        -:   18:// 2. Altered source versions must be plainly marked as such,
+        -:   19://    and must not be misrepresented as being the original software.
+        -:   20://
+        -:   21:// 3. This notice may not be removed or altered from any source distribution.
+        -:   22://
+        -:   23:////////////////////////////////////////////////////////////
+        -:   24:
+        -:   25:#ifndef SFML_DRAWABLE_HPP
+        -:   26:#define SFML_DRAWABLE_HPP
+        -:   27:
+        -:   28:////////////////////////////////////////////////////////////
+        -:   29:// Headers
+        -:   30:////////////////////////////////////////////////////////////
+        -:   31:#include <SFML/Graphics/Export.hpp>
+        -:   32:#include <SFML/Graphics/RenderStates.hpp>
+        -:   33:
+        -:   34:
+        -:   35:namespace sf
+        -:   36:{
+        -:   37:class RenderTarget;
+        -:   38:
+        -:   39:////////////////////////////////////////////////////////////
+        -:   40:/// \brief Abstract base class for objects that can be drawn
+        -:   41:///        to a render target
+        -:   42:///
+        -:   43:////////////////////////////////////////////////////////////
+        -:   44:class SFML_GRAPHICS_API Drawable
+        -:   45:{
+        -:   46:public:
+        -:   47:
+        -:   48:    ////////////////////////////////////////////////////////////
+        -:   49:    /// \brief Virtual destructor
+        -:   50:    ///
+        -:   51:    ////////////////////////////////////////////////////////////
+        1:   52:    virtual ~Drawable() {}
+        -:   53:
+        -:   54:protected:
+        -:   55:
+        -:   56:    friend class RenderTarget;
+        -:   57:
+        -:   58:    ////////////////////////////////////////////////////////////
+        -:   59:    /// \brief Draw the object to a render target
+        -:   60:    ///
+        -:   61:    /// This is a pure virtual function that has to be implemented
+        -:   62:    /// by the derived class to define how the drawable should be
+        -:   63:    /// drawn.
+        -:   64:    ///
+        -:   65:    /// \param target Render target to draw to
+        -:   66:    /// \param states Current render states
+        -:   67:    ///
+        -:   68:    ////////////////////////////////////////////////////////////
+        -:   69:    virtual void draw(RenderTarget& target, RenderStates states) const = 0;
+        -:   70:};
+        -:   71:
+        -:   72:} // namespace sf
+        -:   73:
+        -:   74:
+        -:   75:#endif // SFML_DRAWABLE_HPP
+        -:   76:
+        -:   77:
+        -:   78:////////////////////////////////////////////////////////////
+        -:   79:/// \class sf::Drawable
+        -:   80:/// \ingroup graphics
+        -:   81:///
+        -:   82:/// sf::Drawable is a very simple base class that allows objects
+        -:   83:/// of derived classes to be drawn to a sf::RenderTarget.
+        -:   84:///
+        -:   85:/// All you have to do in your derived class is to override the
+        -:   86:/// draw virtual function.
+        -:   87:///
+        -:   88:/// Note that inheriting from sf::Drawable is not mandatory,
+        -:   89:/// but it allows this nice syntax "window.draw(object)" rather
+        -:   90:/// than "object.draw(window)", which is more consistent with other
+        -:   91:/// SFML classes.
+        -:   92:///
+        -:   93:/// Example:
+        -:   94:/// \code
+        -:   95:/// class MyDrawable : public sf::Drawable
+        -:   96:/// {
+        -:   97:/// public:
+        -:   98:///
+        -:   99:///    ...
+        -:  100:///
+        -:  101:/// private:
+        -:  102:///
+        -:  103:///     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
+        -:  104:///     {
+        -:  105:///         // You can draw other high-level objects
+        -:  106:///         target.draw(m_sprite, states);
+        -:  107:///
+        -:  108:///         // ... or use the low-level API
+        -:  109:///         states.texture = &m_texture;
+        -:  110:///         target.draw(m_vertices, states);
+        -:  111:///
+        -:  112:///         // ... or draw with OpenGL directly
+        -:  113:///         glBegin(GL_QUADS);
+        -:  114:///         ...
+        -:  115:///         glEnd();
+        -:  116:///     }
+        -:  117:///
+        -:  118:///     sf::Sprite m_sprite;
+        -:  119:///     sf::Texture m_texture;
+        -:  120:///     sf::VertexArray m_vertices;
+        -:  121:/// };
+        -:  122:/// \endcode
+        -:  123:///
+        -:  124:/// \see sf::RenderTarget
+        -:  125:///
+        -:  126:////////////////////////////////////////////////////////////

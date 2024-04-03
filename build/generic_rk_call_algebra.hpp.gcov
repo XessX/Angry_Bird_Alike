@@ -1,0 +1,268 @@
+        -:    0:Source:/opt/homebrew/include/boost/numeric/odeint/stepper/detail/generic_rk_call_algebra.hpp
+        -:    0:Graph:./CMakeFiles/test_run.dir/src/Game.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/src/Game.cpp.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:/*
+        -:    2: [auto_generated]
+        -:    3: boost/numeric/odeint/stepper/detail/generic_rk_call_algebra.hpp
+        -:    4:
+        -:    5: [begin_description]
+        -:    6: Algebra caller for the generic Runge-Kutta methods.
+        -:    7: [end_description]
+        -:    8:
+        -:    9: Copyright 2011-2012 Mario Mulansky
+        -:   10: Copyright 2011-2012 Karsten Ahnert
+        -:   11:
+        -:   12: Distributed under the Boost Software License, Version 1.0.
+        -:   13: (See accompanying file LICENSE_1_0.txt or
+        -:   14: copy at http://www.boost.org/LICENSE_1_0.txt)
+        -:   15: */
+        -:   16:
+        -:   17:
+        -:   18:#ifndef BOOST_NUMERIC_ODEINT_STEPPER_DETAIL_GENERIC_RK_CALL_ALGEBRA_HPP_INCLUDED
+        -:   19:#define BOOST_NUMERIC_ODEINT_STEPPER_DETAIL_GENERIC_RK_CALL_ALGEBRA_HPP_INCLUDED
+        -:   20:
+        -:   21:
+        -:   22:namespace boost {
+        -:   23:namespace numeric {
+        -:   24:namespace odeint {
+        -:   25:namespace detail {
+        -:   26:
+        -:   27:template< size_t StageNumber , class Algebra >
+        -:   28:struct generic_rk_call_algebra;
+        -:   29:
+        -:   30:template< class Algebra >
+        -:   31:struct generic_rk_call_algebra< 1 , Algebra >
+        -:   32:{
+        -:   33:    typedef Algebra algebra_type;
+        -:   34:
+        -:   35:    template< class S1 , class S2 , class S3 , class S4 , class Op>
+    #####:   36:    void operator()( algebra_type &algebra , S1 &s1 , S2 &s2 ,  S3 &s3 , S4 * /* s4_array */ , Op op ) const
+        -:   37:    {
+    #####:   38:        algebra.for_each3( s1 , s2 , s3 , op );
+    #####:   39:    }
+        -:   40:
+        -:   41:    template< class S1 , class S2 , class S4 , class Op>
+        -:   42:    void operator()( algebra_type &algebra , S1 &s1 , S2 &s2 , S4 * /* s4_array */ , Op op ) const
+        -:   43:    {
+        -:   44:        algebra.for_each2( s1 , s2 , op );
+        -:   45:    }
+        -:   46:};
+        -:   47:
+        -:   48:template< class Algebra >
+        -:   49:struct generic_rk_call_algebra< 2 , Algebra >
+        -:   50:{
+        -:   51:    template< class S1 , class S2 , class S3 , class S4 , class Op>
+    #####:   52:    void operator()( Algebra &algebra , S1 &s1 , S2 &s2 ,  S3 &s3 , S4 s4_array[1] , Op op ) const
+        -:   53:    {
+    #####:   54:        algebra.for_each4( s1 , s2 , s3 , s4_array[0].m_v , op );
+    #####:   55:    }
+        -:   56:
+        -:   57:    template< class S1 , class S2 , class S4 , class Op>
+        -:   58:    void operator()( Algebra &algebra , S1 &s1 , S2 &s2 , S4 s4_array[1] , Op op ) const
+        -:   59:    {
+        -:   60:        algebra.for_each3( s1 , s2 , s4_array[0].m_v , op );
+        -:   61:    }
+        -:   62:};
+        -:   63:
+        -:   64:
+        -:   65:template< class Algebra >
+        -:   66:struct generic_rk_call_algebra< 3 , Algebra >
+        -:   67:{
+        -:   68:    template< class S1 , class S2 , class S3 , class S4 , class Op>
+    #####:   69:    void operator()( Algebra &algebra , S1 &s1 , S2 &s2 , S3 &s3 , S4 s4_array[2] , Op op ) const
+        -:   70:    {
+    #####:   71:        algebra.for_each5( s1 , s2 , s3 , s4_array[0].m_v , s4_array[1].m_v , op );
+    #####:   72:    }
+        -:   73:
+        -:   74:    template< class S1 , class S2 , class S4 , class Op>
+        -:   75:    void operator()( Algebra &algebra , S1 &s1 , S2 &s2 , S4 s4_array[2] , Op op ) const
+        -:   76:    {
+        -:   77:        algebra.for_each4( s1 , s2 , s4_array[0].m_v , s4_array[1].m_v , op );
+        -:   78:    }
+        -:   79:};
+        -:   80:
+        -:   81:
+        -:   82:template< class Algebra >
+        -:   83:struct generic_rk_call_algebra< 4 , Algebra >
+        -:   84:{
+        -:   85:    template< class S1 , class S2 , class S3 , class S4 , class Op>
+    #####:   86:    void operator()( Algebra &algebra , S1 &s1 , S2 &s2 , S3 &s3 , S4 s4_array[3] , Op op ) const
+        -:   87:    {
+    #####:   88:        algebra.for_each6( s1 , s2 , s3 , s4_array[0].m_v , s4_array[1].m_v , s4_array[2].m_v , op );
+    #####:   89:    }
+        -:   90:
+        -:   91:    template< class S1 , class S2 , class S4 , class Op>
+        -:   92:    void operator()( Algebra &algebra , S1 &s1 , S2 &s2 , S4 s4_array[3] , Op op ) const
+        -:   93:    {
+        -:   94:        algebra.for_each5( s1 , s2 , s4_array[0].m_v , s4_array[1].m_v , s4_array[2].m_v , op );
+        -:   95:    }
+        -:   96:};
+        -:   97:
+        -:   98:
+        -:   99:template< class Algebra >
+        -:  100:struct generic_rk_call_algebra< 5 , Algebra >
+        -:  101:{
+        -:  102:    template< class S1 , class S2 , class S3 , class S4 , class Op>
+        -:  103:    void operator()( Algebra &algebra , S1 &s1 , S2 &s2 , S3 &s3 , S4 s4_array[4] , Op op ) const
+        -:  104:    {
+        -:  105:        algebra.for_each7( s1 , s2 , s3 , s4_array[0].m_v , s4_array[1].m_v , s4_array[2].m_v , s4_array[3].m_v , op );
+        -:  106:    }
+        -:  107:
+        -:  108:    template< class S1 , class S2 , class S4 , class Op>
+        -:  109:    void operator()( Algebra &algebra , S1 &s1 , S2 &s2 , S4 s4_array[4] , Op op ) const
+        -:  110:    {
+        -:  111:        algebra.for_each6( s1 , s2 , s4_array[0].m_v , s4_array[1].m_v , s4_array[2].m_v , s4_array[3].m_v , op );
+        -:  112:    }
+        -:  113:};
+        -:  114:
+        -:  115:template< class Algebra >
+        -:  116:struct generic_rk_call_algebra< 6 , Algebra >
+        -:  117:{
+        -:  118:    template< class S1 , class S2 , class S3 , class S4 , class Op>
+        -:  119:    void operator()( Algebra &algebra , S1 &s1 , S2 &s2 , S3 &s3 , S4 s4_array[5] , Op op ) const
+        -:  120:    {
+        -:  121:        algebra.for_each8( s1 , s2 , s3 , s4_array[0].m_v , s4_array[1].m_v , s4_array[2].m_v , s4_array[3].m_v , s4_array[4].m_v , op );
+        -:  122:    }
+        -:  123:
+        -:  124:    template< class S1 , class S2 , class S4 , class Op>
+        -:  125:    void operator()( Algebra &algebra , S1 &s1 , S2 &s2 , S4 s4_array[5] , Op op ) const
+        -:  126:    {
+        -:  127:        algebra.for_each7( s1 , s2 , s4_array[0].m_v , s4_array[1].m_v , s4_array[2].m_v , s4_array[3].m_v , s4_array[4].m_v , op );
+        -:  128:    }
+        -:  129:};
+        -:  130:
+        -:  131:template< class Algebra >
+        -:  132:struct generic_rk_call_algebra< 7 , Algebra >
+        -:  133:{
+        -:  134:    template< class S1 , class S2 , class S3 , class S4 , class Op>
+        -:  135:    void operator()( Algebra &algebra , S1 &s1 , S2 &s2 , S3 &s3 , S4 s4_array[6] , Op op ) const
+        -:  136:    {
+        -:  137:        algebra.for_each9( s1 , s2 , s3 , s4_array[0].m_v , s4_array[1].m_v , s4_array[2].m_v , s4_array[3].m_v , s4_array[4].m_v ,
+        -:  138:                s4_array[5].m_v , op );
+        -:  139:    }
+        -:  140:
+        -:  141:    template< class S1 , class S2 , class S4 , class Op>
+        -:  142:    void operator()( Algebra &algebra , S1 &s1 , S2 &s2 , S4 s4_array[6] , Op op ) const
+        -:  143:    {
+        -:  144:        algebra.for_each8( s1 , s2 , s4_array[0].m_v , s4_array[1].m_v , s4_array[2].m_v , s4_array[3].m_v , s4_array[4].m_v ,
+        -:  145:                s4_array[5].m_v , op );
+        -:  146:    }
+        -:  147:};
+        -:  148:
+        -:  149:template< class Algebra >
+        -:  150:struct generic_rk_call_algebra< 8 , Algebra >
+        -:  151:{
+        -:  152:    template< class S1 , class S2 , class S3 , class S4 , class Op>
+        -:  153:    void operator()( Algebra &algebra , S1 &s1 , S2 &s2 , S3 &s3 , S4 s4_array[7] , Op op ) const
+        -:  154:    {
+        -:  155:        algebra.for_each10( s1 , s2 , s3 , s4_array[0].m_v , s4_array[1].m_v , s4_array[2].m_v , s4_array[3].m_v , s4_array[4].m_v ,
+        -:  156:                s4_array[5].m_v , s4_array[6].m_v , op );
+        -:  157:    }
+        -:  158:
+        -:  159:    template< class S1 , class S2 , class S4 , class Op>
+        -:  160:    void operator()( Algebra &algebra , S1 &s1 , S2 &s2 , S4 s4_array[7] , Op op ) const
+        -:  161:    {
+        -:  162:        algebra.for_each9( s1 , s2 , s4_array[0].m_v , s4_array[1].m_v , s4_array[2].m_v , s4_array[3].m_v , s4_array[4].m_v ,
+        -:  163:                s4_array[5].m_v , s4_array[6].m_v , op );
+        -:  164:    }
+        -:  165:};
+        -:  166:
+        -:  167:template< class Algebra >
+        -:  168:struct generic_rk_call_algebra< 9 , Algebra >
+        -:  169:{
+        -:  170:    template< class S1 , class S2 , class S3 , class S4 , class Op>
+        -:  171:    void operator()( Algebra &algebra , S1 &s1 , S2 &s2 , S3 &s3 , S4 s4_array[8] , Op op ) const
+        -:  172:    {
+        -:  173:        algebra.for_each11( s1 , s2 , s3 , s4_array[0].m_v , s4_array[1].m_v , s4_array[2].m_v , s4_array[3].m_v , s4_array[4].m_v ,
+        -:  174:                s4_array[5].m_v , s4_array[6].m_v , s4_array[7].m_v , op );
+        -:  175:    }
+        -:  176:
+        -:  177:    template< class S1 , class S2 , class S4 , class Op>
+        -:  178:    void operator()( Algebra &algebra , S1 &s1 , S2 &s2 , S4 s4_array[8] , Op op ) const
+        -:  179:    {
+        -:  180:        algebra.for_each10( s1 , s2 , s4_array[0].m_v , s4_array[1].m_v , s4_array[2].m_v , s4_array[3].m_v , s4_array[4].m_v ,
+        -:  181:                s4_array[5].m_v , s4_array[6].m_v , s4_array[7].m_v , op );
+        -:  182:    }
+        -:  183:};
+        -:  184:
+        -:  185:template< class Algebra >
+        -:  186:struct generic_rk_call_algebra< 10 , Algebra >
+        -:  187:{
+        -:  188:    template< class S1 , class S2 , class S3 , class S4 , class Op>
+        -:  189:    void operator()( Algebra &algebra , S1 &s1 , S2 &s2 , S3 &s3 , S4 s4_array[9] , Op op ) const
+        -:  190:    {
+        -:  191:        algebra.for_each12( s1 , s2 , s3 , s4_array[0].m_v , s4_array[1].m_v , s4_array[2].m_v , s4_array[3].m_v , s4_array[4].m_v ,
+        -:  192:                s4_array[5].m_v , s4_array[6].m_v , s4_array[7].m_v , s4_array[8].m_v , op );
+        -:  193:    }
+        -:  194:
+        -:  195:    template< class S1 , class S2 , class S4 , class Op>
+        -:  196:    void operator()( Algebra &algebra , S1 &s1 , S2 &s2 , S4 s4_array[9] , Op op ) const
+        -:  197:    {
+        -:  198:        algebra.for_each11( s1 , s2 , s4_array[0].m_v , s4_array[1].m_v , s4_array[2].m_v , s4_array[3].m_v , s4_array[4].m_v ,
+        -:  199:                s4_array[5].m_v , s4_array[6].m_v , s4_array[7].m_v , s4_array[8].m_v , op );
+        -:  200:    }
+        -:  201:};
+        -:  202:
+        -:  203:
+        -:  204:template< class Algebra >
+        -:  205:struct generic_rk_call_algebra< 11 , Algebra >
+        -:  206:{
+        -:  207:    template< class S1 , class S2 , class S3 , class S4 , class Op>
+        -:  208:    void operator()( Algebra &algebra , S1 &s1 , S2 &s2 , S3 &s3 , S4 s4_array[10] , Op op ) const
+        -:  209:    {
+        -:  210:        algebra.for_each13( s1 , s2 , s3 , s4_array[0].m_v , s4_array[1].m_v , s4_array[2].m_v , s4_array[3].m_v , s4_array[4].m_v ,
+        -:  211:                s4_array[5].m_v , s4_array[6].m_v , s4_array[7].m_v , s4_array[8].m_v , s4_array[9].m_v , op );
+        -:  212:    }
+        -:  213:
+        -:  214:    template< class S1 , class S2 , class S4 , class Op>
+        -:  215:    void operator()( Algebra &algebra , S1 &s1 , S2 &s2 , S4 s4_array[10] , Op op ) const
+        -:  216:    {
+        -:  217:        algebra.for_each12( s1 , s2 , s4_array[0].m_v , s4_array[1].m_v , s4_array[2].m_v , s4_array[3].m_v , s4_array[4].m_v ,
+        -:  218:                s4_array[5].m_v , s4_array[6].m_v , s4_array[7].m_v , s4_array[8].m_v , s4_array[9].m_v , op );
+        -:  219:    }
+        -:  220:};
+        -:  221:
+        -:  222:template< class Algebra >
+        -:  223:struct generic_rk_call_algebra< 12 , Algebra >
+        -:  224:{
+        -:  225:    template< class S1 , class S2 , class S3 , class S4 , class Op>
+        -:  226:    void operator()( Algebra &algebra , S1 &s1 , S2 &s2 , S3 &s3 , S4 s4_array[11] , Op op ) const
+        -:  227:    {
+        -:  228:        algebra.for_each14( s1 , s2 , s3 , s4_array[0].m_v , s4_array[1].m_v , s4_array[2].m_v , s4_array[3].m_v , s4_array[4].m_v ,
+        -:  229:                s4_array[5].m_v , s4_array[6].m_v , s4_array[7].m_v , s4_array[8].m_v , s4_array[9].m_v , s4_array[10].m_v , op );
+        -:  230:    }
+        -:  231:
+        -:  232:    template< class S1 , class S2 , class S4 , class Op>
+        -:  233:    void operator()( Algebra &algebra , S1 &s1 , S2 &s2 , S4 s4_array[11] , Op op ) const
+        -:  234:    {
+        -:  235:        algebra.for_each13( s1 , s2 , s4_array[0].m_v , s4_array[1].m_v , s4_array[2].m_v , s4_array[3].m_v , s4_array[4].m_v ,
+        -:  236:                s4_array[5].m_v , s4_array[6].m_v , s4_array[7].m_v , s4_array[8].m_v , s4_array[9].m_v , s4_array[10].m_v , op );
+        -:  237:    }
+        -:  238:};
+        -:  239:
+        -:  240:template< class Algebra >
+        -:  241:struct generic_rk_call_algebra< 13 , Algebra >
+        -:  242:{
+        -:  243:    template< class S1 , class S2 , class S3 , class S4 , class Op>
+        -:  244:    void operator()( Algebra &algebra , S1 &s1 , S2 &s2 , S3 &s3 , S4 s4_array[12] , Op op ) const
+        -:  245:    {
+        -:  246:        algebra.for_each15( s1 , s2 , s3 , s4_array[0].m_v , s4_array[1].m_v , s4_array[2].m_v , s4_array[3].m_v , s4_array[4].m_v ,
+        -:  247:                s4_array[5].m_v , s4_array[6].m_v , s4_array[7].m_v , s4_array[8].m_v , s4_array[9].m_v , s4_array[10].m_v , s4_array[11].m_v , op );
+        -:  248:    }
+        -:  249:
+        -:  250:    template< class S1 , class S2 , class S4 , class Op>
+        -:  251:    void operator()( Algebra &algebra , S1 &s1 , S2 &s2 , S4 s4_array[12] , Op op ) const
+        -:  252:    {
+        -:  253:        algebra.for_each14( s1 , s2 , s4_array[0].m_v , s4_array[1].m_v , s4_array[2].m_v , s4_array[3].m_v , s4_array[4].m_v ,
+        -:  254:                s4_array[5].m_v , s4_array[6].m_v , s4_array[7].m_v , s4_array[8].m_v , s4_array[9].m_v , s4_array[10].m_v , s4_array[11].m_v , op );
+        -:  255:    }
+        -:  256:};
+        -:  257:
+        -:  258:}
+        -:  259:}
+        -:  260:}
+        -:  261:}
+        -:  262:
+        -:  263:#endif // BOOST_NUMERIC_ODEINT_STEPPER_DETAIL_GENERIC_RK_CALL_ALGEBRA_HPP_INCLUDED

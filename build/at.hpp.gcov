@@ -1,0 +1,139 @@
+        -:    0:Source:/opt/homebrew/include/boost/fusion/sequence/intrinsic/at.hpp
+        -:    0:Graph:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcda
+        -:    0:Runs:2
+        -:    0:Programs:1
+        -:    1:/*=============================================================================
+        -:    2:    Copyright (c) 2001-2011 Joel de Guzman
+        -:    3:
+        -:    4:    Distributed under the Boost Software License, Version 1.0. (See accompanying
+        -:    5:    file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+        -:    6:==============================================================================*/
+        -:    7:#if !defined(FUSION_AT_05042005_0722)
+        -:    8:#define FUSION_AT_05042005_0722
+        -:    9:
+        -:   10:#include <boost/fusion/support/config.hpp>
+        -:   11:#include <boost/mpl/int.hpp>
+        -:   12:#include <boost/mpl/if.hpp>
+        -:   13:#include <boost/mpl/or.hpp>
+        -:   14:#include <boost/mpl/less.hpp>
+        -:   15:#include <boost/mpl/empty_base.hpp>
+        -:   16:#include <boost/type_traits/is_const.hpp>
+        -:   17:#include <boost/fusion/sequence/intrinsic_fwd.hpp>
+        -:   18:#include <boost/fusion/support/tag_of.hpp>
+        -:   19:#include <boost/fusion/support/category_of.hpp>
+        -:   20:
+        -:   21:namespace boost { namespace fusion
+        -:   22:{
+        -:   23:    // Special tags:
+        -:   24:    struct sequence_facade_tag;
+        -:   25:    struct boost_tuple_tag; // boost::tuples::tuple tag
+        -:   26:    struct boost_array_tag; // boost::array tag
+        -:   27:    struct mpl_sequence_tag; // mpl sequence tag
+        -:   28:    struct std_pair_tag; // std::pair tag
+        -:   29:    struct std_tuple_tag; // std::tuple tag
+        -:   30:
+        -:   31:    namespace extension
+        -:   32:    {
+        -:   33:        template <typename Tag>
+        -:   34:        struct at_impl
+        -:   35:        {
+        -:   36:            template <typename Sequence, typename N>
+        -:   37:            struct apply;
+        -:   38:        };
+        -:   39:
+        -:   40:        template <>
+        -:   41:        struct at_impl<sequence_facade_tag>
+        -:   42:        {
+        -:   43:            template <typename Sequence, typename N>
+        -:   44:            struct apply : Sequence::template at<Sequence, N> {};
+        -:   45:        };
+        -:   46:
+        -:   47:        template <>
+        -:   48:        struct at_impl<boost_tuple_tag>;
+        -:   49:
+        -:   50:        template <>
+        -:   51:        struct at_impl<boost_array_tag>;
+        -:   52:
+        -:   53:        template <>
+        -:   54:        struct at_impl<mpl_sequence_tag>;
+        -:   55:
+        -:   56:        template <>
+        -:   57:        struct at_impl<std_pair_tag>;
+        -:   58:
+        -:   59:        template <>
+        -:   60:        struct at_impl<std_tuple_tag>;
+        -:   61:    }
+        -:   62:
+        -:   63:    namespace detail
+        -:   64:    {
+        -:   65:        template <typename Sequence, typename N, typename Tag>
+        -:   66:        struct at_impl
+        -:   67:            : mpl::if_<
+        -:   68:                  mpl::or_<
+        -:   69:                      mpl::less<N, typename extension::size_impl<Tag>::template apply<Sequence>::type>
+        -:   70:                    , traits::is_unbounded<Sequence>
+        -:   71:                  >
+        -:   72:                , typename extension::at_impl<Tag>::template apply<Sequence, N>
+        -:   73:                , mpl::empty_base
+        -:   74:              >::type
+        -:   75:        {};
+        -:   76:    }
+        -:   77:
+        -:   78:    namespace result_of
+        -:   79:    {
+        -:   80:        template <typename Sequence, typename N>
+        -:   81:        struct at
+        -:   82:            : detail::at_impl<Sequence, N, typename detail::tag_of<Sequence>::type>
+        -:   83:        {};
+        -:   84:
+        -:   85:        template <typename Sequence, int N>
+        -:   86:        struct at_c
+        -:   87:            : at<Sequence, mpl::int_<N> >
+        -:   88:        {};
+        -:   89:    }
+        -:   90:
+        -:   91:
+        -:   92:    template <typename N, typename Sequence>
+        -:   93:    BOOST_CONSTEXPR BOOST_FUSION_GPU_ENABLED
+        -:   94:    inline typename
+        -:   95:        lazy_disable_if<
+        -:   96:            is_const<Sequence>
+        -:   97:          , result_of::at<Sequence, N>
+        -:   98:        >::type
+       12:   99:    at(Sequence& seq)
+        -:  100:    {
+       12:  101:        return result_of::at<Sequence, N>::call(seq);
+        -:  102:    }
+        -:  103:
+        -:  104:    template <typename N, typename Sequence>
+        -:  105:    BOOST_CONSTEXPR BOOST_FUSION_GPU_ENABLED
+        -:  106:    inline typename result_of::at<Sequence const, N>::type
+        6:  107:    at(Sequence const& seq)
+        -:  108:    {
+        6:  109:        return result_of::at<Sequence const, N>::call(seq);
+        -:  110:    }
+        -:  111:
+        -:  112:    template <int N, typename Sequence>
+        -:  113:    BOOST_CONSTEXPR BOOST_FUSION_GPU_ENABLED
+        -:  114:    inline typename
+        -:  115:        lazy_disable_if<
+        -:  116:            is_const<Sequence>
+        -:  117:          , result_of::at_c<Sequence, N>
+        -:  118:        >::type
+        4:  119:    at_c(Sequence& seq)
+        -:  120:    {
+        4:  121:        return result_of::at_c<Sequence, N>::call(seq);
+        -:  122:    }
+        -:  123:
+        -:  124:    template <int N, typename Sequence>
+        -:  125:    BOOST_CONSTEXPR BOOST_FUSION_GPU_ENABLED
+        -:  126:    inline typename result_of::at_c<Sequence const, N>::type
+        -:  127:    at_c(Sequence const& seq)
+        -:  128:    {
+        -:  129:        return result_of::at_c<Sequence const, N>::call(seq);
+        -:  130:    }
+        -:  131:}}
+        -:  132:
+        -:  133:#endif
+        -:  134:

@@ -1,0 +1,48 @@
+        -:    0:Source:/opt/homebrew/include/boost/fusion/container/vector/detail/advance_impl.hpp
+        -:    0:Graph:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcda
+        -:    0:Runs:2
+        -:    0:Programs:1
+        -:    1:/*=============================================================================
+        -:    2:    Copyright (c) 2001-2011 Joel de Guzman
+        -:    3:
+        -:    4:    Distributed under the Boost Software License, Version 1.0. (See accompanying 
+        -:    5:    file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+        -:    6:==============================================================================*/
+        -:    7:#if !defined(FUSION_ADVANCE_IMPL_09172005_1156)
+        -:    8:#define FUSION_ADVANCE_IMPL_09172005_1156
+        -:    9:
+        -:   10:namespace boost { namespace fusion
+        -:   11:{
+        -:   12:    struct vector_iterator_tag;
+        -:   13:
+        -:   14:    template <typename Vector, int N>
+        -:   15:    struct vector_iterator;
+        -:   16:
+        -:   17:    namespace extension
+        -:   18:    {
+        -:   19:        template <typename Tag>
+        -:   20:        struct advance_impl;
+        -:   21:
+        -:   22:        template <>
+        -:   23:        struct advance_impl<vector_iterator_tag>
+        -:   24:        {
+        -:   25:            template <typename Iterator, typename N>
+        -:   26:            struct apply
+        -:   27:            {
+        -:   28:                typedef typename Iterator::index index;
+        -:   29:                typedef typename Iterator::vector vector;
+        -:   30:                typedef vector_iterator<vector, index::value+N::value> type;
+        -:   31:
+        -:   32:                BOOST_CONSTEXPR BOOST_FUSION_GPU_ENABLED
+        -:   33:                static type
+        6:   34:                call(Iterator const& i)
+        -:   35:                {
+        6:   36:                    return type(i.vec);
+        -:   37:                }
+        -:   38:            };
+        -:   39:        };
+        -:   40:    }
+        -:   41:}}
+        -:   42:
+        -:   43:#endif

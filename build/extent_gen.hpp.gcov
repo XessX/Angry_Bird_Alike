@@ -1,0 +1,80 @@
+        -:    0:Source:/opt/homebrew/include/boost/multi_array/extent_gen.hpp
+        -:    0:Graph:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcda
+        -:    0:Runs:2
+        -:    0:Programs:1
+        -:    1:// Copyright 2002 The Trustees of Indiana University.
+        -:    2:
+        -:    3:// Use, modification and distribution is subject to the Boost Software 
+        -:    4:// License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+        -:    5:// http://www.boost.org/LICENSE_1_0.txt)
+        -:    6:
+        -:    7://  Boost.MultiArray Library
+        -:    8://  Authors: Ronald Garcia
+        -:    9://           Jeremy Siek
+        -:   10://           Andrew Lumsdaine
+        -:   11://  See http://www.boost.org/libs/multi_array for documentation.
+        -:   12:
+        -:   13:#ifndef BOOST_MULTI_ARRAY_EXTENT_GEN_HPP
+        -:   14:#define BOOST_MULTI_ARRAY_EXTENT_GEN_HPP
+        -:   15:
+        -:   16:#include "boost/multi_array/extent_range.hpp"
+        -:   17:#include "boost/multi_array/range_list.hpp"
+        -:   18:#include "boost/multi_array/types.hpp"
+        -:   19:#include "boost/array.hpp"
+        -:   20:#include <algorithm>
+        -:   21:
+        -:   22:namespace boost {
+        -:   23:namespace detail {
+        -:   24:namespace multi_array {
+        -:   25:
+        -:   26:
+        -:   27:template <std::size_t NumRanges>
+        -:   28:class extent_gen {
+        -:   29:public:
+        -:   30:  typedef boost::detail::multi_array::index index;
+        -:   31:  typedef boost::detail::multi_array::size_type size_type;
+        -:   32:  typedef extent_range<index,size_type> range;
+        -:   33:private:
+        -:   34:  typedef typename range_list_generator<range,NumRanges>::type range_list;
+        -:   35:public:
+        -:   36:  template <std::size_t Ranges>
+        -:   37:  struct gen_type {
+        -:   38:    typedef extent_gen<Ranges> type;
+        -:   39:  };
+        -:   40:
+        -:   41:  range_list ranges_;
+        -:   42:
+       16:   43:  extent_gen() { }
+        -:   44:
+        -:   45:  // Used by operator[] to expand extent_gens
+        -:   46:  extent_gen(const extent_gen<NumRanges-1>& rhs,
+        -:   47:            const range& a_range)
+        -:   48:  {
+        -:   49:    std::copy(rhs.ranges_.begin(),rhs.ranges_.end(),ranges_.begin());
+        -:   50:    *ranges_.rbegin() = a_range;
+        -:   51:  }
+        -:   52:
+        -:   53:  extent_gen<NumRanges+1>
+        -:   54:  operator[](const range& a_range)
+        -:   55:  {
+        -:   56:    return extent_gen<NumRanges+1>(*this,a_range);    
+        -:   57:  }
+        -:   58:
+        -:   59:  extent_gen<NumRanges+1>
+        -:   60:  operator[](index idx)
+        -:   61:  {
+        -:   62:    return extent_gen<NumRanges+1>(*this,range(0,idx));    
+        -:   63:  }    
+        -:   64:
+        -:   65:  static extent_gen<0> extents() {
+        -:   66:    return extent_gen<0>();
+        -:   67:  }
+        -:   68:};
+        -:   69:
+        -:   70:} // namespace multi_array
+        -:   71:} // namespace detail
+        -:   72:} // namespace boost
+        -:   73:
+        -:   74:
+        -:   75:#endif

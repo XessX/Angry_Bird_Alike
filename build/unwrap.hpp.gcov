@@ -1,0 +1,56 @@
+        -:    0:Source:/opt/homebrew/include/boost/mpl/aux_/unwrap.hpp
+        -:    0:Graph:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcda
+        -:    0:Runs:2
+        -:    0:Programs:1
+        -:    1:
+        -:    2:#ifndef BOOST_MPL_AUX_UNWRAP_HPP_INCLUDED
+        -:    3:#define BOOST_MPL_AUX_UNWRAP_HPP_INCLUDED
+        -:    4:
+        -:    5:// Copyright Peter Dimov and Multi Media Ltd 2001, 2002
+        -:    6:// Copyright David Abrahams 2001
+        -:    7://
+        -:    8:// Distributed under the Boost Software License, Version 1.0. 
+        -:    9:// (See accompanying file LICENSE_1_0.txt or copy at 
+        -:   10:// http://www.boost.org/LICENSE_1_0.txt)
+        -:   11://
+        -:   12:// See http://www.boost.org/libs/mpl for documentation.
+        -:   13:
+        -:   14:// $Id$
+        -:   15:// $Date$
+        -:   16:// $Revision$
+        -:   17:
+        -:   18:#include <boost/ref.hpp>
+        -:   19:#include <boost/mpl/aux_/config/gpu.hpp>
+        -:   20:
+        -:   21:namespace boost { namespace mpl { namespace aux {
+        -:   22:
+        -:   23:template< typename F >
+        -:   24:BOOST_MPL_CFG_GPU_ENABLED
+        -:   25:inline
+        6:   26:F& unwrap(F& f, long)
+        -:   27:{
+        6:   28:    return f;
+        -:   29:}
+        -:   30:
+        -:   31:template< typename F >
+        -:   32:BOOST_MPL_CFG_GPU_ENABLED
+        -:   33:inline
+        -:   34:F&
+        -:   35:unwrap(reference_wrapper<F>& f, int)
+        -:   36:{
+        -:   37:    return f;
+        -:   38:}
+        -:   39:
+        -:   40:template< typename F >
+        -:   41:BOOST_MPL_CFG_GPU_ENABLED
+        -:   42:inline
+        -:   43:F&
+        -:   44:unwrap(reference_wrapper<F> const& f, int)
+        -:   45:{
+        -:   46:    return f;
+        -:   47:}
+        -:   48:
+        -:   49:}}}
+        -:   50:
+        -:   51:#endif // BOOST_MPL_AUX_UNWRAP_HPP_INCLUDED

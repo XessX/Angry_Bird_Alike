@@ -1,0 +1,154 @@
+        -:    0:Source:/opt/homebrew/include/SFML/Window/ContextSettings.hpp
+        -:    0:Graph:./CMakeFiles/test_run.dir/src/Game.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/src/Game.cpp.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:////////////////////////////////////////////////////////////
+        -:    2://
+        -:    3:// SFML - Simple and Fast Multimedia Library
+        -:    4:// Copyright (C) 2007-2023 Laurent Gomila (laurent@sfml-dev.org)
+        -:    5://
+        -:    6:// This software is provided 'as-is', without any express or implied warranty.
+        -:    7:// In no event will the authors be held liable for any damages arising from the use of this software.
+        -:    8://
+        -:    9:// Permission is granted to anyone to use this software for any purpose,
+        -:   10:// including commercial applications, and to alter it and redistribute it freely,
+        -:   11:// subject to the following restrictions:
+        -:   12://
+        -:   13:// 1. The origin of this software must not be misrepresented;
+        -:   14://    you must not claim that you wrote the original software.
+        -:   15://    If you use this software in a product, an acknowledgment
+        -:   16://    in the product documentation would be appreciated but is not required.
+        -:   17://
+        -:   18:// 2. Altered source versions must be plainly marked as such,
+        -:   19://    and must not be misrepresented as being the original software.
+        -:   20://
+        -:   21:// 3. This notice may not be removed or altered from any source distribution.
+        -:   22://
+        -:   23:////////////////////////////////////////////////////////////
+        -:   24:
+        -:   25:#ifndef SFML_CONTEXTSETTINGS_HPP
+        -:   26:#define SFML_CONTEXTSETTINGS_HPP
+        -:   27:
+        -:   28:#include <SFML/Config.hpp>
+        -:   29:
+        -:   30:namespace sf
+        -:   31:{
+        -:   32:////////////////////////////////////////////////////////////
+        -:   33:/// \brief Structure defining the settings of the OpenGL
+        -:   34:///        context attached to a window
+        -:   35:///
+        -:   36:////////////////////////////////////////////////////////////
+        -:   37:struct ContextSettings
+        -:   38:{
+        -:   39:    ////////////////////////////////////////////////////////////
+        -:   40:    /// \brief Enumeration of the context attribute flags
+        -:   41:    ///
+        -:   42:    ////////////////////////////////////////////////////////////
+        -:   43:    enum Attribute
+        -:   44:    {
+        -:   45:        Default = 0,      //!< Non-debug, compatibility context (this and the core attribute are mutually exclusive)
+        -:   46:        Core    = 1 << 0, //!< Core attribute
+        -:   47:        Debug   = 1 << 2  //!< Debug attribute
+        -:   48:    };
+        -:   49:
+        -:   50:    ////////////////////////////////////////////////////////////
+        -:   51:    /// \brief Default constructor
+        -:   52:    ///
+        -:   53:    /// \param depth        Depth buffer bits
+        -:   54:    /// \param stencil      Stencil buffer bits
+        -:   55:    /// \param antialiasing Antialiasing level
+        -:   56:    /// \param major        Major number of the context version
+        -:   57:    /// \param minor        Minor number of the context version
+        -:   58:    /// \param attributes   Attribute flags of the context
+        -:   59:    /// \param sRgb         sRGB capable framebuffer
+        -:   60:    ///
+        -:   61:    ////////////////////////////////////////////////////////////
+        2:   62:    explicit ContextSettings(unsigned int depth = 0, unsigned int stencil = 0, unsigned int antialiasing = 0, unsigned int major = 1, unsigned int minor = 1, unsigned int attributes = Default, bool sRgb = false) :
+        1:   63:    depthBits        (depth),
+        1:   64:    stencilBits      (stencil),
+        1:   65:    antialiasingLevel(antialiasing),
+        1:   66:    majorVersion     (major),
+        1:   67:    minorVersion     (minor),
+        1:   68:    attributeFlags   (attributes),
+        1:   69:    sRgbCapable      (sRgb)
+        1:   70:    {
+        2:   71:    }
+        -:   72:
+        -:   73:    ////////////////////////////////////////////////////////////
+        -:   74:    // Member data
+        -:   75:    ////////////////////////////////////////////////////////////
+        -:   76:    unsigned int depthBits;         //!< Bits of the depth buffer
+        -:   77:    unsigned int stencilBits;       //!< Bits of the stencil buffer
+        -:   78:    unsigned int antialiasingLevel; //!< Level of antialiasing
+        -:   79:    unsigned int majorVersion;      //!< Major number of the context version to create
+        -:   80:    unsigned int minorVersion;      //!< Minor number of the context version to create
+        -:   81:    Uint32       attributeFlags;    //!< The attribute flags to create the context with
+        -:   82:    bool         sRgbCapable;       //!< Whether the context framebuffer is sRGB capable
+        -:   83:};
+        -:   84:
+        -:   85:} // namespace sf
+        -:   86:
+        -:   87:
+        -:   88:#endif // SFML_CONTEXTSETTINGS_HPP
+        -:   89:
+        -:   90:
+        -:   91:////////////////////////////////////////////////////////////
+        -:   92:/// \class sf::ContextSettings
+        -:   93:/// \ingroup window
+        -:   94:///
+        -:   95:/// ContextSettings allows to define several advanced settings
+        -:   96:/// of the OpenGL context attached to a window. All these
+        -:   97:/// settings with the exception of the compatibility flag
+        -:   98:/// and anti-aliasing level have no impact on the regular
+        -:   99:/// SFML rendering (graphics module), so you may need to use
+        -:  100:/// this structure only if you're using SFML as a windowing
+        -:  101:/// system for custom OpenGL rendering.
+        -:  102:///
+        -:  103:/// The depthBits and stencilBits members define the number
+        -:  104:/// of bits per pixel requested for the (respectively) depth
+        -:  105:/// and stencil buffers.
+        -:  106:///
+        -:  107:/// antialiasingLevel represents the requested number of
+        -:  108:/// multisampling levels for anti-aliasing.
+        -:  109:///
+        -:  110:/// majorVersion and minorVersion define the version of the
+        -:  111:/// OpenGL context that you want. Only versions greater or
+        -:  112:/// equal to 3.0 are relevant; versions lesser than 3.0 are
+        -:  113:/// all handled the same way (i.e. you can use any version
+        -:  114:/// < 3.0 if you don't want an OpenGL 3 context).
+        -:  115:///
+        -:  116:/// When requesting a context with a version greater or equal
+        -:  117:/// to 3.2, you have the option of specifying whether the
+        -:  118:/// context should follow the core or compatibility profile
+        -:  119:/// of all newer (>= 3.2) OpenGL specifications. For versions
+        -:  120:/// 3.0 and 3.1 there is only the core profile. By default
+        -:  121:/// a compatibility context is created. You only need to specify
+        -:  122:/// the core flag if you want a core profile context to use with
+        -:  123:/// your own OpenGL rendering.
+        -:  124:/// <b>Warning: The graphics module will not function if you
+        -:  125:/// request a core profile context. Make sure the attributes are
+        -:  126:/// set to Default if you want to use the graphics module.</b>
+        -:  127:///
+        -:  128:/// Setting the debug attribute flag will request a context with
+        -:  129:/// additional debugging features enabled. Depending on the
+        -:  130:/// system, this might be required for advanced OpenGL debugging.
+        -:  131:/// OpenGL debugging is disabled by default.
+        -:  132:///
+        -:  133:/// <b>Special Note for OS X:</b>
+        -:  134:/// Apple only supports choosing between either a legacy context
+        -:  135:/// (OpenGL 2.1) or a core context (OpenGL version depends on the
+        -:  136:/// operating system version but is at least 3.2). Compatibility
+        -:  137:/// contexts are not supported. Further information is available on the
+        -:  138:/// <a href="https://developer.apple.com/opengl/capabilities/index.html">
+        -:  139:/// OpenGL Capabilities Tables</a> page. OS X also currently does
+        -:  140:/// not support debug contexts.
+        -:  141:///
+        -:  142:/// Please note that these values are only a hint.
+        -:  143:/// No failure will be reported if one or more of these values
+        -:  144:/// are not supported by the system; instead, SFML will try to
+        -:  145:/// find the closest valid match. You can then retrieve the
+        -:  146:/// settings that the window actually used to create its context,
+        -:  147:/// with Window::getSettings().
+        -:  148:///
+        -:  149:////////////////////////////////////////////////////////////

@@ -1,0 +1,59 @@
+        -:    0:Source:/opt/homebrew/include/boost/fusion/container/vector/detail/deref_impl.hpp
+        -:    0:Graph:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcno
+        -:    0:Data:./CMakeFiles/test_run.dir/test/gameTest.cpp.gcda
+        -:    0:Runs:2
+        -:    0:Programs:1
+        -:    1:/*=============================================================================
+        -:    2:    Copyright (c) 2001-2011 Joel de Guzman
+        -:    3:
+        -:    4:    Distributed under the Boost Software License, Version 1.0. (See accompanying 
+        -:    5:    file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+        -:    6:==============================================================================*/
+        -:    7:#if !defined(FUSION_DEREF_IMPL_05042005_1037)
+        -:    8:#define FUSION_DEREF_IMPL_05042005_1037
+        -:    9:
+        -:   10:#include <boost/fusion/support/config.hpp>
+        -:   11:#include <boost/fusion/support/detail/access.hpp>
+        -:   12:#include <boost/fusion/container/vector/detail/value_at_impl.hpp>
+        -:   13:#include <boost/type_traits/is_const.hpp>
+        -:   14:#include <boost/mpl/if.hpp>
+        -:   15:
+        -:   16:namespace boost { namespace fusion
+        -:   17:{
+        -:   18:    struct vector_iterator_tag;
+        -:   19:
+        -:   20:    namespace extension
+        -:   21:    {
+        -:   22:        template <typename Tag>
+        -:   23:        struct deref_impl;
+        -:   24:
+        -:   25:        template <>
+        -:   26:        struct deref_impl<vector_iterator_tag>
+        -:   27:        {
+        -:   28:            template <typename Iterator>
+        -:   29:            struct apply
+        -:   30:            {
+        -:   31:                typedef typename Iterator::vector vector;
+        -:   32:                typedef typename Iterator::index index;
+        -:   33:                typedef typename value_at_impl<vector_tag>::template apply<vector, index>::type element;
+        -:   34:
+        -:   35:                typedef typename
+        -:   36:                    mpl::if_<
+        -:   37:                        is_const<vector>
+        -:   38:                      , typename fusion::detail::cref_result<element>::type
+        -:   39:                      , typename fusion::detail::ref_result<element>::type
+        -:   40:                    >::type
+        -:   41:                type;
+        -:   42:
+        -:   43:                BOOST_CONSTEXPR BOOST_FUSION_GPU_ENABLED
+        -:   44:                static type
+        6:   45:                call(Iterator const& i)
+        -:   46:                {
+        6:   47:                    return i.vec.at_impl(index());
+        -:   48:                }
+        -:   49:            };
+        -:   50:        };
+        -:   51:    }
+        -:   52:}}
+        -:   53:
+        -:   54:#endif
