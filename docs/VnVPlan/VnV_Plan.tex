@@ -17,6 +17,7 @@
 \usepackage{tikz}
 \usetikzlibrary{matrix, shapes, arrows, positioning}
 \usepackage[document]{ragged2e}
+\usepackage{placeins}
 
 \geometry{a4paper, margin=1in}
 
@@ -247,14 +248,14 @@ The following table outlines how SRS requirements correlate with VnV test cases,
 \hline
 \textbf{SRS Requirement ID} & \textbf{SRS Requirement Description} & \textbf{VnV Test Case ID(s)} \\
 \hline
-SRS-FR1 & User can control the angle and power of the projectile launch & VnV-TC1 \\
-SRS-FR2 & Projectiles exhibit realistic physics, including gravity and collision impacts & VnV-TC2 \\
-SRS-FR3 & Levels unlock sequentially after completing the previous level & VnV-TC3 \\
-SRS-FR4 & Users can restart a level at any time & VnV-TC4 \\
-SRS-FR5 & The game saves progress automatically & VnV-TC5 \\
-SRS-NFR1 & The game shall load within acceptable time limits on the target platform & VnV-TC6 \\
-SRS-NFR2 & The game shall maintain an acceptable frame rate on the target platform & VnV-TC7 \\
-SRS-NFR3 & Game controls shall be intuitive and accessible to players of all abilities & VnV-TC8 \\
+SRS-FR1 & User can control the angle and power of the projectile launch & VnV-TC1 \\\hline
+SRS-FR2 & Projectiles exhibit realistic physics, including gravity and collision impacts & VnV-TC2 \\\hline
+SRS-FR3 & Levels unlock sequentially after completing the previous level & VnV-TC3 \\\hline
+SRS-FR4 & Users can restart a level at any time & VnV-TC4 \\\hline
+SRS-FR5 & The game saves progress automatically & VnV-TC5 \\\hline
+SRS-NFR1 & The game shall load within acceptable time limits on the target platform & VnV-TC6 \\\hline
+SRS-NFR2 & The game shall maintain an acceptable frame rate on the target platform & VnV-TC7 \\\hline
+SRS-NFR3 & Game controls shall be intuitive and accessible to players of all abilities & VnV-TC8 \\\hline
 \hline
 \end{longtable}
 
@@ -355,10 +356,10 @@ To ensure thorough validation of each module, a traceability matrix maps unit te
 \hline
 \textbf{Module} & \textbf{Functional Requirements} & \textbf{Test Case IDs} \\
 \hline
-Physics Engine & Projectile motion, Collision response, Gravity & TC1, TC2 \\
-User Interface & Intuitiveness, Accessibility & TC3, TC8 \\
-Game Mechanics & Level progression, Saving/Loading & TC4, TC5 \\
-Performance & Load time, Frame rate stability & TC6, TC7 \\
+Physics Engine & Projectile motion, Collision response, Gravity & TC1, TC2 \\\hline
+User Interface & Intuitiveness, Accessibility & TC3, TC8 \\\hline
+Game Mechanics & Level progression, Saving/Loading & TC4, TC5 \\\hline
+Reset \& Performance & Load time, Frame rate stability & TC6, TC7 \\\hline
 \hline
 \end{tabular}
 \caption{Traceability matrix mapping modules to functional requirements and test cases.}
@@ -557,6 +558,7 @@ These physics principles and numerical methods ensure an engaging and educationa
     \label{fig:flowchart}
 \end{figure}
 
+\FloatBarrier
 \section{Conclusion}
 The revised Verification and Validation Plan for "Angry Birds Alike" incorporates specific enhancements and clarifications across various sections, including the integration of Catch2 for unit testing and an updated traceability matrix for improved clarity on how each module and functionality will be tested. These refinements ensure a robust framework for verifying and validating the game, supporting the development of a high-quality, engaging, and educational gaming experience.
 
