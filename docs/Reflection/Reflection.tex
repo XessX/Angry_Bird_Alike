@@ -1,83 +1,202 @@
-\documentclass{article}
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{hyperref}
 
-\usepackage{tabularx}
-\usepackage{booktabs}
+\geometry{a4paper, margin=1in}
 
-\title{Reflection Report on \progname}
-
-\author{\authname}
-
-\date{}
-
-\input{../Comments}
-\input{../Common}
+\title{Reflection Report on Angry Birds Alike}
+\author{Al Jubair Hossain}
+\date{April 15, 2024}
 
 \begin{document}
 
 \maketitle
+\tableofcontents
+\newpage
 
-\plt{Reflection is an important component of getting the full benefits from a
-learning experience.  Besides the intrinsic benefits of reflection, this
-document will be used to help the TAs grade how well your team responded to
-feedback.  In addition, several CEAB (Canadian Engineering Accreditation Board)
-Learning Outcomes (LOs) will be assessed based on your reflections.}
+\section{Introduction}
+This document encapsulates the iterative development process of "Angry Birds Alike," detailing how the project evolved through the integration of stakeholder feedback, adjustments to design and documentation, and strategic project management. This reflection aims to highlight the continuous improvement and learning outcomes that were central to the project's success.
 
 \section{Changes in Response to Feedback}
+Feedback from various stakeholders, including instructors, peers, and end-users, played a crucial role in shaping the project. This section outlines the specific changes implemented in response to feedback, demonstrating the project's adaptability and commitment to continuous improvement.
 
-\plt{Summarize the changes made over the course of the project in response to
-feedback from TAs, the instructor, teammates, other teams, the project
-supervisor (if present), and from user testers.}
+\subsection{Feedback Incorporation}
+Key improvements made as a result of feedback included:
+\begin{itemize}
+    \item Adoption of a standard document structure for clarity and coherence.
+    \item Integration of hyperlinks and a functional Table of Contents for improved navigation.
+    \item Clarification of ambiguous terms in the documentation to enhance understanding.
+    \item Enhanced traceability of requirements to their sources, increasing the reliability of project documentation.
+    \item Expansion on assumptions and detailed non-functional requirements to better define project scope and constraints.
+\end{itemize}
 
-\plt{For those teams with an external supervisor, please highlight how the feedback 
-from the supervisor shaped your project.  In particular, you should highlight the 
-supervisor's response to your Rev 0 demonstration to them.}
+\subsection{Resolved Issues and Sections}
+Changes were systematically implemented to address specific issues identified during the project reviews for SRS, VnV Plan, MG, and MIS. 
 
-\subsection{SRS and Hazard Analysis}
+The comprehensive list of changes is documented in the project’s GitHub commit history:
+[\href{https://github.com/XessX/Angry_Bird_Alike/commit/51bb012cfcda94adfd71fe193f240b0519980c65}{View Commit}]
 
-\subsection{Design and Design Documentation}
+\section{Updates to the Software Requirements Specification (SRS)}
+The SRS underwent extensive revisions to ensure it guides development effectively and meets stakeholder expectations. This section details the updates made to the SRS, improving its clarity, precision, and usability.
 
-\subsection{VnV Plan and Report}
+\subsection{SRS Document Improvements}
+\begin{itemize}
+    \item Updated theoretical models to accurately reflect the physics calculations integral to the game mechanics.
+    \item Enhanced functional requirements to improve specificity, traceability, and verifiability.
+    \item Implementation of LaTeX for documenting mathematical and physics formulas to ensure accuracy.
+    \item Integration of comprehensive diagrams to aid in understanding and tracing requirements.
+\end{itemize}
 
-\section{Design Iteration (LO11)}
+\subsection{Resolved SRS Issues}
+Specific updates to the SRS addressed the following issues:
+\begin{itemize}
+\item [\href{https://github.com/XessX/Angry_Bird_Alike/issues/4}{Issue 4}]: Clarified the distinction between end-users and developers in Section 3.1.
+    \item [\href{https://github.com/XessX/Angry_Bird_Alike/issues/8}{Issue 8}]: Enhanced the performance specifications and removed vague language in Section 3.3.
+    \item [\href{https://github.com/XessX/Angry_Bird_Alike/issues/9}{Issue 9}]: Made requirements more precise, eschewing terms like "may" for concreteness in Section 4.3.1.
+    \item [\href{https://github.com/XessX/Angry_Bird_Alike/issues/10}{Issue 10}]: Addressed scalability and configurability in the context of system requirements in Section 4.3.2.
+    \item [\href{https://github.com/XessX/Angry_Bird_Alike/issues/11}{Issue 11}]: Removed redundancy in the definition of terms such as "projectiles" in Section 4.1.
+    \item [\href{https://github.com/XessX/Angry_Bird_Alike/issues/12}{Issue 12}]: Ensured that terms like "efficient" and "intuitive" are defined in testable ways in Section 5.2.1.
+    \item [\href{https://github.com/XessX/Angry_Bird_Alike/issues/13}{Issue 13}]: Reviewed all performance-related specifications to ensure they align with different hardware capabilities in Section 5.2.2.
+    \item [\href{https://github.com/XessX/Angry_Bird_Alike/issues/14}{Issue 14}]: Consolidated the SRS to remove unnecessary parts and focus on essential content in Section 6.1.
+    \item [\href{https://github.com/XessX/Angry_Bird_Alike/issues/15}{Issue 15}]: Updated the document to align with the feedback on following the right template in Section 6.2.
+    \item [\href{https://github.com/XessX/Angry_Bird_Alike/issues/16}{Issue 16}]: Improved the traceability of requirements to their sources and related documents in Section 6.3.
+    \item [\href{https://github.com/XessX/Angry_Bird_Alike/issues/17}{Issue 17}]: Added more detail to assumptions and non-functional requirements as suggested in Section 6.4.
+    \item [\href{https://github.com/XessX/Angry_Bird_Alike/issues/18}{Issue 18}]: Implemented the use of LaTeX math mode for better representation of equations in Section 7.1.
+\end{itemize}
 
-\plt{Explain how you arrived at your final design and implementation.  How did
-the design evolve from the first version to the final version?} 
+The updated SRS document can be accessed here:
+[\href{https://github.com/XessX/Angry_Bird_Alike/blob/main/docs/SRS/SRS.pdf}{Final SRS Document}]
 
-\section{Design Decisions (LO12)}
+\section{Updates to the Verification and Validation Plan}
+The VnV plan was thoroughly revised to ensure it effectively supports the testing and validation of all project components, enhancing the reliability and robustness of the game.
 
-\plt{Reflect and justify your design decisions.  How did limitations,
- assumptions, and constraints influence your decisions?}
+\subsection{VnV Plan Improvements}
+\begin{itemize}
+    \item Reorganization of VnV documents to improve accessibility and readability.
+    \item Specification of testing tools and methods used in the VnV process, providing clear guidelines for testing execution.
+    \item Integration of detailed testing scenarios and expected outcomes to enhance the effectiveness of test execution and results evaluation.
+\end{itemize}
 
-\section{Economic Considerations (LO23)}
+\subsection{Resolved VnV Issues}
+Feedback aimed at refining the VnV plan was systematically addressed, with actions linked to specific GitHub issues:
+\begin{itemize}
+    \item [\href{https://github.com/XessX/Angry_Bird_Alike/issues/23}{Issue 23}]: Alphabetical reorganization of sections for easier referencing.
+    \item [\href{https://github.com/XessX/Angry_Bird_Alike/issues/24}{Issue 24}]: Addition of missing symbols to ensure consistency across the document.
+    \item [\href{https://github.com/XessX/Angry_Bird_Alike/issues/25}{Issue 25}]: Improvement of document layout for enhanced readability.
+    \item [\href{https://github.com/XessX/Angry_Bird_Alike/issues/26}{Issue 26}]: Specification of timing for unit tests to coincide with the completion of the design phase.
+    \item [\href{https://github.com/XessX/Angry_Bird_Alike/issues/27}{Issue 27}]: Clarification of testing tools used in the VnV process.
+    \item [\href{https://github.com/XessX/Angry_Bird_Alike/issues/28}{Issue 28}]: Adoption of standard document structure as outlined in provided templates.
+    \item [\href{https://github.com/XessX/Angry_Bird_Alike/issues/29}{Issue 29}]: Integration of hyperlinks, including those in the Table of Contents, for enhanced navigation.
+    \item [\href{https://github.com/XessX/Angry_Bird_Alike/issues/30}{Issue 30}]: Realignment of role assignments within the VnV plan to reflect the project's individual nature.
+    \item [\href{https://github.com/XessX/Angry_Bird_Alike/issues/31}{Issue 31}]: Enhancement of the description of test activities to clarify their purposes.
+    \item [\href{https://github.com/XessX/Angry_Bird_Alike/issues/32}{Issue 32}]: Detailed explanation of the technologies used for implementation and verification testing.
+\end{itemize}
 
-\plt{Is there a market for your product? What would be involved in marketing your 
-product? What is your estimate of the cost to produce a version that you could 
-sell?  What would you charge for your product?  How many units would you have to 
-sell to make money? If your product isn't something that would be sold, like an 
-open source project, how would you go about attracting users?  How many potential 
-users currently exist?}
+The revised VnV plan is available for review here:
+[\href{https://github.com/XessX/Angry_Bird_Alike/blob/main/docs/VnV/VnV.pdf}{Final VnV Plan Document}]
 
-\section{Reflection on Project Management (LO24)}
+\section{Enhancements to the Module Guide (MG)}
+The Module Guide was updated to better explain the structure and functionality of the software modules used in "Angry Birds Alike."
 
-\plt{This question focuses on processes and tools used for project management.}
+\subsection{MG Document Improvements}
+\begin{itemize}
+    \item Simplification of figure captions to enhance clarity and conciseness in the List of Figures.
+    \item Revision of content to replace complex equation details with simple descriptions, aligning with provided examples.
+    \item Addition of sections on anticipated and unlikely changes to clarify future expectations and potential modifications.
+\end{itemize}
 
-\subsection{How Does Your Project Management Compare to Your Development Plan}
+\subsection{Resolved MG Issues}
+Addressing feedback for MG enhancements included:
+\begin{itemize}
+    \item [\href{https://github.com/XessX/Angry_Bird_Alike/issues/36}{Issue 36}]: Simplification of figure captions to reduce length and improve clarity.
+    \item [\href{https://github.com/XessX/Angry_Bird_Alike/issues/37}{Issue 37}]: Adjustment of content in figures to replace complex equations with simple descriptions.
+    \item [\href{https://github.com/XessX/Angry_Bird_Alike/issues/38}{Issue 38}]: Addition of sections on anticipated and unlikely changes to module functionality.
+    \item [\href{https://github.com/XessX/Angry_Bird_Alike/issues/41}{Issue 41}]: Realignment with the standard template to ensure uniformity across documentation.
+    \item [\href{https://github.com/XessX/Angry_Bird_Alike/issues/42}{Issue 42}]: Inclusion of sections outlining anticipated and unlikely changes.
+    \item [\href{https://github.com/XessX/Angry_Bird_Alike/issues/43}{Issue 43}]: Clear depiction of the module hierarchy to enhance understanding of module organization and interrelations.
+\end{itemize}
 
-\plt{Did you follow your Development plan, with respect to the team meeting plan, 
-team communication plan, team member roles and workflow plan.  Did you use the 
-technology you planned on using?}
+The updated MG can be accessed here:
+[\href{https://github.com/XessX/Angry_Bird_Alike/blob/main/docs/Design/SoftArchitecture/MG.pdf}{Final MG Document}]
 
-\subsection{What Went Well?}
+\section{Updates to the Module Interface Specification (MIS)}
+Significant revisions were made to the MIS to improve clarity, consistency, and to ensure that the module descriptions matched the implemented system.
 
-\plt{What went well for your project management in terms of processes and 
-technology?}
+\subsection{MIS Document Improvements}
+\begin{itemize}
+    \item Standardization of typesetting across the document to maintain uniform font sizes and styles, improving the professional appearance and readability.
+    \item Consistent use of bullet points and indentations to reduce confusion and enhance the logical flow of information.
+    \item Inclusion of a "List of Figures" in the Table of Contents to facilitate easier navigation to visual content.
+    \item Enhancement of image quality for figures to ensure all text and graphics are clear and easily understandable without the need for zooming.
+\end{itemize}
 
-\subsection{What Went Wrong?}
+\subsection{Resolved MIS Issues}
+Addressing feedback specific to the MIS resulted in the following enhancements:
+\begin{itemize}
+    \item [\href{https://github.com/XessX/Angry_Bird_Alike/issues/39}{Issue 39}]: Improved typesetting on pages 3 to 4, especially ensuring consistent font sizes for "Parameter" sections and descriptions.
+    \item [\href{https://github.com/XessX/Angry_Bird_Alike/issues/40}{Issue 40}]: Updated captions for Figures 4 and 5 to be more concise, and improved the quality of Figure 5 for better clarity.
+    \item [\href{https://github.com/XessX/Angry_Bird_Alike/issues/45}{Issue 45}]: Added detailed decomposition of modules including their functions, dependencies, and interactions to provide a clearer understanding of each module's role in the system.
+\end{itemize}
 
-\plt{What went wrong in terms of processes and technology?}
+The updated MIS document is accessible for review:
+[\href{https://github.com/XessX/Angry_Bird_Alike/blob/main/docs/Design/SoftDetailedDes/MIS.pdf}{Final MIS Document}]
 
-\subsection{What Would you Do Differently Next Time?}
+\section{Design Iteration}
+"Angry Birds Alike" underwent several iterations, each influenced by feedback, testing, and ongoing assessments of user engagement and system performance.
 
-\plt{What will you do differently for your next project?}
+\subsection{Iterative Design Process}
+\begin{itemize}
+    \item Initial prototypes focused on basic functionality to establish core gameplay mechanics.
+    \item Subsequent iterations incorporated user feedback to enhance graphics, refine user interfaces, and adjust game dynamics for better engagement.
+    \item Final adjustments were made to optimize performance and ensure stability across different platforms.
+\end{itemize}
+
+\subsection{Feedback Implementation}
+Feedback was systematically integrated into the development process to continuously refine and improve the game:
+\begin{itemize}
+    \item Peer and instructor reviews helped to identify and rectify inconsistencies in game logic and user experience.
+    \item End-user testing provided critical insights into gameplay dynamics and user satisfaction, guiding further enhancements.
+\end{itemize}
+
+\section{Design Decisions}
+Design decisions were strategically made to balance technical feasibility with user experience and project objectives.
+
+\subsection{Key Design Choices}
+\begin{itemize}
+    \item Chose a modular architecture to simplify updates and maintenance, allowing for easier scalability and adaptation.
+    \item Prioritized intuitive user interfaces to ensure the game is accessible to players of varying skill levels.
+    \item Integrated advanced physics simulations to enhance realism and challenge within the game.
+\end{itemize}
+
+\section{Project Management Reflection}
+Effective project management was essential in navigating the complexities of software development and ensuring timely project completion.
+
+\subsection{Project Management Strategies}
+\begin{itemize}
+    \item Agile methodologies will enable flexibility and responsiveness to change, accommodating new ideas on interactive physics and feedback efficiently.
+    \item Regular reviews and updates will help keep the project aligned with its goals and milestones.
+    \item Proactive risk management was employed to identify potential issues early and strategize effective solutions.
+\end{itemize}
+
+\subsection{Effective Strategies and Challenges}
+\begin{itemize}
+    \item Providing more physics based solutions that will make the game interactive.
+    \item Leveraged version control systems to facilitate collaboration and maintain a reliable codebase.
+    \item Employed unit testing practices to ensure non glitched releases.
+    \item Employed continuous integration/continuous deployment (CI/CD) practices to ensure high-quality releases.
+    \item Faced challenges in managing scope creep and aligning team efforts with evolving requirements.
+\end{itemize}
+
+\subsection{Lessons for the Future}
+The project provided numerous insights, informing better practices for future software development initiatives:
+\begin{itemize}
+    \item Emphasize thorough initial requirement analysis to ensure all stakeholder expectations are well-understood and integrated into the project scope.
+    \item Invest more in automated testing tools to streamline testing processes and improve reliability.
+    \item Continue to harness user feedback post-launch to guide further development and refinement.
+\end{itemize}
+
+\section{Conclusion}
+The development of "Angry Birds Alike" demonstrated the critical importance of Physics simulation, interactive gameplay with physics, adaptable project management, iterative design, and comprehensive stakeholder engagement. These practices were instrumental in achieving the project goals and will continue to influence future software development projects.
 
 \end{document}
