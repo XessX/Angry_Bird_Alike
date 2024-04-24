@@ -7,11 +7,11 @@ Date of project start: Jan 24, 2024
 The folders and files for this project are as follows:
 Project Materials | Provided Files
 ------------- | -------------
-docs | Documentation for the project - SRS, VnV Plan, MG, MIS and VnV Report is provided as the Project Documentation follows V model.\
-refs | Reference material used for the project, including papers. \
-src | Source code \
-include | Headers \
-test | Test cases \
+docs | Documentation for the project - SRS, VnV Plan, MG, MIS and VnV Report is provided as the Project Documentation follows V model.
+refs | Reference material used for the project, including papers. 
+src | Source code 
+include | Headers 
+test | Test cases 
 misc | Dependencies and other misc libraries and build files
 
 Built with cmakelist in CLion.\
