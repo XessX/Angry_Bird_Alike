@@ -2,8 +2,8 @@
 // Created by Jubair on 2024-03-25.
 //
 
-#include "/Users/jubair/CLionProjects/untitled/include/Entity.h"
-#include "/Users/jubair/CLionProjects/untitled/include/Physics.h"
+#include "../include/Entity.h"
+#include "../include/Physics.h"
 #include <boost/numeric/odeint.hpp>
 #include <cmath>
 #include <vector>

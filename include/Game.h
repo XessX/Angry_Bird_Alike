@@ -17,7 +17,7 @@
 #define GAME_HPP
 
 #include <SFML/Graphics.hpp>
-#include "/Users/jubair/CLionProjects/untitled/include/Entity.h"
+#include "../include/Entity.h"
 #include <boost/numeric/odeint.hpp>
 #include <vector>
 #include <thread>

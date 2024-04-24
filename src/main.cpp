@@ -11,7 +11,7 @@
  */
 
 
-#include "/Users/jubair/CLionProjects/untitled/include/Game.h"
+#include "../include/Game.h"
 
 int main() {
     Game game;

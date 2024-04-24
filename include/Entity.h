@@ -20,7 +20,7 @@
 #include <array>
 #include <boost/numeric/odeint/stepper/runge_kutta4.hpp>
 #include <boost/numeric/odeint.hpp>
-#include "/Users/jubair/CLionProjects/untitled/include/Physics.h"
+#include "../include/Physics.h"
 #include <vector>
 
 /**

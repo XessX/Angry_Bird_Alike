@@ -1,8 +1,8 @@
 #define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
-#include </Users/jubair/CLionProjects/untitled/test/catch.hh>
-#include "/Users/jubair/CLionProjects/untitled/include/Entity.h"
-#include "/Users/jubair/CLionProjects/untitled/include/Game.h"
-#include "/Users/jubair/CLionProjects/untitled/include/State.h"
+#include "../test/catch.hh"
+#include "../include/Entity.h"
+#include "../include/Game.h"
+#include "../include/State.h"
 #include <SFML/Graphics.hpp>
 
 
