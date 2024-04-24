@@ -17,7 +17,7 @@ Built with cmakelist in CLion.\
 Install SFML, Boost and Odeint for running the game.\
 
 - You can install through terminal too using brew on mac (SFML 2.5.1) - https://www.sfml-dev.org/download/sfml/2.5.1/ \
-- For installing boost - "sudo apt-get install boost" or "brew install boost" on windows follow (https://www.geeksforgeeks.org/how-to-install-c-boost-libraries-on-windows/)\
+- For installing boost - "sudo apt-get install boost" or "brew install boost" on windows follow (https://www.geeksforgeeks.org/how-to-install-c-boost-libraries-on-windows/) \
 
 - For installing Odeint - https://headmyshoulder.github.io/odeint-v2/downloads.html \
 
