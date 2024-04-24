@@ -16,17 +16,17 @@ etc.
 Built with cmakelist in CLion.\
 Install SFML, Boost and Odeint for running the game.\
 
-- You can install through terminal too using brew on mac (SFML 2.5.1) - https://www.sfml-dev.org/download/sfml/2.5.1/\
+- You can install through terminal too using brew on mac (SFML 2.5.1) - https://www.sfml-dev.org/download/sfml/2.5.1/ \
 - For installing boost - "sudo apt-get install boost" or "brew install boost" on windows follow (https://www.geeksforgeeks.org/how-to-install-c-boost-libraries-on-windows/)\
 
-- For installing Odeint - https://headmyshoulder.github.io/odeint-v2/downloads.html\
+- For installing Odeint - https://headmyshoulder.github.io/odeint-v2/downloads.html \
 
 All the cmakefile list are added with the project and no need to change after installing all the dependencies correctly.\
 Cmakelist shouldn't need to be changed unless in windows just main directory of the project location can be added in the include directories.\
 
-- For unit testing on catch2, Followed - https://www.jetbrains.com/help/clion/unit-testing-tutorial.html#setup-framework-catch\
+- For unit testing on catch2, Followed - https://www.jetbrains.com/help/clion/unit-testing-tutorial.html#setup-framework-catch \
 
-- For memory checks - https://computerscience.chemeketa.edu/guides/valgrind/leaks/\
+- For memory checks - https://computerscience.chemeketa.edu/guides/valgrind/leaks/ \
 
 There's  Plugin for CPPCheck in CLion , I used it for the Performance Tests, it works as it is intended \
 
