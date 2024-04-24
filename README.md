@@ -21,7 +21,8 @@ Install SFML, Boost and Odeint for running the game.\
 
 - For installing Odeint - https://headmyshoulder.github.io/odeint-v2/downloads.html\
 
-All the cmake file list are added with the project and no need to change after installing all the dependencies correctly.\
+All the cmakefile list are added with the project and no need to change after installing all the dependencies correctly.\
+Cmakelist shouldn't need to be changed unless in windows just main directory of the project location can be added in the include directories.\
 
 - For unit testing on catch2, Followed - https://www.jetbrains.com/help/clion/unit-testing-tutorial.html#setup-framework-catch\
 
